@@ -1,0 +1,13 @@
+@use '../styles/variables' as *;
+
+:root {
+  background-color: $background-light;
+  color: $text-light;
+
+  &.dark {
+    background-color: $background-dark;
+    color: $text-dark;
+  }
+}
+
+
