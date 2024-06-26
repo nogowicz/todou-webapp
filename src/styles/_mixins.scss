@@ -1,0 +1,9 @@
+@mixin theme-colors($property, $dark-value, $light-value) {
+  .dark & {
+    #{$property}: $dark-value;
+  }
+
+  .light & {
+    #{$property}: $light-value;
+  }
+}

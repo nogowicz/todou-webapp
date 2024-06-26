@@ -1,0 +1,79 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.customInput {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+
+  &__labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__label {
+      margin: 0 10px;
+      font-size: $p-font-size-medium;
+    }
+
+    a {
+      font-size: $p-font-size-medium;
+      margin: 0;
+      text-decoration: none;
+      @include mixins.theme-colors(color, $primary-dark, $primary-light);
+    }
+
+  }
+
+
+
+  &__inputContainer {
+    @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+    gap: 20px;
+    border-radius: 10px;
+    border: 2px solid;
+
+    @include mixins.theme-colors(border-color, $primary-dark, $primary-light);
+
+    .error & {
+      border-color: $red !important;
+    }
+
+    .notFocused & {
+      border-color: transparent
+    }
+
+    &__icon {
+      @include mixins.theme-colors(color, $text-dark, $text-light);
+
+      .focused & {
+        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      }
+    }
+
+    &__input {
+      background-color: transparent;
+      border: 0;
+      font-size: $p-font-size-large;
+
+      &::placeholder {
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__error {
+    color: $red;
+  }
+
+
+}

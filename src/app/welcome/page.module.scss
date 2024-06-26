@@ -1,0 +1,36 @@
+.welcome {
+  &__title {
+    display: none;
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &__left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 1vh;
+
+      p {
+        text-align: center;
+        width: 600px;
+      }
+    }
+
+    &__right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      max-height: 1vh;
+    }
+  }
+
+
+}
