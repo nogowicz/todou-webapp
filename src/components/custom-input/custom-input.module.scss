@@ -4,8 +4,9 @@
 .customInput {
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
+  margin: 40px 0;
   width: 100%;
+  position: relative;
 
   &__labelContainer {
     display: flex;
@@ -18,6 +19,10 @@
 
       .focused & {
         @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      }
+
+      .error & {
+        color: $red !important;
       }
     }
 
@@ -64,6 +69,10 @@
         @include mixins.theme-colors(color, $primary-dark, $primary-light);
       }
 
+      .error & {
+        color: $red !important;
+      }
+
       &:hover {
         cursor: pointer;
         opacity: 0.7;
@@ -88,6 +97,9 @@
 
   &__error {
     color: $red;
+    position: absolute;
+    left: 10px;
+    top: 65px;
   }
 
 
