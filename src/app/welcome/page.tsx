@@ -25,7 +25,12 @@ export default function welcome() {
           </p>
         </div>
         <div className={styles.welcome__container__right}>
+          <div />
           <SignInForm />
+          <p>
+            By clicking Sign In you agree to our{' '}
+            <span>terms and conditions.</span>
+          </p>
         </div>
       </div>
     </main>

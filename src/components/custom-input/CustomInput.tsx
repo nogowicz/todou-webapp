@@ -51,7 +51,11 @@ export default function CustomInput({
         ${error ? styles.error : styles.noError}`}
     >
       <div className={styles.customInput__labelContainer}>
-        <label className={styles.customInput__labelContainer__label}>
+        <label
+          className={`${
+            styles.customInput__labelContainer__label
+          }  ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
+        >
           {name}
         </label>
         {actionLabel && actionRoute && (
@@ -61,9 +65,10 @@ export default function CustomInput({
       <div className={styles.customInput__inputContainer}>
         {icon &&
           cloneElement(icon, {
-            height: iconSize,
-            width: iconSize,
-            className: `${styles.customInput__inputContainer__icon}`,
+            size: iconSize,
+            className: `${
+              styles.customInput__inputContainer__icon
+            }  ${themeClass} ${focus ? styles.focused : styles.notFocused}`,
           })}
         <input
           className={styles.customInput__inputContainer__input}
@@ -77,13 +82,17 @@ export default function CustomInput({
           (showPassword ? (
             <IoEyeOutline
               size={iconSize}
-              className={styles.customInput__inputContainer__icon}
+              className={`${
+                styles.customInput__inputContainer__icon
+              } ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
               onClick={() => setShowPassword(false)}
             />
           ) : (
             <IoEyeOffOutline
               size={iconSize}
-              className={styles.customInput__inputContainer__icon}
+              className={`${
+                styles.customInput__inputContainer__icon
+              } ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
               onClick={() => setShowPassword(true)}
             />
           ))}

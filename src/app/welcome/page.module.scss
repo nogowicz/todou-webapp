@@ -1,20 +1,31 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
 .welcome {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
   &__title {
     display: none;
   }
 
   &__container {
     display: flex;
+    flex: 1;
     justify-content: space-around;
     align-items: center;
+    height: 100vh;
 
     &__left {
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
-      max-height: 1vh;
+      height: 100%;
 
       p {
         text-align: center;
@@ -26,9 +37,25 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
-      max-height: 1vh;
+      height: 100%;
+
+
+      p {
+        font-size: $p-font-size-medium;
+
+        span {
+          text-decoration: underline;
+
+          &:hover {
+            cursor: pointer;
+            opacity: 0.7;
+          }
+        }
+
+
+      }
     }
   }
 
