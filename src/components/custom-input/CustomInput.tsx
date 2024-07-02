@@ -8,7 +8,7 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import Link from 'next/link';
 
 interface ICustomInput {
-  name: string;
+  label: string;
   placeholder?: string;
   icon?: JSX.Element;
   type: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'search';
@@ -17,7 +17,7 @@ interface ICustomInput {
     | FieldError
     | Merge<FieldError, FieldErrorsImpl<Record<string, unknown>>>
     | undefined;
-  actionRoute?: string;
+  action?: Function;
   actionLabel?: string;
   [key: string]: any;
 }
@@ -27,13 +27,13 @@ const iconSize = 30;
 const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
   (
     {
-      name,
+      label,
       placeholder,
       icon,
       type,
       isPasswordField = false,
       error,
-      actionRoute,
+      action,
       actionLabel,
       ...props
     },
@@ -49,10 +49,6 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
       return null;
     }
 
-    function capitalizeFirstLetter(string: string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
     return (
       <div
         className={`${styles.customInput} ${themeClass} ${
@@ -62,15 +58,14 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
       >
         <div className={styles.customInput__labelContainer}>
           <label
-            htmlFor={name}
             className={`${
               styles.customInput__labelContainer__label
             }  ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
           >
-            {capitalizeFirstLetter(name)}
+            {label}
           </label>
-          {actionLabel && actionRoute && (
-            <Link href={actionRoute}>{actionLabel}</Link>
+          {actionLabel && action && (
+            <p onClick={() => action()}>{actionLabel}</p>
           )}
         </div>
         <div className={styles.customInput__inputContainer}>
@@ -83,7 +78,6 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
             })}
           <input
             className={styles.customInput__inputContainer__input}
-            name={name}
             placeholder={placeholder}
             onFocus={() => setFocus(true)}
             onBlur={() => setFocus(false)}

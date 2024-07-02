@@ -1,23 +1,29 @@
 'use client';
 
-import React from 'react';
-import CustomInput from '../custom-input/CustomInput';
+import React, { Dispatch, SetStateAction } from 'react';
+import CustomInput from '../../custom-input/CustomInput';
 import { FiMail } from 'react-icons/fi';
 import { IoKeyOutline } from 'react-icons/io5';
-import CustomButton from '../custom-button/CustomButton';
+import CustomButton from '../../custom-button/CustomButton';
 
-import styles from './sign-in-form.module.scss';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signInSchema } from './validationSchema';
+
+import styles from './sign-in-form.module.scss';
+import { FormType } from '../form-switcher/FormSwitcher';
+
+interface ISignInForm {
+  setCurrentForm: Dispatch<SetStateAction<FormType>>;
+}
 
 interface Inputs {
   email: string;
   password: string;
 }
 
-export default function SignInForm() {
+export default function SignInForm({ setCurrentForm }: ISignInForm) {
   const { mounted, theme } = useMountedTheme();
   const {
     register,
@@ -35,7 +41,6 @@ export default function SignInForm() {
   }
 
   const onSubmit = async (data: Inputs) => {
-    console.log('Form submitted with data:', data);
     try {
       console.log('LOGIN DATA: ', data);
       // Perform the login logic here
@@ -58,6 +63,7 @@ export default function SignInForm() {
     >
       <div className={styles.form__textFields}>
         <CustomInput
+          label="Email"
           placeholder="johndoe@todou.com"
           icon={<FiMail />}
           type="email"
@@ -67,12 +73,13 @@ export default function SignInForm() {
         />
 
         <CustomInput
+          label="Password"
           placeholder="********"
           icon={<IoKeyOutline />}
           type="password"
           isPasswordField
           actionLabel="Forgot Password?"
-          actionRoute="/forgot-password"
+          action={() => setCurrentForm(FormType['forgot-password'])}
           id="password"
           error={errors.password}
           {...register('password', { required: 'This field is required' })}
@@ -80,7 +87,9 @@ export default function SignInForm() {
       </div>
       <CustomButton type="submit">Sign In</CustomButton>
       <p className={styles.form__createAccount}>
-        Don’t have an account yet? <span>Sign up</span> here!
+        Don’t have an account yet?{' '}
+        <span onClick={() => setCurrentForm(FormType['sign-up'])}>Sign up</span>{' '}
+        here!
       </p>
     </form>
   );

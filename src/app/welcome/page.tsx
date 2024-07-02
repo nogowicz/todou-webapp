@@ -5,9 +5,13 @@ import WelcomeAnimation from '@/assets/animations/welcome-animation.json';
 import LottieAnimation from '@/components/lottie-animation/LottieAnimation';
 
 import styles from './page.module.scss';
-import SignInForm from '@/components/sign-in-form/SignInForm';
+import SignInForm from '@/components/forms/sign-in/SignInForm';
+import SignUpForm from '@/components/forms/sign-up/SignUpForm';
+import FormSwitcher from '@/components/forms/form-switcher/FormSwitcher';
 
-export default function welcome() {
+const animationSize = '450px';
+
+export default function Welcome() {
   return (
     <main className={styles.welcome}>
       <h1 className={styles.welcome__title}>Todou</h1>
@@ -16,7 +20,7 @@ export default function welcome() {
           <Logo welcomeScreen />
           <LottieAnimation
             animationData={WelcomeAnimation}
-            style={{ width: '500px', height: '500px' }}
+            style={{ width: animationSize, height: animationSize }}
           />
           <p>
             Welcome to Todou - your new companion in task organization! Todou
@@ -26,9 +30,9 @@ export default function welcome() {
         </div>
         <div className={styles.welcome__container__right}>
           <div />
-          <SignInForm />
+          <FormSwitcher />
           <p>
-            By clicking Sign In you agree to our{' '}
+            By clicking Sign In / Up you agree to our{' '}
             <span>terms and conditions.</span>
           </p>
         </div>
