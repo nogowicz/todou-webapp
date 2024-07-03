@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './validationSchema';
+import { signUpSchema } from './validationSchema';
 
 import styles from './sign-up-form.module.scss';
 import CustomInput from '@/components/custom-input/CustomInput';
@@ -31,7 +31,7 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
     setError,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(signUpSchema),
   });
   const { mounted, theme } = useMountedTheme();
   const themeClass = theme ? styles[theme] : '';

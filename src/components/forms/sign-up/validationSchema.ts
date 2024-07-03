@@ -3,7 +3,7 @@ import { object, string, ref } from 'yup';
 const nameRegex =
   /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
-export const schema = object({
+export const signUpSchema = object({
   firstName: string()
     .max(25, 'Your first name is too long')
     .matches(nameRegex, 'Please enter valid first name')
