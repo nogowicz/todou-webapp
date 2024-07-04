@@ -13,6 +13,7 @@ import { signInSchema } from './validationSchema';
 
 import styles from './sign-in-form.module.scss';
 import { FormType } from '../form-switcher/FormSwitcher';
+import { createSession } from '../../../../_lib/session';
 
 interface ISignInForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -42,9 +43,24 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      console.log('LOGIN DATA: ', data);
-      // Perform the login logic here
-      // If you have a mock API call, you can add it here
+      const response = await fetch('/api/user/sign-in', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to sign in');
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+      if (responseData.user && responseData.user.userId) {
+        createSession(responseData.user.userId);
+      } else {
+        throw new Error('Invalid response data');
+      }
     } catch (error: any) {
       console.log('Error occurred:', error);
       if (error.message === 'Incorrect email or password') {

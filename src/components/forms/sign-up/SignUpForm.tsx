@@ -12,6 +12,7 @@ import { FiMail } from 'react-icons/fi';
 import CustomButton from '@/components/custom-button/CustomButton';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { FormType } from '../form-switcher/FormSwitcher';
+import { createSession } from '../../../../_lib/session';
 
 interface ISignUpForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -42,9 +43,28 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      console.log('LOGIN DATA: ', data);
-    } catch (error: any) {
-      setError('email', { message: error.message || 'An error occurred' });
+      const response = await fetch('/api/user/sign-up', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to sign up');
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+      if (responseData.user && responseData.user.userId) {
+        createSession(responseData.user.userId);
+      } else {
+        throw new Error('Invalid response data');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setError('email', { message: error.message || 'An error occurred' });
+      }
     }
   };
 
