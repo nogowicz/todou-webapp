@@ -2,8 +2,9 @@
 
 import { PrismaClient } from '@prisma/client';
 import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { encrypt, SessionPayload } from '../../_lib/session';
+import { deleteSession, verifySession } from '../../_lib/session';
+import { cache } from 'react';
+import { redirect } from 'next/navigation';
 
 interface SignUpData {
   firstName: string;
@@ -13,7 +14,6 @@ interface SignUpData {
 }
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 async function hashPassword(password: string): Promise<string> {
   const salt = await bcryptjs.genSalt(10);
@@ -117,4 +117,30 @@ export async function signIn(data: SignInData) {
   } catch (error) {
     throw error;
   }
+}
+
+export const getUser = cache(async () => {
+  const session = await verifySession();
+
+  const data = await prisma.user.findMany({
+    where: { userId: session?.userId },
+    select: {
+      userId: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      createdAt: true,
+      photo: true,
+      idDefaultList: true,
+      isVerified: true,
+    },
+  });
+  const user = data[0];
+
+  return user;
+});
+
+export async function logout() {
+  deleteSession();
+  redirect('/welcome');
 }

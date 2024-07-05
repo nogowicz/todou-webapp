@@ -5,8 +5,6 @@ import WelcomeAnimation from '@/assets/animations/welcome-animation.json';
 import LottieAnimation from '@/components/lottie-animation/LottieAnimation';
 
 import styles from './page.module.scss';
-import SignInForm from '@/components/forms/sign-in/SignInForm';
-import SignUpForm from '@/components/forms/sign-up/SignUpForm';
 import FormSwitcher from '@/components/forms/form-switcher/FormSwitcher';
 
 const animationSize = '450px';
