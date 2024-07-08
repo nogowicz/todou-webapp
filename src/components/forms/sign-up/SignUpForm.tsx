@@ -1,9 +1,10 @@
 'use client';
 
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpSchema } from './validationSchema';
+import axios from 'axios';
 
 import styles from './sign-up-form.module.scss';
 import CustomInput from '@/components/custom-input/CustomInput';
@@ -12,7 +13,7 @@ import { FiMail } from 'react-icons/fi';
 import CustomButton from '@/components/custom-button/CustomButton';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { FormType } from '../form-switcher/FormSwitcher';
-import { createSession } from '../../../../_lib/session';
+import { useUser } from '@/app/utils/Providers/UserProvider';
 
 interface ISignUpForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -26,6 +27,8 @@ interface Inputs {
 }
 
 export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
+  const { login } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -43,25 +46,20 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      const response = await fetch('/api/user/sign-up', {
-        method: 'POST',
-        body: JSON.stringify(data),
+      setIsLoading(true);
+      const response = await axios.post('/api/user/sign-up', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to sign up');
-      }
-      const responseData = await response.json();
-      console.log(responseData);
-      if (responseData.user && responseData.user.userId) {
-        createSession(responseData.user.userId);
-      } else {
-        throw new Error('Invalid response data');
+      const responseData = response.data;
+
+      if (responseData) {
+        login(responseData);
       }
     } catch (error) {
+      setIsLoading(false);
       if (error instanceof Error) {
         setError('email', { message: error.message || 'An error occurred' });
       }
@@ -127,7 +125,9 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
           })}
         />
       </div>
-      <CustomButton type="submit">Sign Up</CustomButton>
+      <CustomButton isLoading={isLoading} type="submit">
+        Sign Up
+      </CustomButton>
       <p className={styles.form__signInToAccount}>
         Already have an account?{' '}
         <span onClick={() => setCurrentForm(FormType['sign-in'])}>Sign in</span>{' '}

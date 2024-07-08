@@ -6,14 +6,15 @@ export default async function middleware(req: NextRequest) {
   const protectedRoutes = ['/', '/dashboard'];
   const unProtectedRoutes = ['/welcome'];
   const currentPath = req.nextUrl.pathname;
-  console.log('CURRENT PATH:', currentPath);
 
   const getSession = async () => {
     const cookie = cookies().get('session')?.value;
     if (cookie) {
-      return await decrypt(cookie);
+      const session = await decrypt(cookie);
+      return session;
+    } else {
+      return null;
     }
-    return null;
   };
 
   if (protectedRoutes.includes(currentPath)) {

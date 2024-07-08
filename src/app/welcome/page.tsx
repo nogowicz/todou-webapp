@@ -1,11 +1,12 @@
-import Logo from '@/components/logo/Logo';
 import React from 'react';
 
-import WelcomeAnimation from '@/assets/animations/welcome-animation.json';
+import Logo from '@/components/logo/Logo';
 import LottieAnimation from '@/components/lottie-animation/LottieAnimation';
+import FormSwitcher from '@/components/forms/form-switcher/FormSwitcher';
+
+import WelcomeAnimation from '@/assets/animations/welcome-animation1.json';
 
 import styles from './page.module.scss';
-import FormSwitcher from '@/components/forms/form-switcher/FormSwitcher';
 
 const animationSize = '450px';
 

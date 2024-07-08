@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import CustomInput from '../../custom-input/CustomInput';
 import { FiMail } from 'react-icons/fi';
 import { IoKeyOutline } from 'react-icons/io5';
@@ -14,6 +14,8 @@ import { signInSchema } from './validationSchema';
 import styles from './sign-in-form.module.scss';
 import { FormType } from '../form-switcher/FormSwitcher';
 import { createSession } from '../../../../_lib/session';
+import axios from 'axios';
+import { useUser } from '@/app/utils/Providers/UserProvider';
 
 interface ISignInForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -25,7 +27,9 @@ interface Inputs {
 }
 
 export default function SignInForm({ setCurrentForm }: ISignInForm) {
+  const { login } = useUser();
   const { mounted, theme } = useMountedTheme();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -43,29 +47,26 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      const response = await fetch('/api/user/sign-in', {
-        method: 'POST',
-        body: JSON.stringify(data),
+      setIsLoading(true);
+      const response = await axios.post('/api/user/sign-in', data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to sign in');
+      const responseData = response.data;
+
+      if (responseData) {
+        login(responseData);
       }
-      const responseData = await response.json();
-      console.log(responseData);
-      if (responseData.user && responseData.user.userId) {
-        createSession(responseData.user.userId);
-      } else {
-        throw new Error('Invalid response data');
-      }
-    } catch (error: any) {
-      console.log('Error occurred:', error);
-      if (error.message === 'Incorrect email or password') {
-        setError('email', { type: 'manual', message: error.message });
-        setError('password', { type: 'manual', message: error.message });
+    } catch (error) {
+      setIsLoading(false);
+      if (axios.isAxiosError(error) && error.response) {
+        const errorResponse = error.response.data;
+        const errorMessage = errorResponse.message || 'Failed to sign in';
+        console.log(errorMessage);
+        setError('email', { type: 'manual', message: errorMessage });
+        setError('password', { type: 'manual', message: errorMessage });
       } else {
         console.log(error);
       }
@@ -101,7 +102,9 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
           {...register('password', { required: 'This field is required' })}
         />
       </div>
-      <CustomButton type="submit">Sign In</CustomButton>
+      <CustomButton type="submit" isLoading={isLoading}>
+        Sign In
+      </CustomButton>
       <p className={styles.form__createAccount}>
         Don’t have an account yet?{' '}
         <span onClick={() => setCurrentForm(FormType['sign-up'])}>Sign up</span>{' '}

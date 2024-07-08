@@ -37,9 +37,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-      console.log('LOGIN DATA: ', data);
-      // Perform the login logic here
-      // If you have a mock API call, you can add it here
+      console.log('DATA: ', data);
     } catch (error: any) {
       console.log('Error occurred:', error);
       if (error.message === 'Incorrect email or password') {

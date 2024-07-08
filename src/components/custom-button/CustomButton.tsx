@@ -9,6 +9,7 @@ interface ICustomButton {
   children: React.ReactNode;
   href?: string;
   onClick?: () => void;
+  isLoading?: boolean;
   className?: string;
   [key: string]: any;
 }
@@ -18,6 +19,7 @@ export default function CustomButton({
   href,
   onClick,
   className = '',
+  isLoading = false,
   ...props
 }: ICustomButton) {
   const { mounted, theme } = useMountedTheme();
@@ -41,8 +43,13 @@ export default function CustomButton({
   }
 
   return (
-    <button className={combinedClassName} onClick={onClick} {...props}>
-      {children}
+    <button
+      disabled={isLoading}
+      className={combinedClassName}
+      onClick={onClick}
+      {...props}
+    >
+      {isLoading ? 'Loading...' : children}
     </button>
   );
 }

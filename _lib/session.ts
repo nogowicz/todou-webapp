@@ -5,7 +5,6 @@ import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
-import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 const key = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -22,49 +21,75 @@ export async function encrypt(payload: SessionPayload) {
     .setExpirationTime('1hr')
     .sign(key);
 }
+
 export async function decrypt(session: string | undefined = '') {
   try {
+    if (!session) {
+      console.error('Session token is undefined or empty');
+      return null;
+    }
+
     const { payload } = await jwtVerify(session, key, {
       algorithms: ['HS256'],
     });
+
     return payload;
   } catch (error) {
+    console.error('Error during JWT verification:', error);
     return null;
   }
 }
 
-export async function createSession(id: number) {
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  await prisma.session.create({
-    data: {
-      userId: id,
-      expiresAt,
-    },
-  });
+export async function createSession(token: string) {
+  try {
+    const session = await decrypt(token);
 
-  const session = await encrypt({ userId: id, expiresAt });
+    if (session) {
+      const { userId, expiresAt } = session;
 
-  cookies().set('session', session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: 'lax',
-    path: '/',
-  });
+      await prisma.session.create({
+        data: {
+          userId: userId as number,
+          expiresAt: expiresAt as string,
+        },
+      });
 
-  redirect('/');
+      cookies().set('session', token, {
+        httpOnly: true,
+        secure: true,
+        expires: new Date(expiresAt as string),
+        sameSite: 'lax',
+        path: '/',
+      });
+    } else {
+      throw new Error('Invalid session token');
+    }
+  } catch (error) {
+    console.error('Error creating session:', error);
+  } finally {
+    redirect('/');
+  }
 }
 
-export async function verifySession() {
-  const cookie = cookies().get('session')?.value;
-  const session = await decrypt(cookie);
+export async function verifySession(token: string) {
+  try {
+    if (!token) {
+      console.log('Invalid token');
+      return { isAuth: false, error: 'Invalid token' };
+    }
 
-  if (!session?.userId) {
-    console.log('REDIRECTING: No valid session found');
-    return;
+    const session = await decrypt(token);
+
+    if (!session || !session.userId) {
+      console.log('No valid session found');
+      return { isAuth: false, error: 'No valid session found' };
+    }
+
+    return { isAuth: true, userId: Number(session.userId) };
+  } catch (error) {
+    console.error('Error verifying session:', error);
+    return { isAuth: false, error: 'Error verifying session' };
   }
-
-  return { isAuth: true, userId: Number(session.userId) };
 }
 
 export async function updateSession() {

@@ -2,9 +2,9 @@
 
 import { PrismaClient } from '@prisma/client';
 import bcryptjs from 'bcryptjs';
-import { deleteSession, verifySession } from '../../_lib/session';
+import { encrypt, verifySession } from '../../_lib/session';
 import { cache } from 'react';
-import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 interface SignUpData {
   firstName: string;
@@ -75,8 +75,9 @@ export async function signUp(data: SignUpData) {
       idDefaultList: newUser.idDefaultList,
       isVerified: newUser.isVerified,
     };
-
-    return { user: userData };
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const token = await encrypt({ userId: newUser.userId, expiresAt });
+    return { user: userData, token: token };
   } catch (error) {
     throw error;
   }
@@ -112,35 +113,48 @@ export async function signIn(data: SignInData) {
       idDefaultList: user.idDefaultList,
       isVerified: user.isVerified,
     };
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const token = await encrypt({ userId: user.userId, expiresAt });
 
-    return { user: userData };
+    return { user: userData, token: token };
   } catch (error) {
     throw error;
   }
 }
 
-export const getUser = cache(async () => {
-  const session = await verifySession();
+export const getUser = cache(async (token: string) => {
+  try {
+    if (!token) {
+      return;
+    }
 
-  const data = await prisma.user.findMany({
-    where: { userId: session?.userId },
-    select: {
-      userId: true,
-      firstName: true,
-      lastName: true,
-      email: true,
-      createdAt: true,
-      photo: true,
-      idDefaultList: true,
-      isVerified: true,
-    },
-  });
-  const user = data[0];
+    const session = await verifySession(token);
 
-  return user;
+    if (!session?.isAuth) {
+      return;
+    }
+
+    const data = await prisma.user.findMany({
+      where: { userId: session.userId },
+      select: {
+        userId: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        createdAt: true,
+        photo: true,
+        idDefaultList: true,
+        isVerified: true,
+      },
+    });
+
+    const user = data[0];
+
+    return user;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
 });
-
-export async function logout() {
-  deleteSession();
-  redirect('/welcome');
-}
