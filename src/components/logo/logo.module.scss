@@ -1,0 +1,9 @@
+.logo {
+  position: relative;
+
+  &__imageWrapper {
+    position: absolute;
+    left: 0;
+    top: 90px;
+  }
+}
