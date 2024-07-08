@@ -1,0 +1,107 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.customInput {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+  width: 100%;
+  position: relative;
+
+  &__labelContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__label {
+      margin: 0 10px;
+      font-size: $p-font-size-medium;
+
+      .focused & {
+        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      }
+
+      .error & {
+        color: $red !important;
+      }
+    }
+
+    p {
+      font-size: $p-font-size-medium;
+      margin: 0;
+      text-decoration: none;
+      @include mixins.theme-colors(color, $primary-dark, $primary-light);
+
+      &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+    }
+
+  }
+
+
+
+  &__inputContainer {
+    @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 10px;
+    gap: 20px;
+    border-radius: 10px;
+    border: 2px solid;
+
+    @include mixins.theme-colors(border-color, $primary-dark, $primary-light);
+
+    .error & {
+      border-color: $red !important;
+    }
+
+    .notFocused & {
+      border-color: transparent
+    }
+
+    &__icon {
+      @include mixins.theme-colors(color, $text-dark, $text-light);
+
+      .focused & {
+        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      }
+
+      .error & {
+        color: $red !important;
+      }
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+    }
+
+    &__input {
+      background-color: transparent;
+      border: 0;
+      font-size: $p-font-size-large;
+      width: 75%;
+
+      &::placeholder {
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__error {
+    color: $red;
+    position: absolute;
+    left: 10px;
+    top: 65px;
+  }
+
+
+}

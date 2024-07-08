@@ -1,0 +1,11 @@
+export interface IList {
+  listId: number;
+  listName: string;
+  canBeDeleted: boolean;
+  createdBy: number | null;
+  createdAt: Date;
+  isFavorite: boolean;
+  isArchived: boolean;
+  colorVariant: number;
+  iconId: number;
+}
