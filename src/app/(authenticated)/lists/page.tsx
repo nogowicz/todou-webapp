@@ -3,8 +3,8 @@
 import ThemeSwitch from '@/components/theme-switch/ThemeSwitch';
 import { useQuery } from '@tanstack/react-query';
 import { IList } from '@/types/List';
-import getLists from './utils/apiCalls/getUsersLists';
-import { useUser } from './utils/Providers/UserProvider';
+import { useUser } from '@/app/utils/Providers/UserProvider';
+import getLists from '@/app/utils/apiCalls/getUsersLists';
 
 export default function Home() {
   const { token, logout } = useUser();

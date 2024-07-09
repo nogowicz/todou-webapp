@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifySession } from '../_lib/session';
 
 export default async function middleware(req: NextRequest) {
-  const protectedRoutes = ['/', '/dashboard'];
+  const protectedRoutes = ['/', '/lists', '/matrix', '/search'];
   const loginRoute = '/welcome';
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;

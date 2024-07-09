@@ -1,0 +1,63 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.navbar {
+  height: 100vh;
+  width: 300px;
+  @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    padding: 40px 0;
+    justify-content: space-between;
+
+    &__fields {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 80%;
+
+      p {
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+        font-size: $p-font-size-small;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      &__logout {
+        color: $red !important;
+      }
+
+      &__link {
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        gap: 30px;
+        padding: 10px 20px;
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+        font-weight: bold;
+        border-radius: 10px;
+        font-size: 16px;
+
+
+        &:hover {
+          cursor: pointer;
+          @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+        }
+      }
+
+      &__active {
+        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+        @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+      }
+
+
+    }
+
+
+  }
+}

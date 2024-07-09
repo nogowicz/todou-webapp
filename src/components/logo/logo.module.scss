@@ -1,9 +1,10 @@
 .logo {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-  &__imageWrapper {
-    position: absolute;
-    left: 0;
-    top: 90px;
+  &__welcomeLogo {
+    margin-top: -50px;
   }
 }
