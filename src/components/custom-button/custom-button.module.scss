@@ -11,8 +11,6 @@
 }
 
 .button {
-  @include mixins.theme-colors(color, $primary-dark, $primary-light);
-  @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +31,15 @@
   &[disabled] {
     opacity: 0.7;
     cursor: default;
-
-
   }
+}
+
+.primary {
+  @include mixins.theme-colors(color, $primary-dark, $primary-light);
+  @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+}
+
+.secondary {
+  @include mixins.theme-colors(color, $text-dark, $text-light);
+  @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
 }

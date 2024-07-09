@@ -79,11 +79,13 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
           <input
             className={styles.customInput__inputContainer__input}
             placeholder={placeholder}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
             type={showPassword ? 'text' : type}
             ref={ref}
             {...props}
+            onFocus={() => setFocus(true)}
+            onBlur={() => {
+              setFocus(false);
+            }}
           />
           {isPasswordField &&
             (showPassword ? (

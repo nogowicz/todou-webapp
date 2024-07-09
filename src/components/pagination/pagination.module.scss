@@ -1,0 +1,27 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.pagination {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+
+  &__dot {
+    width: 15px;
+    height: 10px;
+    border-radius: 3px;
+    @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+
+
+    &__active {
+      @include mixins.theme-colors(background-color, $primary-dark, $primary-light);
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+}

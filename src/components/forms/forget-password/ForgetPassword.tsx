@@ -38,12 +38,14 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
   const onSubmit = async (data: Inputs) => {
     try {
       console.log('DATA: ', data);
-    } catch (error: any) {
-      console.log('Error occurred:', error);
-      if (error.message === 'Incorrect email or password') {
-        setError('email', { type: 'manual', message: error.message });
-      } else {
-        console.log(error);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log('Error occurred:', error);
+        if (error.message === 'Incorrect email or password') {
+          setError('email', { type: 'manual', message: error.message });
+        } else {
+          console.log(error);
+        }
       }
     }
   };
@@ -51,6 +53,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
     <form
       className={`${styles.form} ${themeClass}`}
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <div className={styles.form__textFields}>
         <CustomInput
@@ -63,7 +66,15 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
           {...register('email', { required: 'This field is required' })}
         />
       </div>
-      <CustomButton type="submit">Sign In</CustomButton>
+      <div className={styles.form__buttonsContainer}>
+        <CustomButton
+          variant="secondary"
+          onClick={() => setCurrentForm(FormType['sign-in'])}
+        >
+          Back
+        </CustomButton>
+        <CustomButton type="submit">Sign Up</CustomButton>
+      </div>
       <p className={styles.form__createAccount}>
         Don’t have an account yet?{' '}
         <span onClick={() => setCurrentForm(FormType['sign-up'])}>Sign up</span>{' '}

@@ -6,27 +6,34 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpSchema } from './validationSchema';
 import axios from 'axios';
 
-import styles from './sign-up-form.module.scss';
-import CustomInput from '@/components/custom-input/CustomInput';
-import { IoKeyOutline, IoPersonOutline } from 'react-icons/io5';
-import { FiMail } from 'react-icons/fi';
-import CustomButton from '@/components/custom-button/CustomButton';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { FormType } from '../form-switcher/FormSwitcher';
 import { useUser } from '@/app/utils/Providers/UserProvider';
+import PrepareSignUpForm, { IPrepareSignUpForm } from './helpers';
+import Pagination from '@/components/pagination/Pagination';
 
-interface ISignUpForm {
-  setCurrentForm: Dispatch<SetStateAction<FormType>>;
-}
-
+import styles from './sign-up-form.module.scss';
 interface Inputs {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }
+interface ISignUpForm {
+  setCurrentForm: Dispatch<SetStateAction<FormType>>;
+}
+
+export interface IPages {
+  id: string;
+  forms: JSX.Element;
+  buttons: JSX.Element;
+}
 
 export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
+  const [page, setPage] = useState(0);
+  const { mounted, theme } = useMountedTheme();
+  const themeClass = theme ? styles[theme] : '';
+
   const { login } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -37,12 +44,6 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
   } = useForm({
     resolver: yupResolver(signUpSchema),
   });
-  const { mounted, theme } = useMountedTheme();
-  const themeClass = theme ? styles[theme] : '';
-
-  if (!mounted) {
-    return null;
-  }
 
   const onSubmit = async (data: Inputs) => {
     try {
@@ -60,74 +61,37 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
       }
     } catch (error) {
       setIsLoading(false);
-      if (error instanceof Error) {
-        setError('email', { message: error.message || 'An error occurred' });
+      if (axios.isAxiosError(error) && error.response) {
+        const errorResponse = error.response.data;
+        const errorMessage = errorResponse.message || 'Failed to sign in';
+        setPage(0);
+        setError('email', { message: errorMessage || 'An error occurred' });
+      } else {
+        console.log(error);
       }
     }
   };
+
+  if (!mounted) {
+    return null;
+  }
+
+  const pages: IPages[] = PrepareSignUpForm({
+    errors,
+    register,
+    isLoading,
+    setPage,
+  });
 
   return (
     <form
       className={`${styles.form} ${themeClass}`}
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
-      <div className={styles.form__textFields}>
-        <CustomInput
-          label="First Name"
-          placeholder="John"
-          icon={<IoPersonOutline />}
-          type="firstName"
-          id="firstName"
-          error={errors.firstName}
-          {...register('firstName', { required: 'This field is required' })}
-        />
-
-        <CustomInput
-          label="Last Name"
-          placeholder="Doe"
-          icon={<IoPersonOutline />}
-          type="lastName"
-          id="lastName"
-          error={errors.lastName}
-          {...register('lastName', { required: 'This field is required' })}
-        />
-
-        <CustomInput
-          label="Email"
-          placeholder="johndoe@todou.com"
-          icon={<FiMail />}
-          type="email"
-          id="email"
-          error={errors.email}
-          {...register('email', { required: 'This field is required' })}
-        />
-
-        <CustomInput
-          label="Password"
-          placeholder="********"
-          icon={<IoKeyOutline />}
-          type="password"
-          isPasswordField
-          id="password"
-          error={errors.password}
-          {...register('password', { required: 'This field is required' })}
-        />
-        <CustomInput
-          label="Confirm Password"
-          placeholder="********"
-          icon={<IoKeyOutline />}
-          type="password"
-          isPasswordField
-          id="confirmPassword"
-          error={errors.confirmPassword}
-          {...register('confirmPassword', {
-            required: 'This field is required',
-          })}
-        />
-      </div>
-      <CustomButton isLoading={isLoading} type="submit">
-        Sign Up
-      </CustomButton>
+      <div>{pages[page].forms}</div>
+      <Pagination pages={pages} activePage={page} setPage={setPage} />
+      {pages[page].buttons}
       <p className={styles.form__signInToAccount}>
         Already have an account?{' '}
         <span onClick={() => setCurrentForm(FormType['sign-in'])}>Sign in</span>{' '}

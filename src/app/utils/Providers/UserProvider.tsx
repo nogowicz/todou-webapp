@@ -37,7 +37,11 @@ export default function UserProvider({ children }: IUserProvider) {
     const storedToken = localStorage.getItem('token');
 
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Error parsing stored user:', e);
+      }
     }
 
     if (storedToken) {

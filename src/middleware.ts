@@ -1,45 +1,49 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { decrypt } from '../_lib/session';
+import { verifySession } from '../_lib/session';
 
 export default async function middleware(req: NextRequest) {
   const protectedRoutes = ['/', '/dashboard'];
-  const unProtectedRoutes = ['/welcome'];
+  const loginRoute = '/welcome';
   const currentPath = req.nextUrl.pathname;
+  const cookie = cookies().get('session')?.value;
 
-  const getSession = async () => {
-    const cookie = cookies().get('session')?.value;
-    if (cookie) {
-      const session = await decrypt(cookie);
-      return session;
-    } else {
-      return null;
-    }
-  };
+  console.log('Current path:', currentPath);
 
   if (protectedRoutes.includes(currentPath)) {
     console.log('Checking session for protected route');
-    const session = await getSession();
-
-    if (!session?.userId) {
-      console.log('Redirecting to /welcome');
-      return NextResponse.redirect(new URL('/welcome', req.nextUrl));
+    if (!cookie) {
+      console.log('No session cookie found. Redirecting to /welcome');
+      return NextResponse.redirect(new URL(loginRoute, req.nextUrl));
     }
-  } else if (unProtectedRoutes.includes(currentPath)) {
-    console.log('Checking session for unprotected route');
-    const session = await getSession();
 
-    if (session?.userId) {
-      console.log('Redirecting to /');
-      return NextResponse.redirect(new URL('/', req.nextUrl));
+    const verification = await verifySession(cookie);
+
+    if (!verification.isAuth) {
+      console.log('Session invalid. Redirecting to /welcome');
+      return NextResponse.redirect(new URL(loginRoute, req.nextUrl));
     }
+
+    console.log('Session valid. Proceeding to protected route');
+  } else if (currentPath === loginRoute) {
+    console.log('Checking session for login route');
+
+    if (cookie) {
+      const verification = await verifySession(cookie);
+
+      if (verification.isAuth) {
+        console.log('Session valid. Redirecting to main page');
+        return NextResponse.redirect(new URL('/', req.nextUrl));
+      }
+    }
+
+    console.log('No session or session invalid. Proceeding to login route');
   } else {
     console.log('Non-protected route, proceeding');
   }
 
   return NextResponse.next();
 }
-
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|welcome).*)'], // Ensure to exclude `/welcome`
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

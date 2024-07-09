@@ -7,7 +7,9 @@ export async function POST(request: Request) {
     return Response.json(result, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
-      return Response.json({ message: error.message });
+      return new Response(JSON.stringify({ message: error.message }), {
+        status: 500,
+      });
     }
   }
 }

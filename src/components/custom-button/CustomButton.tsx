@@ -8,9 +8,9 @@ import { useMountedTheme } from '@/hooks/useMountedTheme';
 interface ICustomButton {
   children: React.ReactNode;
   href?: string;
-  onClick?: () => void;
   isLoading?: boolean;
   className?: string;
+  variant?: 'primary' | 'secondary';
   [key: string]: any;
 }
 
@@ -19,6 +19,7 @@ export default function CustomButton({
   href,
   onClick,
   className = '',
+  variant = 'primary',
   isLoading = false,
   ...props
 }: ICustomButton) {
@@ -29,8 +30,10 @@ export default function CustomButton({
     return null;
   }
 
+  const variantClass =
+    variant === 'secondary' ? styles.secondary : styles.primary;
   const combinedClassName =
-    `${styles.button} ${themeClass} ${className}`.trim();
+    `${styles.button} ${variantClass} ${themeClass} ${className}`.trim();
 
   if (href) {
     return (

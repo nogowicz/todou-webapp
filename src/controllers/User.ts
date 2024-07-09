@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client';
 import bcryptjs from 'bcryptjs';
 import { encrypt, verifySession } from '../../_lib/session';
 import { cache } from 'react';
-import { cookies } from 'next/headers';
 
 interface SignUpData {
   firstName: string;

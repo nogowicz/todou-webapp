@@ -13,7 +13,6 @@ import { signInSchema } from './validationSchema';
 
 import styles from './sign-in-form.module.scss';
 import { FormType } from '../form-switcher/FormSwitcher';
-import { createSession } from '../../../../_lib/session';
 import axios from 'axios';
 import { useUser } from '@/app/utils/Providers/UserProvider';
 
@@ -29,6 +28,7 @@ interface Inputs {
 export default function SignInForm({ setCurrentForm }: ISignInForm) {
   const { login } = useUser();
   const { mounted, theme } = useMountedTheme();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -77,6 +77,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
     <form
       className={`${styles.form} ${themeClass}`}
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <div className={styles.form__textFields}>
         <CustomInput
