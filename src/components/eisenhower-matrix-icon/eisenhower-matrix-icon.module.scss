@@ -1,0 +1,45 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.iconContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+    &__block {
+      width: 5px;
+      height: 5px;
+      border: 2px solid;
+      border-radius: 2.5px;
+    }
+  }
+
+
+}
+
+.active {
+  #first {
+    background-color: $red;
+    border-color: $red;
+  }
+
+  #second {
+    background-color: $yellow;
+    border-color: $yellow;
+  }
+
+  #third {
+
+    @include mixins.theme-colors(background-color, $primary-dark, $primary-light);
+  }
+
+  #fourth {
+    background-color: $green;
+    border-color: $green;
+  }
+}

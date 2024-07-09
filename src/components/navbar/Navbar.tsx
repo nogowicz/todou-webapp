@@ -15,6 +15,7 @@ import { PiMatrixLogoLight } from 'react-icons/pi';
 import { LuSun } from 'react-icons/lu';
 import { GoMoon } from 'react-icons/go';
 import { MdOutlineDoorFront } from 'react-icons/md';
+import EisenhowerMatrixIcon from '../eisenhower-matrix-icon/EisenhowerMatrixIcon';
 
 export default function Navbar() {
   const { mounted, resolvedTheme, setTheme } = useMountedTheme();
@@ -33,7 +34,7 @@ export default function Navbar() {
           <Link href={'/'}>
             <Logo width={180} />
           </Link>
-          <p>MAIN MENU</p>
+          <p>Main menu</p>
           <Link
             className={`${styles.navbar__container__fields__link} ${
               currentPathname === '/'
@@ -64,7 +65,7 @@ export default function Navbar() {
             }`}
             href="/matrix"
           >
-            <PiMatrixLogoLight size={24} />
+            <EisenhowerMatrixIcon isActive={currentPathname === '/matrix'} />
             Eisenhower Matrix
           </Link>
           <Link
@@ -80,7 +81,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className={styles.navbar__container__fields}>
-          <p>PREFERENCE</p>
+          <p>Preference</p>
           <div
             className={styles.navbar__container__fields__link}
             onClick={() => {
