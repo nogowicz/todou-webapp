@@ -13,17 +13,14 @@ import { usePathname } from 'next/navigation';
 import { CiViewList } from 'react-icons/ci';
 import { PiMatrixLogoLight } from 'react-icons/pi';
 import { LuSun } from 'react-icons/lu';
-import { useTheme } from 'next-themes';
-import CustomButton from '../custom-button/CustomButton';
 import { GoMoon } from 'react-icons/go';
 import { MdOutlineDoorFront } from 'react-icons/md';
 
 export default function Navbar() {
-  const { mounted, theme } = useMountedTheme();
-  const themeClass = theme ? styles[theme] : '';
+  const { mounted, resolvedTheme, setTheme } = useMountedTheme();
+  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
   const { logout } = useUser();
   const currentPathname = usePathname();
-  const { setTheme, resolvedTheme } = useTheme();
 
   if (!mounted) {
     return null;

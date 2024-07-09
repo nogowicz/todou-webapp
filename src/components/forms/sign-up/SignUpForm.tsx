@@ -31,8 +31,8 @@ export interface IPages {
 
 export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
   const [page, setPage] = useState(0);
-  const { mounted, theme } = useMountedTheme();
-  const themeClass = theme ? styles[theme] : '';
+  const { mounted, resolvedTheme } = useMountedTheme();
+  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   const { login } = useUser();
   const [isLoading, setIsLoading] = useState(false);

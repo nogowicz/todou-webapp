@@ -23,8 +23,8 @@ export default function CustomButton({
   isLoading = false,
   ...props
 }: ICustomButton) {
-  const { mounted, theme } = useMountedTheme();
-  const themeClass = theme ? styles[theme] : '';
+  const { mounted, resolvedTheme } = useMountedTheme();
+  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   if (!mounted) {
     return null;

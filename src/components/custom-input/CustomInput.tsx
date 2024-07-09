@@ -39,11 +39,11 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
     },
     ref
   ) => {
-    const { mounted, theme } = useMountedTheme();
+    const { mounted, resolvedTheme } = useMountedTheme();
     const [focus, setFocus] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const themeClass = theme ? styles[theme] : '';
+    const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
     if (!mounted) {
       return null;

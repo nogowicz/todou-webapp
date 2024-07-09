@@ -3,11 +3,11 @@ import { useTheme } from 'next-themes';
 
 export function useMountedTheme() {
   const [mounted, setMounted] = useState(false);
-  const { theme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  return { mounted, theme };
+  return { mounted, resolvedTheme, setTheme };
 }
