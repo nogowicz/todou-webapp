@@ -18,7 +18,7 @@ export default async function middleware(req: NextRequest) {
     }
 
     const verification = await verifySession(cookie);
-
+    console.log(verification);
     if (!verification.isAuth) {
       console.log('Session invalid. Redirecting to /welcome');
       return NextResponse.redirect(new URL(loginRoute, req.nextUrl));

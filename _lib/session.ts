@@ -15,10 +15,11 @@ export type SessionPayload = {
 };
 
 export async function encrypt(payload: SessionPayload) {
+  const expirationTimestamp = Math.floor(payload.expiresAt.getTime() / 1000);
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1hr')
+    .setExpirationTime(expirationTimestamp)
     .sign(key);
 }
 
