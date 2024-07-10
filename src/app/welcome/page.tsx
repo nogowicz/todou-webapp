@@ -28,7 +28,10 @@ export default function Welcome() {
           </p>
         </div>
         <div className={styles.welcome__container__right}>
-          <div />
+          <div className={styles.welcome__container__right__logo}>
+            <Logo />
+          </div>
+          <div className={styles.welcome__container__right__placeholder} />
           <FormSwitcher />
           <p>
             By clicking Sign In / Up you agree to our{' '}

@@ -1,5 +1,6 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as mixins;
+@use '../../styles/breakpoints' as breakpoint;
 
 .welcome {
   display: flex;
@@ -45,6 +46,7 @@
 
       p {
         font-size: $p-font-size-medium;
+        text-align: center;
 
         span {
           text-decoration: underline;
@@ -56,6 +58,40 @@
         }
 
 
+      }
+    }
+  }
+
+  @include breakpoint.media('>desktop') {
+    &__container {
+      &__right {
+        &__logo {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @include breakpoint.media('<=desktop') {
+    &__container {
+      &__left {
+        display: none;
+      }
+
+      &__right {
+        &__placeholder {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @include breakpoint.media('<=LGphone') {
+    margin-top: 40px;
+
+    &__container {
+      &__right {
+        padding: 0 20px;
       }
     }
   }
