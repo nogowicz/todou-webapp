@@ -1,27 +1,25 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+
+import { MdOutlineDoorFront } from 'react-icons/md';
+import { GoMoon } from 'react-icons/go';
+import { LuSun } from 'react-icons/lu';
+
+import { useUser } from '@/app/utils/Providers/UserProvider';
+import { useMountedTheme } from '@/hooks/useMountedTheme';
+import { mainMenu } from './links/Links';
+
+import Logo from '../logo/Logo';
+import NavbarLink from './navbar-link/NavbarLink';
 
 import styles from './navbar.module.scss';
-import { useMountedTheme } from '@/hooks/useMountedTheme';
-import ThemeSwitch from '../theme-switch/ThemeSwitch';
-import { useUser } from '@/app/utils/Providers/UserProvider';
-import Logo from '../logo/Logo';
-import Link from 'next/link';
-import { IoHomeOutline, IoSearch } from 'react-icons/io5';
-import { usePathname } from 'next/navigation';
-import { CiViewList } from 'react-icons/ci';
-import { PiMatrixLogoLight } from 'react-icons/pi';
-import { LuSun } from 'react-icons/lu';
-import { GoMoon } from 'react-icons/go';
-import { MdOutlineDoorFront } from 'react-icons/md';
-import EisenhowerMatrixIcon from '../eisenhower-matrix-icon/EisenhowerMatrixIcon';
 
 export default function Navbar() {
   const { mounted, resolvedTheme, setTheme } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
   const { logout } = useUser();
-  const currentPathname = usePathname();
 
   if (!mounted) {
     return null;
@@ -35,55 +33,16 @@ export default function Navbar() {
             <Logo width={180} />
           </Link>
           <p>Main menu</p>
-          <Link
-            className={`${styles.navbar__container__fields__link} ${
-              currentPathname === '/'
-                ? styles.navbar__container__fields__active
-                : {}
-            }`}
-            href="/"
-          >
-            <IoHomeOutline size={24} />
-            Dashboard
-          </Link>
-          <Link
-            className={`${styles.navbar__container__fields__link} ${
-              currentPathname === '/lists'
-                ? styles.navbar__container__fields__active
-                : {}
-            }`}
-            href="/lists"
-          >
-            <CiViewList size={24} />
-            Lists
-          </Link>
-          <Link
-            className={`${styles.navbar__container__fields__link} ${
-              currentPathname === '/matrix'
-                ? styles.navbar__container__fields__active
-                : {}
-            }`}
-            href="/matrix"
-          >
-            <EisenhowerMatrixIcon isActive={currentPathname === '/matrix'} />
-            Eisenhower Matrix
-          </Link>
-          <Link
-            className={`${styles.navbar__container__fields__link} ${
-              currentPathname === '/search'
-                ? styles.navbar__container__fields__active
-                : {}
-            }`}
-            href="/search"
-          >
-            <IoSearch size={24} />
-            Search
-          </Link>
+          {mainMenu.map((item, index) => (
+            <NavbarLink key={index} href={item.href}>
+              {item.icon}
+              {item.name}
+            </NavbarLink>
+          ))}
         </div>
         <div className={styles.navbar__container__fields}>
           <p>Preference</p>
-          <div
-            className={styles.navbar__container__fields__link}
+          <NavbarLink
             onClick={() => {
               setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
             }}
@@ -94,16 +53,15 @@ export default function Navbar() {
               <LuSun size={24} />
             )}
             Change Theme
-          </div>
-          <div
-            className={`${styles.navbar__container__fields__link} ${styles.navbar__container__fields__logout}`}
+          </NavbarLink>
+          <NavbarLink
             onClick={() => {
               logout();
             }}
           >
             <MdOutlineDoorFront size={24} />
             Logout
-          </div>
+          </NavbarLink>
         </div>
       </div>
     </nav>

@@ -1,18 +1,16 @@
 'use client';
 import React from 'react';
+import { usePathname } from 'next/navigation';
 
-import styles from './eisenhower-matrix-icon.module.scss';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 
-interface IEisenhowerMatrixIcon {
-  isActive?: boolean;
-}
+import styles from './eisenhower-matrix-icon.module.scss';
 
-export default function EisenhowerMatrixIcon({
-  isActive = false,
-}: IEisenhowerMatrixIcon) {
+export default function EisenhowerMatrixIcon() {
   const { resolvedTheme, mounted } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
+  const currentPathname = usePathname();
+  const isActive = currentPathname === '/matrix';
   const combinedClass = [
     styles.iconContainer,
     isActive ? styles.active : '',
