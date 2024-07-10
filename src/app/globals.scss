@@ -3,11 +3,19 @@
 :root {
   background-color: $background-light;
   color: $text-light;
+  height: 100%;
+
 
   &.dark {
     background-color: $background-dark;
     color: $text-dark;
   }
+}
+
+body {
+  margin: 0;
+  height: 100%;
+
 }
 
 

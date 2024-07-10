@@ -2,6 +2,7 @@
 @use '../../../styles/mixins' as mixins;
 
 .form {
+  background-color: transparent;
 
   &__textFields {
     margin-bottom: 80px;

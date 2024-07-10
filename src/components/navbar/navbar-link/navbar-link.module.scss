@@ -1,0 +1,25 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as mixins;
+
+.navbarLink {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 20px;
+  @include mixins.theme-colors(color, $hint-dark, $hint-light);
+  font-weight: bold;
+  border-radius: 10px;
+  font-size: 16px;
+
+
+  &:hover {
+    cursor: pointer;
+    @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+  }
+}
+
+.active {
+  @include mixins.theme-colors(color, $primary-dark, $primary-light);
+  @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+}

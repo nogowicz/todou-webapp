@@ -1,0 +1,34 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.navbar {
+  height: 100vh;
+  width: 300px;
+  @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    padding: 40px 0;
+    justify-content: space-between;
+
+    &__fields {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 80%;
+
+      p {
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+        font-size: $p-font-size-small;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+
+
+  }
+}

@@ -27,7 +27,7 @@ interface Inputs {
 
 export default function SignInForm({ setCurrentForm }: ISignInForm) {
   const { login } = useUser();
-  const { mounted, theme } = useMountedTheme();
+  const { mounted, resolvedTheme } = useMountedTheme();
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -39,7 +39,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
     resolver: yupResolver(signInSchema),
   });
 
-  const themeClass = theme ? styles[theme] : '';
+  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   if (!mounted) {
     return null;

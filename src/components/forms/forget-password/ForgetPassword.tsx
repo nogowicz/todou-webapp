@@ -19,7 +19,7 @@ interface Inputs {
 }
 
 export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
-  const { mounted, theme } = useMountedTheme();
+  const { mounted, resolvedTheme } = useMountedTheme();
   const {
     register,
     handleSubmit,
@@ -29,7 +29,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
     resolver: yupResolver(forgetPasswordSchema),
   });
 
-  const themeClass = theme ? styles[theme] : '';
+  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   if (!mounted) {
     return null;
