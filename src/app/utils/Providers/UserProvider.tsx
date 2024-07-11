@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { createSession, deleteSession } from '../../../../_lib/session';
+import { createSession, deleteSession } from '../../../_lib/session';
 import { useRouter } from 'next/navigation';
 
 interface User {

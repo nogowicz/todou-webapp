@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySession } from '../_lib/session';
+import { verifySession } from './_lib/session';
 
 export default async function middleware(req: NextRequest) {
   const protectedRoutes = ['/', '/lists', '/matrix', '/search'];
