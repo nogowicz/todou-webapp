@@ -3,26 +3,38 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifySession } from './lib/session';
 import createMiddleware from 'next-intl/middleware';
 
-async function customMiddleware(req: NextRequest) {
-  const protectedRoutes = ['/', '/lists', '/matrix', '/search'];
-  const loginRoute = '/welcome';
+export default async function middleware(req: NextRequest) {
+  const locale = req.nextUrl.pathname.split('/')[1];
+  const isValidLocale = ['en', 'pl'].includes(locale) ? locale : 'en';
+  const protectedRoutes = [
+    `/${isValidLocale}`,
+    `/${isValidLocale}/lists`,
+    `/${isValidLocale}/matrix`,
+    `/${isValidLocale}/search`,
+  ];
+  const loginRoute = `/${isValidLocale}/welcome`;
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;
 
   console.log('Current path:', currentPath);
+  console.log('Locale:', isValidLocale);
 
   if (protectedRoutes.includes(currentPath)) {
     console.log('Checking session for protected route');
     if (!cookie) {
-      console.log('No session cookie found. Redirecting to /welcome');
-      return NextResponse.redirect(new URL(loginRoute, req.nextUrl));
+      console.log(`Session invalid. Redirecting to ${loginRoute}`);
+      const redirectUrl = new URL(loginRoute, req.nextUrl.origin).toString();
+      console.log('Redirect URL:', redirectUrl);
+      return NextResponse.redirect(redirectUrl);
     }
 
     const verification = await verifySession(cookie);
     console.log(verification);
     if (!verification.isAuth) {
-      console.log('Session invalid. Redirecting to /welcome');
-      return NextResponse.redirect(new URL(loginRoute, req.nextUrl));
+      console.log(`Session invalid. Redirecting to ${loginRoute}`);
+      const redirectUrl = new URL(loginRoute, req.nextUrl.origin).toString();
+      console.log('Redirect URL:', redirectUrl);
+      return NextResponse.redirect(redirectUrl);
     }
 
     console.log('Session valid. Proceeding to protected route');
@@ -34,7 +46,12 @@ async function customMiddleware(req: NextRequest) {
 
       if (verification.isAuth) {
         console.log('Session valid. Redirecting to main page');
-        return NextResponse.redirect(new URL('/', req.nextUrl));
+        const redirectUrl = new URL(
+          `/${isValidLocale}`,
+          req.nextUrl.origin
+        ).toString();
+        console.log('Redirect URL:', redirectUrl);
+        return NextResponse.redirect(redirectUrl);
       }
     }
 
@@ -43,19 +60,22 @@ async function customMiddleware(req: NextRequest) {
     console.log('Non-protected route, proceeding');
   }
 
-  return NextResponse.next();
-}
-
-export default async function middleware(req: NextRequest) {
-  await customMiddleware(req);
-  return createMiddleware({
-    // A list of all locales that are supported
+  const handleI18nRouting = createMiddleware({
     locales: ['en', 'pl'],
-
-    // Used when no locale matches
     defaultLocale: 'en',
-  })(req);
+  });
+  const response = handleI18nRouting(req);
+  return response;
+  //  return NextResponse.next();
 }
+
+//   return createMiddleware({
+// A list of all locales that are supported
+// locales: ['en', 'pl'],
+
+// Used when no locale matches
+// defaultLocale: 'en',
+// })(req);
 
 export const config = {
   // Merge both matchers

@@ -42,6 +42,8 @@ export async function decrypt(session: string | undefined = '') {
 }
 
 export async function createSession(token: string) {
+  const locale = cookies().get('NEXT_LOCALE')?.value;
+  const redirectURL = `/${locale}/`;
   try {
     const session = await decrypt(token);
 
@@ -60,7 +62,7 @@ export async function createSession(token: string) {
         secure: true,
         expires: new Date(expiresAt as string),
         sameSite: 'lax',
-        path: '/',
+        path: redirectURL,
       });
     } else {
       throw new Error('Invalid session token');
@@ -68,7 +70,7 @@ export async function createSession(token: string) {
   } catch (error) {
     console.error('Error creating session:', error);
   } finally {
-    redirect('/');
+    redirect(redirectURL);
   }
 }
 
@@ -95,6 +97,8 @@ export async function verifySession(token: string) {
 
 export async function updateSession() {
   const session = cookies().get('session')?.value;
+  const locale = cookies().get('NEXT_LOCALE')?.value;
+  const redirectURL = `/${locale}/`;
   const payload = await decrypt(session);
 
   if (!session || !payload) {
@@ -107,7 +111,7 @@ export async function updateSession() {
     secure: true,
     expires: expires,
     sameSite: 'lax',
-    path: '/',
+    path: redirectURL,
   });
 }
 
