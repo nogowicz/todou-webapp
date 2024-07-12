@@ -8,11 +8,12 @@ import axios from 'axios';
 
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { FormType } from '../form-switcher/FormSwitcher';
-import { useUser } from '@/app/utils/Providers/UserProvider';
 import PrepareSignUpForm, { IPrepareSignUpForm } from './helpers';
 import Pagination from '@/components/pagination/Pagination';
 
 import styles from './sign-up-form.module.scss';
+import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
+import { TranslationValues, useTranslations } from 'next-intl';
 interface Inputs {
   firstName: string;
   lastName: string;
@@ -30,6 +31,7 @@ export interface IPages {
 }
 
 export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
+  const t = useTranslations('WelcomePage');
   const [page, setPage] = useState(0);
   const { mounted, resolvedTheme } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
@@ -81,6 +83,7 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
     register,
     isLoading,
     setPage,
+    t,
   });
 
   return (
@@ -93,9 +96,11 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
       <Pagination pages={pages} activePage={page} setPage={setPage} />
       {pages[page].buttons}
       <p className={styles.form__signInToAccount}>
-        Already have an account?{' '}
-        <span onClick={() => setCurrentForm(FormType['sign-in'])}>Sign in</span>{' '}
-        here!
+        {t('have-an-account')}{' '}
+        <span onClick={() => setCurrentForm(FormType['sign-in'])}>
+          {t('sign-in')}
+        </span>{' '}
+        {t('here')}
       </p>
     </form>
   );

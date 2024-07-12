@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 async function getData(token: string) {
   const options = {
     method: 'GET',
@@ -10,8 +8,11 @@ async function getData(token: string) {
   };
 
   try {
-    const response = await axios.get('/api/list', options);
-    return response.data;
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/api/list`, options);
+    const lists = await response.json();
+    console.log(lists);
+    return lists;
   } catch (err) {
     console.error('Error fetching data:', err);
     throw err;

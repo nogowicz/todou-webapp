@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySession } from './_lib/session';
+import { verifySession } from './lib/session';
+import createMiddleware from 'next-intl/middleware';
 
-export default async function middleware(req: NextRequest) {
+async function customMiddleware(req: NextRequest) {
   const protectedRoutes = ['/', '/lists', '/matrix', '/search'];
   const loginRoute = '/welcome';
   const currentPath = req.nextUrl.pathname;
@@ -44,6 +45,23 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
+
+export default async function middleware(req: NextRequest) {
+  await customMiddleware(req);
+  return createMiddleware({
+    // A list of all locales that are supported
+    locales: ['en', 'pl'],
+
+    // Used when no locale matches
+    defaultLocale: 'en',
+  })(req);
+}
+
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  // Merge both matchers
+  matcher: [
+    '/',
+    '/(pl|en)/:path*',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 };

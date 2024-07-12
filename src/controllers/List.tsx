@@ -1,7 +1,7 @@
 'use server';
 
 import { PrismaClient } from '@prisma/client';
-import { verifySession } from '../_lib/session';
+import { verifySession } from '../lib/session';
 import { cache } from 'react';
 
 const prisma = new PrismaClient();

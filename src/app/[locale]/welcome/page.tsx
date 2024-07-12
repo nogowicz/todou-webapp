@@ -7,10 +7,12 @@ import FormSwitcher from '@/components/forms/form-switcher/FormSwitcher';
 import WelcomeAnimation from '@/assets/animations/welcome-animation1.json';
 
 import styles from './page.module.scss';
+import { useTranslations } from 'next-intl';
 
 const animationSize = '450px';
 
 export default function Welcome() {
+  const t = useTranslations('WelcomePage');
   return (
     <main className={styles.welcome}>
       <h1 className={styles.welcome__title}>Todou</h1>
@@ -21,11 +23,7 @@ export default function Welcome() {
             animationData={WelcomeAnimation}
             style={{ width: animationSize, height: animationSize }}
           />
-          <p>
-            Welcome to Todou - your new companion in task organization! Todou
-            helps you effortlessly manage shopping lists, tasks, and projects.
-            Start using Todou today!
-          </p>
+          <p>{t('subtitle')}</p>
         </div>
         <div className={styles.welcome__container__right}>
           <div className={styles.welcome__container__right__logo}>
@@ -33,9 +31,8 @@ export default function Welcome() {
           </div>
           <div className={styles.welcome__container__right__placeholder} />
           <FormSwitcher />
-          <p>
-            By clicking Sign In / Up you agree to our{' '}
-            <span>terms and conditions.</span>
+          <p className={styles.welcome__container__right__terms}>
+            {t('by-clicking')} <span>{t('terms-and-conditions')}</span>
           </p>
         </div>
       </div>

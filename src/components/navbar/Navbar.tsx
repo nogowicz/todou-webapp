@@ -7,19 +7,22 @@ import { MdOutlineDoorFront } from 'react-icons/md';
 import { GoMoon } from 'react-icons/go';
 import { LuSun } from 'react-icons/lu';
 
-import { useUser } from '@/app/utils/Providers/UserProvider';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
-import { mainMenu } from './links/Links';
 
 import Logo from '../logo/Logo';
 import NavbarLink from './navbar-link/NavbarLink';
 
 import styles from './navbar.module.scss';
+import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
+import useMainMenu from './links/Links';
+import { useTranslations } from 'next-intl';
 
 export default function Navbar() {
   const { mounted, resolvedTheme, setTheme } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
   const { logout } = useUser();
+  const mainMenu = useMainMenu();
+  const t = useTranslations('NavigationComponent');
 
   if (!mounted) {
     return null;
@@ -32,7 +35,7 @@ export default function Navbar() {
           <Link href={'/'}>
             <Logo width={180} />
           </Link>
-          <p>Main menu</p>
+          <p>{t('main-menu')}</p>
           {mainMenu.map((item, index) => (
             <NavbarLink key={index} href={item.href}>
               {item.icon}
@@ -41,7 +44,7 @@ export default function Navbar() {
           ))}
         </div>
         <div className={styles.navbar__container__fields}>
-          <p>Preference</p>
+          <p>{t('preferences')}</p>
           <NavbarLink
             onClick={() => {
               setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
@@ -52,7 +55,7 @@ export default function Navbar() {
             ) : (
               <LuSun size={24} />
             )}
-            Change Theme
+            {t('change-theme')}
           </NavbarLink>
           <NavbarLink
             onClick={() => {
@@ -60,7 +63,7 @@ export default function Navbar() {
             }}
           >
             <MdOutlineDoorFront size={24} />
-            Logout
+            {t('logout')}
           </NavbarLink>
         </div>
       </div>

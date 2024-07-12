@@ -14,8 +14,8 @@ import { signInSchema } from './validationSchema';
 import styles from './sign-in-form.module.scss';
 import { FormType } from '../form-switcher/FormSwitcher';
 import axios from 'axios';
-import { useUser } from '@/app/utils/Providers/UserProvider';
-
+import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
+import { useTranslations } from 'next-intl';
 interface ISignInForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
 }
@@ -28,7 +28,7 @@ interface Inputs {
 export default function SignInForm({ setCurrentForm }: ISignInForm) {
   const { login } = useUser();
   const { mounted, resolvedTheme } = useMountedTheme();
-
+  const t = useTranslations('WelcomePage');
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -81,7 +81,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
     >
       <div className={styles.form__textFields}>
         <CustomInput
-          label="Email"
+          label={t('email')}
           placeholder="johndoe@todou.com"
           icon={<FiMail />}
           type="email"
@@ -91,12 +91,12 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
         />
 
         <CustomInput
-          label="Password"
+          label={t('password')}
           placeholder="********"
           icon={<IoKeyOutline />}
           type="password"
           isPasswordField
-          actionLabel="Forgot Password?"
+          actionLabel={t('forgot-password')}
           action={() => setCurrentForm(FormType['forgot-password'])}
           id="password"
           error={errors.password}
@@ -104,12 +104,14 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
         />
       </div>
       <CustomButton type="submit" isLoading={isLoading}>
-        Sign In
+        {t('sign-in')}
       </CustomButton>
       <p className={styles.form__createAccount}>
-        Don’t have an account yet?{' '}
-        <span onClick={() => setCurrentForm(FormType['sign-up'])}>Sign up</span>{' '}
-        here!
+        {t('dont-have-an-account')}{' '}
+        <span onClick={() => setCurrentForm(FormType['sign-up'])}>
+          {t('sign-up')}
+        </span>{' '}
+        {t('here')}
       </p>
     </form>
   );

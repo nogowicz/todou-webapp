@@ -9,6 +9,7 @@ import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { forgetPasswordSchema } from './validationSchema';
 
 import styles from './forget-password.module.scss';
+import { useTranslations } from 'next-intl';
 
 interface IForgetPassword {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -19,6 +20,7 @@ interface Inputs {
 }
 
 export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
+  const t = useTranslations('WelcomePage');
   const { mounted, resolvedTheme } = useMountedTheme();
   const {
     register,
@@ -57,7 +59,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
     >
       <div className={styles.form__textFields}>
         <CustomInput
-          label="Email"
+          label={t('email')}
           placeholder="johndoe@todou.com"
           icon={<FiMail />}
           type="email"
@@ -71,14 +73,16 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
           variant="secondary"
           onClick={() => setCurrentForm(FormType['sign-in'])}
         >
-          Back
+          {t('back')}
         </CustomButton>
-        <CustomButton type="submit">Sign Up</CustomButton>
+        <CustomButton type="submit">{t('sign-up')}</CustomButton>
       </div>
       <p className={styles.form__createAccount}>
-        Don’t have an account yet?{' '}
-        <span onClick={() => setCurrentForm(FormType['sign-up'])}>Sign up</span>{' '}
-        here!
+        {t('dont-have-an-account')}{' '}
+        <span onClick={() => setCurrentForm(FormType['sign-up'])}>
+          {t('sign-up')}
+        </span>{' '}
+        {t('here')}
       </p>
     </form>
   );
