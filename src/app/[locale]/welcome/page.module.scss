@@ -1,6 +1,6 @@
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as mixins;
-@use '../../styles/breakpoints' as breakpoint;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as mixins;
+@use '../../../styles/breakpoints' as breakpoint;
 
 .welcome {
   display: flex;
@@ -43,10 +43,12 @@
       align-items: center;
       height: 100%;
 
+      &__terms {
+        text-align: center;
+      }
 
       p {
         font-size: $p-font-size-medium;
-        text-align: center;
 
         span {
           text-decoration: underline;
@@ -56,8 +58,6 @@
             opacity: 0.7;
           }
         }
-
-
       }
     }
   }

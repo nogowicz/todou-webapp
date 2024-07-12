@@ -6,7 +6,6 @@ import { IoKeyOutline, IoPersonOutline } from 'react-icons/io5';
 
 import styles from './sign-up-form.module.scss';
 import { FieldErrors } from 'react-hook-form';
-
 export interface IPrepareSignUpForm {
   errors: FieldErrors<{
     firstName: string;
@@ -18,6 +17,7 @@ export interface IPrepareSignUpForm {
   register: Function;
   isLoading: boolean;
   setPage: Dispatch<SetStateAction<number>>;
+  t: Function;
 }
 
 export default function PrepareSignUpForm({
@@ -25,6 +25,7 @@ export default function PrepareSignUpForm({
   register,
   isLoading,
   setPage,
+  t,
 }: IPrepareSignUpForm) {
   return [
     {
@@ -32,7 +33,7 @@ export default function PrepareSignUpForm({
       forms: (
         <div id="credentials">
           <CustomInput
-            label="Email"
+            label={t('email')}
             placeholder="johndoe@todou.com"
             icon={<FiMail />}
             type="email"
@@ -42,7 +43,7 @@ export default function PrepareSignUpForm({
           />
 
           <CustomInput
-            label="Password"
+            label={t('password')}
             placeholder="********"
             icon={<IoKeyOutline />}
             type="password"
@@ -53,7 +54,7 @@ export default function PrepareSignUpForm({
           />
 
           <CustomInput
-            label="Confirm Password"
+            label={t('confirm-password')}
             placeholder="********"
             icon={<IoKeyOutline />}
             type="password"
@@ -75,7 +76,7 @@ export default function PrepareSignUpForm({
               setPage(1);
             }}
           >
-            Next
+            {t('next')}
           </CustomButton>
         </>
       ),
@@ -85,7 +86,7 @@ export default function PrepareSignUpForm({
       forms: (
         <>
           <CustomInput
-            label="First Name"
+            label={t('first-name')}
             placeholder="John"
             icon={<IoPersonOutline />}
             type="firstName"
@@ -95,7 +96,7 @@ export default function PrepareSignUpForm({
           />
 
           <CustomInput
-            label="Last Name"
+            label={t('last-name')}
             placeholder="Doe"
             icon={<IoPersonOutline />}
             type="lastName"
@@ -108,10 +109,10 @@ export default function PrepareSignUpForm({
       buttons: (
         <div className={styles.form__buttonsContainer}>
           <CustomButton variant="secondary" onClick={() => setPage(0)}>
-            Back
+            {t('back')}
           </CustomButton>
           <CustomButton isLoading={isLoading} type="submit">
-            Sign Up
+            {t('sign-up')}
           </CustomButton>
         </div>
       ),

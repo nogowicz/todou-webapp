@@ -4,6 +4,7 @@ import { Poppins } from 'next/font/google';
 import { Providers } from './providers';
 
 import './globals.scss';
+import { getMessages } from 'next-intl/server';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={poppins.className}>
         <Providers>{children}</Providers>
       </body>

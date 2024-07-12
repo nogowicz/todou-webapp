@@ -1,0 +1,33 @@
+{
+  "WelcomePage": {
+    "welcome": "Witaj w",
+    "subtitle": "Witaj w Todou - Twoim nowym towarzyszem w organizacji zadań! Todou pomaga Ci łatwo zarządzać listami zakupów, zadaniami i projektami. Zacznij korzystać z Todou już dziś!",
+    "have-an-account": "Masz już konto?",
+    "sign-in": "Zaloguj się",
+    "here": "tutaj!",
+    "by-clicking": "Klikając Zaloguj się / Zarejestruj się, akceptujesz nasze",
+    "terms-and-conditions": "warunki korzystania.",
+    "dont-have-an-account": "Nie masz jeszcze konta?",
+    "sign-up": "Zarejestruj się",
+    "email": "Email",
+    "password": "Hasło",
+    "confirm-password": "Potwierdź hasło",
+    "first-name": "Imię",
+    "last-name": "Nazwisko",
+    "forgot-password": "Zapomniałeś hasła?",
+    "back": "Wróć",
+    "next": "Dalej",
+    "send": "Wyślij"
+  },
+
+  "NavigationComponent": {
+    "main-menu": "Menu Główne",
+    "dashboard": "Panel Główny",
+    "lists": "Listy",
+    "eisenhower-matrix": "Eisenhower Matrix",
+    "search": "Szukaj",
+    "preferences": "Preferencje",
+    "change-theme": "Zmień motyw",
+    "logout": "Wyloguj"
+  }
+}

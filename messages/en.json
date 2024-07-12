@@ -1,0 +1,32 @@
+{
+  "WelcomePage": {
+    "welcome": "Welcome to",
+    "subtitle": "Welcome to Todou - your new companion in task organization! Todou helps you effortlessly manage shopping lists, tasks, and projects. Start using Todou today!",
+    "have-an-account": "Already have an account?",
+    "sign-in": "Sign In",
+    "here": "here!",
+    "by-clicking": "By clicking Sign In / Up you agree to our",
+    "terms-and-conditions": "terms and conditions.",
+    "dont-have-an-account": "Don't have an account yet?",
+    "sign-up": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirm-password": "Confirm Password",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "forgot-password": "Forgot Password?",
+    "back": "Back",
+    "next": "Next",
+    "send": "Send"
+  },
+  "NavigationComponent": {
+    "main-menu": "Main Menu",
+    "dashboard": "Dashboard",
+    "lists": "Lists",
+    "eisenhower-matrix": "Eisenhower Matrix",
+    "search": "Search",
+    "preferences": "Preferences",
+    "change-theme": "Change Theme",
+    "logout": "Logout"
+  }
+}

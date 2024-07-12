@@ -11,6 +11,7 @@
 
   &__signInToAccount {
     font-size: $p-font-size-large !important;
+    text-align: center;
 
     span {
       @include mixins.theme-colors(color, $primary-dark, $primary-light);

@@ -1,5 +1,5 @@
 import { fetchUsersLists } from '@/controllers/List';
-import { decrypt } from '../../../_lib/session';
+import { decrypt } from '../../../lib/session';
 
 export async function GET(request: Request) {
   try {

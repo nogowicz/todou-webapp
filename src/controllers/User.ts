@@ -2,7 +2,7 @@
 
 import { PrismaClient } from '@prisma/client';
 import bcryptjs from 'bcryptjs';
-import { encrypt, verifySession } from '../_lib/session';
+import { encrypt, verifySession } from '../lib/session';
 import { cache } from 'react';
 
 interface SignUpData {
