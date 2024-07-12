@@ -3,23 +3,22 @@ import { object, string, ref } from 'yup';
 const nameRegex =
   /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
-export const signUpSchema = object({
-  firstName: string()
-    .max(25, 'Your first name is too long')
-    .matches(nameRegex, 'Please enter valid first name')
-    .required('Please provide your first name'),
-  lastName: string()
-    .max(25, 'Your last name is too long')
-    .matches(nameRegex, 'Please enter valid last name')
-    .required('Please provide your last name'),
-  email: string()
-    .email('Email is not valid')
-    .required('Please provide your email'),
-  password: string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Please provide your password'),
-  confirmPassword: string()
-    .min(6, 'Password must be at least 6 characters')
-    .oneOf([ref('password')], 'Password must match')
-    .required('Password must match'),
-}).required();
+export const getSignUpSchema = (t: Function) =>
+  object({
+    firstName: string()
+      .max(25, t('first-name-too-long'))
+      .matches(nameRegex, t('first-name-invalid'))
+      .required(t('first-name-required')),
+    lastName: string()
+      .max(25, t('last-name-too-long'))
+      .matches(nameRegex, t('last-name-invalid'))
+      .required(t('last-name-required')),
+    email: string().email(t('email-invalid')).required(t('email-required')),
+    password: string()
+      .min(6, t('password-min'))
+      .required(t('password-required')),
+    confirmPassword: string()
+      .min(6, t('confirm-password-min'))
+      .oneOf([ref('password')], t('password-match'))
+      .required(t('confirm-password-required')),
+  }).required();

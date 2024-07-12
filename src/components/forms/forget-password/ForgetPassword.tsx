@@ -6,7 +6,7 @@ import { FormType } from '../form-switcher/FormSwitcher';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
-import { forgetPasswordSchema } from './validationSchema';
+import { getForgetPasswordSchema } from './validationSchema';
 
 import styles from './forget-password.module.scss';
 import { useTranslations } from 'next-intl';
@@ -28,7 +28,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
     setError,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(forgetPasswordSchema),
+    resolver: yupResolver(getForgetPasswordSchema(t)),
   });
 
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
@@ -43,7 +43,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
     } catch (error) {
       if (error instanceof Error) {
         console.log('Error occurred:', error);
-        if (error.message === 'Incorrect email or password') {
+        if (error.message === 'Incorrect email') {
           setError('email', { type: 'manual', message: error.message });
         } else {
           console.log(error);
@@ -65,7 +65,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
           type="email"
           id="email"
           error={errors.email}
-          {...register('email', { required: 'This field is required' })}
+          {...register('email', { required: t('required-field') })}
         />
       </div>
       <div className={styles.form__buttonsContainer}>

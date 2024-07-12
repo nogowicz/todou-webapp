@@ -1,5 +1,6 @@
 import { object, string } from 'yup';
 
-export const forgetPasswordSchema = object({
-  email: string().email('Email is not valid').required('Email is required'),
-}).required();
+export const getForgetPasswordSchema = (t: Function) =>
+  object({
+    email: string().email(t('email-invalid')).required(t('email-required')),
+  }).required();

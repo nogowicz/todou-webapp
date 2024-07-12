@@ -3,7 +3,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signUpSchema } from './validationSchema';
+import { getSignUpSchema } from './validationSchema';
 import axios from 'axios';
 
 import { useMountedTheme } from '@/hooks/useMountedTheme';
@@ -44,7 +44,7 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
     setError,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(signUpSchema),
+    resolver: yupResolver(getSignUpSchema(t)),
   });
 
   const onSubmit = async (data: Inputs) => {

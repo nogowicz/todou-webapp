@@ -17,7 +17,23 @@
     "forgot-password": "Zapomniałeś hasła?",
     "back": "Wróć",
     "next": "Dalej",
-    "send": "Wyślij"
+    "send": "Wyślij",
+    "required-field": "To pole jest wymagane",
+    "filed-to-sign-in": "Nie udało się zalogować",
+    "email-invalid": "Email jest nieprawidłowy",
+    "email-required": "Email jest wymagany",
+    "password-min": "Hasło musi mieć co najmniej 8 znaków",
+    "password-pattern": "Hasło musi zawierać co najmniej jedną małą literę, jedną dużą literę, jeden znak specjalny i jedną cyfrę",
+    "password-required": "Hasło jest wymagane",
+    "first-name-too-long": "Twoje imię jest za długie",
+    "first-name-invalid": "Podaj prawidłowe imię",
+    "first-name-required": "Podaj swoje imię",
+    "last-name-too-long": "Twoje nazwisko jest za długie",
+    "last-name-invalid": "Podaj prawidłowe nazwisko",
+    "last-name-required": "Podaj swoje nazwisko",
+    "confirm-password-min": "Hasło musi mieć co najmniej 6 znaków",
+    "password-match": "Hasła muszą się zgadzać",
+    "confirm-password-required": "Potwierdź swoje hasło"
   },
 
   "NavigationComponent": {

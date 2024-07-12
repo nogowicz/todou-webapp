@@ -39,7 +39,7 @@ export default function PrepareSignUpForm({
             type="email"
             id="email"
             error={errors.email}
-            {...register('email', { required: 'This field is required' })}
+            {...register('email', { required: t('required-field') })}
           />
 
           <CustomInput
@@ -50,7 +50,7 @@ export default function PrepareSignUpForm({
             isPasswordField
             id="password"
             error={errors.password}
-            {...register('password', { required: 'This field is required' })}
+            {...register('password', { required: t('required-field') })}
           />
 
           <CustomInput
@@ -62,7 +62,7 @@ export default function PrepareSignUpForm({
             id="confirmPassword"
             error={errors.confirmPassword}
             {...register('confirmPassword', {
-              required: 'This field is required',
+              required: t('required-field'),
             })}
           />
         </div>
@@ -92,7 +92,7 @@ export default function PrepareSignUpForm({
             type="firstName"
             id="firstName"
             error={errors.firstName}
-            {...register('firstName', { required: 'This field is required' })}
+            {...register('firstName', { required: t('required-field') })}
           />
 
           <CustomInput
@@ -102,7 +102,7 @@ export default function PrepareSignUpForm({
             type="lastName"
             id="lastName"
             error={errors.lastName}
-            {...register('lastName', { required: 'This field is required' })}
+            {...register('lastName', { required: t('required-field') })}
           />
         </>
       ),

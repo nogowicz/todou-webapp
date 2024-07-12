@@ -9,7 +9,7 @@ import CustomButton from '../../custom-button/CustomButton';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signInSchema } from './validationSchema';
+import { getSignInSchema } from './validationSchema';
 
 import styles from './sign-in-form.module.scss';
 import { FormType } from '../form-switcher/FormSwitcher';
@@ -36,7 +36,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
     setError,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(signInSchema),
+    resolver: yupResolver(getSignInSchema(t)),
   });
 
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
@@ -63,7 +63,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
       setIsLoading(false);
       if (axios.isAxiosError(error) && error.response) {
         const errorResponse = error.response.data;
-        const errorMessage = errorResponse.message || 'Failed to sign in';
+        const errorMessage = errorResponse.message || t('filed-to-sign-in');
         console.log(errorMessage);
         setError('email', { type: 'manual', message: errorMessage });
         setError('password', { type: 'manual', message: errorMessage });
@@ -87,7 +87,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
           type="email"
           id="email"
           error={errors.email}
-          {...register('email', { required: 'This field is required' })}
+          {...register('email', { required: t('required-field') })}
         />
 
         <CustomInput
@@ -100,7 +100,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
           action={() => setCurrentForm(FormType['forgot-password'])}
           id="password"
           error={errors.password}
-          {...register('password', { required: 'This field is required' })}
+          {...register('password', { required: t('required-field') })}
         />
       </div>
       <CustomButton type="submit" isLoading={isLoading}>
