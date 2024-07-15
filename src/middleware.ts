@@ -15,11 +15,9 @@ export default async function middleware(req: NextRequest) {
   const loginRoute = `/${isValidLocale}/welcome`;
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;
-  const themeCookie = cookies().get('theme')?.value;
 
   console.log('Current path:', currentPath);
   console.log('Locale:', isValidLocale);
-  console.log('THEME COOKIE:', themeCookie);
 
   if (protectedRoutes.includes(currentPath)) {
     console.log('Checking session for protected route');
@@ -65,10 +63,7 @@ export default async function middleware(req: NextRequest) {
   });
 
   const response = await handleI18nRouting(req);
-  if (!themeCookie) {
-    console.log('Setting default theme cookie');
-    response.cookies.set('theme', 'dark');
-  }
+
   return response;
 }
 

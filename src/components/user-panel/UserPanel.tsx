@@ -12,12 +12,8 @@ import { IoNotificationsOutline } from 'react-icons/io5';
 import { FaChevronDown } from 'react-icons/fa';
 
 export default async function UserPanel() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('session')?.value ?? '';
-  const resolvedTheme = cookieStore.get('theme')?.value ?? 'dark';
+  const token = cookies().get('session')?.value ?? '';
   const t = useTranslations('HomePage');
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-  const combinedClass = `${styles.userPanel} ${themeClass}`;
 
   const user: IUser = await getUser(token);
 
@@ -25,7 +21,7 @@ export default async function UserPanel() {
     return <div>user not found</div>;
   }
   return (
-    <div className={combinedClass}>
+    <div className={styles.userPanel}>
       <div className={styles.userPanel__left}>
         <h3>
           {t('greetings')} {user.firstName}!
