@@ -1,14 +1,32 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from 'next/server';
+import { decrypt } from '../../../lib/session';
+import { getUser } from '@/controllers/User';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(request: Request) {
   try {
-    return NextResponse.json({ message: 'Hello word' });
-  } catch (error) {
-    if(error instanceof Error) {
-    console.error('Error in signUp:', error);
-    return res.status(500).json({ error: error.message });
+    const authHeader = request.headers.get('Authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ message: 'Unauthorized' }), {
+        status: 401,
+      });
+    }
+    const token = authHeader.split(' ')[1];
+
+    const decodedToken = await decrypt(token);
+
+    if (!decodedToken) {
+      return new Response(JSON.stringify({ message: 'Invalid token' }), {
+        status: 403,
+      });
     }
 
+    const result = await getUser(token);
+    return Response.json(result, { status: 200 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return new Response(JSON.stringify({ message: error.message }), {
+        status: 500,
+      });
+    }
   }
 }

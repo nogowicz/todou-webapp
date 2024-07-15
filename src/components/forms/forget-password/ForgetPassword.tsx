@@ -1,15 +1,15 @@
+import React, { Dispatch, SetStateAction } from 'react';
+import { useTranslations } from 'next-intl';
+import { FiMail } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import { getForgetPasswordSchema } from './validationSchema';
+import { FormType } from '../form-switcher/FormSwitcher';
 import CustomButton from '@/components/custom-button/CustomButton';
 import CustomInput from '@/components/custom-input/CustomInput';
-import React, { Dispatch, SetStateAction } from 'react';
-import { FiMail } from 'react-icons/fi';
-import { FormType } from '../form-switcher/FormSwitcher';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useMountedTheme } from '@/hooks/useMountedTheme';
-import { getForgetPasswordSchema } from './validationSchema';
 
 import styles from './forget-password.module.scss';
-import { useTranslations } from 'next-intl';
 
 interface IForgetPassword {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
@@ -21,7 +21,6 @@ interface Inputs {
 
 export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
   const t = useTranslations('WelcomePage');
-  const { mounted, resolvedTheme } = useMountedTheme();
   const {
     register,
     handleSubmit,
@@ -30,12 +29,6 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
   } = useForm<Inputs>({
     resolver: yupResolver(getForgetPasswordSchema(t)),
   });
-
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-
-  if (!mounted) {
-    return null;
-  }
 
   const onSubmit = async (data: Inputs) => {
     try {
@@ -53,7 +46,7 @@ export default function ForgetPassword({ setCurrentForm }: IForgetPassword) {
   };
   return (
     <form
-      className={`${styles.form} ${themeClass}`}
+      className={`${styles.form}`}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

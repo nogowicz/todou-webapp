@@ -2,9 +2,9 @@
 
 import React, { Dispatch, SetStateAction } from 'react';
 
-import styles from './pagination.module.scss';
-import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { IPages } from '../forms/sign-up/SignUpForm';
+
+import styles from './pagination.module.scss';
 
 interface IPagination {
   pages: IPages[];
@@ -17,14 +17,8 @@ export default function Pagination({
   activePage,
   setPage,
 }: IPagination) {
-  const { mounted, resolvedTheme } = useMountedTheme();
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-
-  if (!mounted) {
-    return null;
-  }
   return (
-    <div className={`${styles.pagination}  ${themeClass}`}>
+    <div className={`${styles.pagination}`}>
       {pages.map((page: IPages, index: number) => (
         <div
           onClick={() => setPage(index)}

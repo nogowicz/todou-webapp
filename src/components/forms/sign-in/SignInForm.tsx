@@ -1,21 +1,21 @@
 'use client';
 
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import CustomInput from '../../custom-input/CustomInput';
+import { useTranslations } from 'next-intl';
+import axios from 'axios';
 import { FiMail } from 'react-icons/fi';
 import { IoKeyOutline } from 'react-icons/io5';
-import CustomButton from '../../custom-button/CustomButton';
-
-import { useMountedTheme } from '@/hooks/useMountedTheme';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+
 import { getSignInSchema } from './validationSchema';
+import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
+import { FormType } from '../form-switcher/FormSwitcher';
+
+import CustomInput from '../../custom-input/CustomInput';
+import CustomButton from '../../custom-button/CustomButton';
 
 import styles from './sign-in-form.module.scss';
-import { FormType } from '../form-switcher/FormSwitcher';
-import axios from 'axios';
-import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
-import { useTranslations } from 'next-intl';
 interface ISignInForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
 }
@@ -27,7 +27,6 @@ interface Inputs {
 
 export default function SignInForm({ setCurrentForm }: ISignInForm) {
   const { login } = useUser();
-  const { mounted, resolvedTheme } = useMountedTheme();
   const t = useTranslations('WelcomePage');
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -38,12 +37,6 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
   } = useForm<Inputs>({
     resolver: yupResolver(getSignInSchema(t)),
   });
-
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-
-  if (!mounted) {
-    return null;
-  }
 
   const onSubmit = async (data: Inputs) => {
     try {
@@ -75,7 +68,7 @@ export default function SignInForm({ setCurrentForm }: ISignInForm) {
 
   return (
     <form
-      className={`${styles.form} ${themeClass}`}
+      className={`${styles.form}`}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

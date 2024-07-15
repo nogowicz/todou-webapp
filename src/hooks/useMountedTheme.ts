@@ -7,7 +7,15 @@ export function useMountedTheme() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+  }, [resolvedTheme]);
 
-  return { mounted, resolvedTheme, setTheme };
+  const toggleTheme = async () => {
+    if (resolvedTheme === 'dark') {
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
+  };
+
+  return { mounted, resolvedTheme, setTheme, toggleTheme };
 }

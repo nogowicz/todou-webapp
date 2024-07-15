@@ -123,10 +123,6 @@ export async function signIn(data: SignInData) {
 
 export const getUser = cache(async (token: string) => {
   try {
-    if (!token) {
-      return;
-    }
-
     const session = await verifySession(token);
 
     if (!session?.isAuth) {

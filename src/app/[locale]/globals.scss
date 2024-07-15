@@ -1,26 +1,79 @@
 @use '../../styles/variables' as *;
 
+// Light Theme
+.light {
+  --primary: #{$primary-light};
+  --text: #{$text-light};
+  --background: #{$background-light};
+  --secondary: #{$secondary-light};
+  --tertiary: #{$tertiary-light};
+  --hint: #{$hint-light};
+  --primary-transparent: #{$primary-transparent-light};
+}
+
+.dark {
+  --primary: #{$primary-dark};
+  --text: #{$text-dark};
+  --background: #{$background-dark};
+  --secondary: #{$secondary-dark};
+  --tertiary: #{$tertiary-dark};
+  --hint: #{$hint-dark};
+  --primary-transparent: #{$primary-transparent-dark};
+}
+
+// Special Colors
 :root {
-  background-color: $background-light;
-  color: $text-light;
-  height: 100%;
+  --red: #{$red};
+  --red-transparent: #{$red-transparent};
+  --yellow: #{$yellow};
+  --green: #{$green};
 
+  --h2-font-size-large: #{$h2-font-size-large};
+  --h3-font-size-large: #{$h3-font-size-large};
 
-  &.dark {
-    background-color: $background-dark;
-    color: $text-dark;
+  --p-font-size-large: #{$p-font-size-large};
+  --p-font-size-medium: #{$p-font-size-medium};
+  --p-font-size-small: #{$p-font-size-small};
+
+  --font-family: #{$font-family};
+}
+
+// Apply the theme
+body {
+  font-family: var(--font-family);
+  color: var(--text);
+  background-color: var(--background);
+  margin: 0;
+
+  h2 {
+    font-size: var(--h2-font-size-large);
+  }
+
+  h3 {
+    font-size: var(--h3-font-size-large);
+  }
+
+  p {
+    &.large {
+      font-size: var(--p-font-size-large);
+    }
+
+    &.medium {
+      font-size: var(--p-font-size-medium);
+    }
+
+    &.small {
+      font-size: var(--p-font-size-small);
+    }
   }
 }
 
-body {
-  margin: 0;
-  height: 100%;
-
-}
-
-
 h2 {
   font-size: $h2-font-size-large;
+}
+
+h3 {
+  font-size: $h3-font-size-large
 }
 
 p {

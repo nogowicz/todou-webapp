@@ -1,0 +1,13 @@
+.welcomePage {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 40px;
+
+  &__upperContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

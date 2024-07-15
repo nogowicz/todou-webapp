@@ -1,12 +1,10 @@
 'use client';
 
 import React, { cloneElement, forwardRef, useState } from 'react';
-import { useMountedTheme } from '@/hooks/useMountedTheme';
-import styles from './custom-input.module.scss';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
-import Link from 'next/link';
 
+import styles from './custom-input.module.scss';
 interface ICustomInput {
   label: string;
   placeholder?: string;
@@ -39,28 +37,21 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
     },
     ref
   ) => {
-    const { mounted, resolvedTheme } = useMountedTheme();
     const [focus, setFocus] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-
-    if (!mounted) {
-      return null;
-    }
-
     return (
       <div
-        className={`${styles.customInput} ${themeClass} ${
+        className={`${styles.customInput} ${
           focus ? styles.focused : styles.notFocused
         }
         ${error ? styles.error : styles.noError}`}
       >
         <div className={styles.customInput__labelContainer}>
           <label
-            className={`${
-              styles.customInput__labelContainer__label
-            }  ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
+            className={`${styles.customInput__labelContainer__label}  ${
+              focus ? styles.focused : styles.notFocused
+            }`}
           >
             {label}
           </label>
@@ -72,9 +63,9 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
           {icon &&
             cloneElement(icon, {
               size: iconSize,
-              className: `${
-                styles.customInput__inputContainer__icon
-              }  ${themeClass} ${focus ? styles.focused : styles.notFocused}`,
+              className: `${styles.customInput__inputContainer__icon} ${
+                focus ? styles.focused : styles.notFocused
+              }`,
             })}
           <input
             className={styles.customInput__inputContainer__input}
@@ -91,17 +82,17 @@ const CustomInput = forwardRef<HTMLInputElement, ICustomInput>(
             (showPassword ? (
               <IoEyeOutline
                 size={iconSize}
-                className={`${
-                  styles.customInput__inputContainer__icon
-                } ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
+                className={`${styles.customInput__inputContainer__icon} ${
+                  focus ? styles.focused : styles.notFocused
+                }`}
                 onClick={() => setShowPassword(false)}
               />
             ) : (
               <IoEyeOffOutline
                 size={iconSize}
-                className={`${
-                  styles.customInput__inputContainer__icon
-                } ${themeClass} ${focus ? styles.focused : styles.notFocused}`}
+                className={`${styles.customInput__inputContainer__icon} ${
+                  focus ? styles.focused : styles.notFocused
+                }`}
                 onClick={() => setShowPassword(true)}
               />
             ))}

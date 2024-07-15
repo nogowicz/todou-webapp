@@ -44,5 +44,9 @@
     "preferences": "Preferences",
     "change-theme": "Change Theme",
     "logout": "Logout"
+  },
+  "HomePage": {
+    "greetings": "Good to see you,",
+    "subtitle": "Organize, prioritize, and achieve. Here’s your roadmap for today:"
   }
 }

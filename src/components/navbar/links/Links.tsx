@@ -4,6 +4,7 @@ import { CiViewList } from 'react-icons/ci';
 import { IoHomeOutline, IoSearch } from 'react-icons/io5';
 import EisenhowerMatrixIcon from '@/components/eisenhower-matrix-icon/EisenhowerMatrixIcon';
 import { useLocale, useTranslations } from 'next-intl';
+import NavbarLink from '../navbar-link/NavbarLink';
 
 const ICON_SIZE = 24;
 
@@ -35,4 +36,16 @@ const useMainMenu = () => {
   ];
 };
 
-export default useMainMenu;
+export default function MenuItems() {
+  const mainMenu = useMainMenu();
+  return (
+    <>
+      {mainMenu.map((item, index) => (
+        <NavbarLink key={index} href={item.href}>
+          {item.icon}
+          {item.name}
+        </NavbarLink>
+      ))}
+    </>
+  );
+}

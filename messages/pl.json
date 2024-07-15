@@ -35,7 +35,6 @@
     "password-match": "Hasła muszą się zgadzać",
     "confirm-password-required": "Potwierdź swoje hasło"
   },
-
   "NavigationComponent": {
     "main-menu": "Menu Główne",
     "dashboard": "Panel Główny",
@@ -45,5 +44,9 @@
     "preferences": "Preferencje",
     "change-theme": "Zmień motyw",
     "logout": "Wyloguj"
+  },
+  "HomePage": {
+    "greetings": "Dobrze Cię widzieć,",
+    "subtitle": "Organizuj, priorytetyzuj i osiągaj. Oto twój plan na dzisiaj:"
   }
 }

@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import styles from './custom-button.module.scss';
-import { useMountedTheme } from '@/hooks/useMountedTheme';
 
 interface ICustomButton {
   children: React.ReactNode;
@@ -23,17 +22,10 @@ export default function CustomButton({
   isLoading = false,
   ...props
 }: ICustomButton) {
-  const { mounted, resolvedTheme } = useMountedTheme();
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
-
-  if (!mounted) {
-    return null;
-  }
-
   const variantClass =
     variant === 'secondary' ? styles.secondary : styles.primary;
   const combinedClassName =
-    `${styles.button} ${variantClass} ${themeClass} ${className}`.trim();
+    `${styles.button} ${variantClass} ${className}`.trim();
 
   if (href) {
     return (
