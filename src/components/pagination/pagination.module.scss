@@ -1,5 +1,4 @@
 @use '../../styles/variables' as *;
-@use '../../styles/mixins' as mixins;
 
 .pagination {
   display: flex;
@@ -12,11 +11,11 @@
     width: 15px;
     height: 10px;
     border-radius: 3px;
-    @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+    background-color: var(--tertiary);
 
 
     &__active {
-      @include mixins.theme-colors(background-color, $primary-dark, $primary-light);
+      background-color: var(--primary);
     }
 
     &:hover {

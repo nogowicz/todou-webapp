@@ -1,5 +1,4 @@
 @use '../../styles/variables' as *;
-@use '../../styles/mixins' as mixins;
 
 .iconContainer {
   display: flex;
@@ -34,8 +33,7 @@
   }
 
   #third {
-
-    @include mixins.theme-colors(background-color, $primary-dark, $primary-light);
+    background-color: var(--primary);
   }
 
   #fourth {

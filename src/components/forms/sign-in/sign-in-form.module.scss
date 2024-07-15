@@ -1,5 +1,4 @@
 @use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as mixins;
 
 .form {
   background-color: transparent;
@@ -12,7 +11,7 @@
     font-size: $p-font-size-large !important;
 
     span {
-      @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      color: var(--primary);
       text-decoration: none !important;
 
       &:hover {

@@ -1,5 +1,4 @@
 @use '../../styles/variables' as *;
-@use '../../styles/mixins' as mixins;
 
 .link {
   text-decoration: none;
@@ -35,11 +34,11 @@
 }
 
 .primary {
-  @include mixins.theme-colors(color, $primary-dark, $primary-light);
-  @include mixins.theme-colors(background-color, $primary-transparent-dark, $primary-transparent-light);
+  color: var(--primary);
+  background-color: var(--primary-transparent);
 }
 
 .secondary {
-  @include mixins.theme-colors(color, $text-dark, $text-light);
-  @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
+  color: var(--text);
+  background-color: var(--tertiary);
 }

@@ -1,5 +1,4 @@
 @use '../../styles/variables' as *;
-@use '../../styles/mixins' as mixins;
 
 .customInput {
   display: flex;
@@ -19,11 +18,11 @@
       font-size: $p-font-size-medium;
 
       .focused & {
-        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+        color: var(--primary);
       }
 
       .error & {
-        color: $red !important;
+        color: var(--red) !important;
       }
     }
 
@@ -31,7 +30,7 @@
       font-size: $p-font-size-medium;
       margin: 0;
       text-decoration: none;
-      @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      color: var(--primary);
 
       &:hover {
         opacity: 0.7;
@@ -44,8 +43,7 @@
 
 
   &__inputContainer {
-    @include mixins.theme-colors(background-color, $tertiary-dark, $tertiary-light);
-
+    background-color: var(--tertiary);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -53,8 +51,7 @@
     gap: 20px;
     border-radius: 10px;
     border: 2px solid;
-
-    @include mixins.theme-colors(border-color, $primary-dark, $primary-light);
+    border-color: var(--primary);
 
     .error & {
       border-color: $red !important;
@@ -65,10 +62,10 @@
     }
 
     &__icon {
-      @include mixins.theme-colors(color, $text-dark, $text-light);
+      color: var(--text);
 
       .focused & {
-        @include mixins.theme-colors(color, $primary-dark, $primary-light);
+        color: var(--primary);
       }
 
       .error & {
@@ -88,7 +85,7 @@
       width: 75%;
 
       &::placeholder {
-        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+        color: var(--hint);
       }
 
       &:focus {

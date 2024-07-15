@@ -1,19 +1,19 @@
 'use client';
 
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { TranslationValues, useTranslations } from 'next-intl';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { getSignUpSchema } from './validationSchema';
-import axios from 'axios';
 
-import { useMountedTheme } from '@/hooks/useMountedTheme';
+import { getSignUpSchema } from './validationSchema';
 import { FormType } from '../form-switcher/FormSwitcher';
-import PrepareSignUpForm, { IPrepareSignUpForm } from './helpers';
+import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
+
 import Pagination from '@/components/pagination/Pagination';
+import PrepareSignUpForm, { IPrepareSignUpForm } from './helpers';
 
 import styles from './sign-up-form.module.scss';
-import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
-import { TranslationValues, useTranslations } from 'next-intl';
 interface Inputs {
   firstName: string;
   lastName: string;
@@ -33,8 +33,6 @@ export interface IPages {
 export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
   const t = useTranslations('WelcomePage');
   const [page, setPage] = useState(0);
-  const { mounted, resolvedTheme } = useMountedTheme();
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   const { login } = useUser();
   const [isLoading, setIsLoading] = useState(false);
@@ -74,10 +72,6 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
     }
   };
 
-  if (!mounted) {
-    return null;
-  }
-
   const pages: IPages[] = PrepareSignUpForm({
     errors,
     register,
@@ -88,7 +82,7 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
 
   return (
     <form
-      className={`${styles.form} ${themeClass}`}
+      className={`${styles.form}`}
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >

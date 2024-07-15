@@ -1,5 +1,4 @@
 @use '../../../styles/variables' as *;
-@use '../../../styles/mixins' as mixins;
 
 .form {
 
@@ -14,7 +13,7 @@
     text-align: center;
 
     span {
-      @include mixins.theme-colors(color, $primary-dark, $primary-light);
+      color: var(--primary);
       text-decoration: none !important;
 
       &:hover {
