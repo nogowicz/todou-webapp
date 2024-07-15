@@ -15,26 +15,28 @@ export default async function middleware(req: NextRequest) {
   const loginRoute = `/${isValidLocale}/welcome`;
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;
+  const themeCookie = cookies().get('theme')?.value;
 
   console.log('Current path:', currentPath);
   console.log('Locale:', isValidLocale);
+  console.log('THEME COOKIE:', themeCookie);
 
   if (protectedRoutes.includes(currentPath)) {
     console.log('Checking session for protected route');
     if (!cookie) {
       console.log(`Session invalid. Redirecting to ${loginRoute}`);
-      const redirectUrl = new URL(loginRoute, req.nextUrl.origin).toString();
-      console.log('Redirect URL:', redirectUrl);
-      return NextResponse.redirect(redirectUrl);
+      return NextResponse.redirect(
+        new URL(loginRoute, req.nextUrl.origin).toString()
+      );
     }
 
     const verification = await verifySession(cookie);
     console.log(verification);
     if (!verification.isAuth) {
       console.log(`Session invalid. Redirecting to ${loginRoute}`);
-      const redirectUrl = new URL(loginRoute, req.nextUrl.origin).toString();
-      console.log('Redirect URL:', redirectUrl);
-      return NextResponse.redirect(redirectUrl);
+      return NextResponse.redirect(
+        new URL(loginRoute, req.nextUrl.origin).toString()
+      );
     }
 
     console.log('Session valid. Proceeding to protected route');
@@ -46,12 +48,9 @@ export default async function middleware(req: NextRequest) {
 
       if (verification.isAuth) {
         console.log('Session valid. Redirecting to main page');
-        const redirectUrl = new URL(
-          `/${isValidLocale}`,
-          req.nextUrl.origin
-        ).toString();
-        console.log('Redirect URL:', redirectUrl);
-        return NextResponse.redirect(redirectUrl);
+        return NextResponse.redirect(
+          new URL(loginRoute, req.nextUrl.origin).toString()
+        );
       }
     }
 
@@ -64,21 +63,16 @@ export default async function middleware(req: NextRequest) {
     locales: ['en', 'pl'],
     defaultLocale: 'en',
   });
-  const response = handleI18nRouting(req);
+
+  const response = await handleI18nRouting(req);
+  if (!themeCookie) {
+    console.log('Setting default theme cookie');
+    response.cookies.set('theme', 'dark');
+  }
   return response;
-  //  return NextResponse.next();
 }
 
-//   return createMiddleware({
-// A list of all locales that are supported
-// locales: ['en', 'pl'],
-
-// Used when no locale matches
-// defaultLocale: 'en',
-// })(req);
-
 export const config = {
-  // Merge both matchers
   matcher: [
     '/',
     '/(pl|en)/:path*',

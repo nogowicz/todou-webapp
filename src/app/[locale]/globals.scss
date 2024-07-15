@@ -5,11 +5,14 @@
   color: $text-light;
   height: 100%;
 
-
+  // [data-theme='dark'] {
+  //     color: black;
+  //   }
   &.dark {
     background-color: $background-dark;
     color: $text-dark;
   }
+
 }
 
 body {
@@ -21,6 +24,10 @@ body {
 
 h2 {
   font-size: $h2-font-size-large;
+}
+
+h3 {
+  font-size: $h3-font-size-large
 }
 
 p {

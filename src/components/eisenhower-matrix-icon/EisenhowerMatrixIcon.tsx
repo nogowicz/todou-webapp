@@ -5,12 +5,14 @@ import { usePathname } from 'next/navigation';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 
 import styles from './eisenhower-matrix-icon.module.scss';
+import { useLocale } from 'next-intl';
 
 export default function EisenhowerMatrixIcon() {
   const { resolvedTheme, mounted } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
   const currentPathname = usePathname();
-  const isActive = currentPathname === '/matrix';
+  const locale = useLocale();
+  const isActive = currentPathname === `/${locale}/matrix`;
   const combinedClass = [
     styles.iconContainer,
     isActive ? styles.active : '',

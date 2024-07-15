@@ -18,7 +18,7 @@ import useMainMenu from './links/Links';
 import { useTranslations } from 'next-intl';
 
 export default function Navbar() {
-  const { mounted, resolvedTheme, setTheme } = useMountedTheme();
+  const { mounted, resolvedTheme, toggleTheme } = useMountedTheme();
   const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
   const { logout } = useUser();
   const mainMenu = useMainMenu();
@@ -45,11 +45,7 @@ export default function Navbar() {
         </div>
         <div className={styles.navbar__container__fields}>
           <p>{t('preferences')}</p>
-          <NavbarLink
-            onClick={() => {
-              setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-            }}
-          >
+          <NavbarLink onClick={toggleTheme}>
             {resolvedTheme === 'dark' ? (
               <GoMoon size={24} />
             ) : (

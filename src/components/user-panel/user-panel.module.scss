@@ -1,0 +1,82 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as mixins;
+
+.userPanel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    &__notification {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+
+      &:before {
+        @include mixins.theme-colors(background-color, $primary-dark, $primary-light);
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      svg {
+        @include mixins.theme-colors(color, $hint-dark, $hint-light);
+      }
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+    }
+
+
+
+
+
+    &__user {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      font-weight: 600;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      img {
+        border-radius: 50%;
+      }
+
+
+    }
+
+  }
+
+}
