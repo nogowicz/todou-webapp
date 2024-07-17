@@ -9,6 +9,7 @@ interface ICustomButton {
   onClick?: () => void;
   href?: string;
   isLoading?: boolean;
+  disabled?: boolean;
   className?: string;
   variant?: 'primary' | 'secondary';
   [key: string]: any;
@@ -21,6 +22,7 @@ export default function CustomButton({
   className = '',
   variant = 'primary',
   isLoading = false,
+  disabled = false,
   ...props
 }: ICustomButton) {
   const variantClass =
@@ -40,7 +42,7 @@ export default function CustomButton({
 
   return (
     <button
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       className={combinedClassName}
       onClick={onClick}
       {...props}

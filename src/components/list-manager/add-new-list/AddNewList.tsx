@@ -93,7 +93,7 @@ export default function AddNewList({ isVisible, onClose, t }: IAddNewList) {
             ))}
           </div>
         </div>
-        <CustomButton onClick={handleAddNewList}>
+        <CustomButton disabled={!listName} onClick={handleAddNewList}>
           {t('create-new-list')}
         </CustomButton>
       </div>
