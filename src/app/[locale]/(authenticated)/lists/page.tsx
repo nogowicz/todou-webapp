@@ -1,16 +1,16 @@
 import { IList } from '@/types/List';
-import { cookies } from 'next/headers';
-import getLists from '../../utils/apiCalls/getUsersLists';
+// import { cookies } from 'next/headers';
+// import getLists from '../../utils/apiCalls/getUsersLists';
 
 import styles from './page.module.scss';
 import UserPanel from '@/components/user-panel/UserPanel';
 import ListManager from '@/components/list-manager/ListManager';
 import ListItem from '@/components/list-item/ListItem';
-import { useTranslations } from 'next-intl';
+import { cookies } from 'next/headers';
+import getLists from '../../utils/apiCalls/getUsersLists';
 
 export default async function Lists() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('session')?.value ?? '';
+  const token = cookies().get('session')?.value ?? '';
 
   const lists: IList[] = await getLists(token);
 
@@ -23,7 +23,7 @@ export default async function Lists() {
       <div className={styles.listPage__upperContainer}>
         <UserPanel />
       </div>
-      <ListManager />
+      <ListManager lists={lists} />
       <div className={styles.listPage__listsContainer}>
         {lists.map((list: IList) => (
           <ListItem key={list.listId} {...list} />
