@@ -5,6 +5,7 @@ async function getData(token: string) {
       Authorization: `Bearer ${token}`,
       accept: 'application/json',
     },
+    next: { tags: ['userLists'] },
   };
 
   try {

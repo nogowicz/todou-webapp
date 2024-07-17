@@ -1,0 +1,23 @@
+.listPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 40px;
+  justify-content: center;
+
+  &__upperContainer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  &__listsContainer {
+    margin: 40px 0;
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+}

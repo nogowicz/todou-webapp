@@ -48,5 +48,15 @@
   "HomePage": {
     "greetings": "Dobrze Cię widzieć,",
     "subtitle": "Organizuj, priorytetyzuj i osiągaj. Oto twój plan na dzisiaj:"
+  },
+  "ListPage": {
+    "create-new-list": "Utwórz Nową Listę",
+    "add-new-task": "Dodaj Nowe Zadanie",
+    "grid": "Siatka",
+    "list": "Lista",
+    "input-placeholder": "Nazwa Listy",
+    "select-icon": "Wybierz Ikonę",
+    "select-color": "Wybierz Kolor",
+    "no-list-found": "Nie Znaleziono Listy"
   }
 }

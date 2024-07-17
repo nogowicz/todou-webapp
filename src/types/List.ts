@@ -1,3 +1,5 @@
+import { ITask } from './Task';
+
 export interface IList {
   listId: number;
   listName: string;
@@ -8,4 +10,5 @@ export interface IList {
   isArchived: boolean;
   colorVariant: number;
   iconId: number;
+  task: ITask[];
 }

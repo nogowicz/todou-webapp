@@ -3,6 +3,7 @@
 import { PrismaClient } from '@prisma/client';
 import { verifySession } from '../lib/session';
 import { cache } from 'react';
+import { revalidateTag } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,13 @@ export const fetchUsersLists = cache(async (token: string) => {
       where: {
         createdBy: session?.userId,
       },
+      include: {
+        task: {
+          include: {
+            subtask: true,
+          },
+        },
+      },
     });
 
     return usersLists;
@@ -28,3 +36,40 @@ export const fetchUsersLists = cache(async (token: string) => {
     await prisma.$disconnect();
   }
 });
+
+export const createNewList = async (
+  token: string,
+  listName: string,
+  iconId: number,
+  colorVariant: number
+) => {
+  try {
+    const session = await verifySession(token);
+
+    if (!session?.isAuth) {
+      return;
+    }
+
+    const newList = await prisma.list.create({
+      data: {
+        listName: listName,
+        iconId: iconId,
+        colorVariant: colorVariant,
+        createdAt: new Date(),
+        canBeDeleted: true,
+        isArchived: false,
+        isFavorite: false,
+        isShared: false,
+        createdBy: session.userId,
+      },
+    });
+
+    return newList;
+  } catch (error) {
+    console.error('Error creating new list:', error);
+    throw error;
+  } finally {
+    revalidateTag('userLists');
+    await prisma.$disconnect();
+  }
+};

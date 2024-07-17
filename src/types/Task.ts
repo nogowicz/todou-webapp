@@ -1,3 +1,5 @@
+import { ISubtask } from './Subtask';
+
 export interface ITask {
   taskId: number;
   title: string;
@@ -11,4 +13,5 @@ export interface ITask {
   assignedTo: number;
   createdAt: Date;
   notificationTime: Date | null;
+  subtask: ISubtask[];
 }

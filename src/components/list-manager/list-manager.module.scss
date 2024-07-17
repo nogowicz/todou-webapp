@@ -1,0 +1,13 @@
+.listManager {
+  display: flex;
+  max-width: 1000px;
+  gap: 60px;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 15px 20px;
+    gap: 20px;
+  }
+}

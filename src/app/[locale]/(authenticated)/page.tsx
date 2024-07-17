@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
-import styles from './page.module.scss';
+
 import UserPanel from '@/components/user-panel/UserPanel';
+
+import styles from './page.module.scss';
 
 export default function Home() {
   const t = useTranslations('HomePage');

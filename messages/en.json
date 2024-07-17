@@ -48,5 +48,15 @@
   "HomePage": {
     "greetings": "Good to see you,",
     "subtitle": "Organize, prioritize, and achieve. Here’s your roadmap for today:"
+  },
+  "ListPage": {
+    "create-new-list": "Create New List",
+    "add-new-task": "Add New Task",
+    "grid": "Grid",
+    "list": "List",
+    "input-placeholder": "List Name",
+    "select-icon": "Select Icon",
+    "select-color": "Select Color",
+    "no-list-found": "No List Found"
   }
 }
