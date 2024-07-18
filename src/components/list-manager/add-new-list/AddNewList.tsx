@@ -52,7 +52,7 @@ export default function AddNewList({ isVisible, onClose, t }: IAddNewList) {
           <IoClose onClick={onClose} size={32} />
         </div>
         <CustomInput
-          placeholder={t('input-placeholder')}
+          placeholder={t('input-placeholder-list')}
           value={listName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setListName(e.target.value)
