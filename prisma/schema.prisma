@@ -57,8 +57,8 @@ model task {
   listId           Int
   isCompleted      Boolean?         @default(false)
   deadline         DateTime?        @db.DateTime(0)
-  importance       task_importance? @default(Not_important)
-  urgency          task_urgency?    @default(Not_urgent)
+  importance       String?          @default("Not important")
+  urgency          String?          @default("Not urgent")
   note             String?          @db.Text
   addedBy          Int
   assignedTo       Int
@@ -106,13 +106,3 @@ model session {
   @@index([userId], map: "userId")
 }
 
-
-enum task_importance {
-  Important
-  Not_important @map("Not important")
-}
-
-enum task_urgency {
-  Urgent
-  Not_urgent @map("Not urgent")
-}

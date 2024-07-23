@@ -20,16 +20,16 @@ export interface ITaskImportance {
 
 export const TaskImportanceObject: ITaskImportance[] = [
   {
-    id: TaskImportance.Important,
-    name: TaskImportance.Important,
-    icon: <BsArrowUpRightCircle />,
-    translationKey: 'important',
-  },
-  {
     id: TaskImportance.NotImportant,
     name: TaskImportance.NotImportant,
     icon: <BsArrowDownRightCircle />,
     translationKey: 'not-important',
+  },
+  {
+    id: TaskImportance.Important,
+    name: TaskImportance.Important,
+    icon: <BsArrowUpRightCircle />,
+    translationKey: 'important',
   },
 ];
 
@@ -47,16 +47,16 @@ export interface ITaskUrgency {
 
 export const TaskUrgencyObject = [
   {
-    id: TaskUrgency.Urgent,
-    name: TaskUrgency.Urgent,
-    icon: <SiFireship />,
-    translationKey: 'urgent',
-  },
-  {
     id: TaskUrgency.NotUrgent,
     name: TaskUrgency.NotUrgent,
     icon: <BsFire />,
     translationKey: 'not-urgent',
+  },
+  {
+    id: TaskUrgency.Urgent,
+    name: TaskUrgency.Urgent,
+    icon: <SiFireship />,
+    translationKey: 'urgent',
   },
 ];
 

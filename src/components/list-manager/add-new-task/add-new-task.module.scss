@@ -30,7 +30,7 @@
     background-color: var(--tertiary);
     border-radius: 10px;
     padding: 10px 20px;
-    min-width: 400px;
+    min-width: 700px;
 
     &__option {
       display: flex;
@@ -38,6 +38,135 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
+
+      &__datePicker {
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: var(--text);
+        padding: 5px 10px;
+        background-color: var(--background);
+        cursor: pointer;
+        min-width: 180px;
+
+        &:hover {
+          opacity: 0.7;
+        }
+
+        input {
+          background-color: var(--background);
+          border: none;
+          font-size: 20px;
+          border-radius: 10px;
+          padding: 5px 0px;
+          pointer-events: none;
+          font-family: var(--font-family);
+
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          display: none;
+          -webkit-appearance: none;
+        }
+
+        input[type="date"]::-moz-focus-inner {
+          border: 0;
+        }
+
+        input[type="date"]::-ms-clear {
+          display: none;
+        }
+
+        input[type="date"]::-ms-expand {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__subtaskInput {
+    display: flex;
+    align-items: center;
+    margin: 20px 20px;
+
+    svg {
+      color: var(--hint);
+    }
+
+    input {
+      background-color: var(--secondary);
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      padding: 20px;
+      width: 80%;
+
+      color: var(--text);
+
+      &::placeholder {
+        color: var(--hint);
+      }
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
+    }
+  }
+
+  &__subtasksContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px;
+    width: 100%;
+
+    &__subtask {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      &__checkbox {
+        background-color: var(--tertiary);
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
+
+
+      input {
+        background-color: var(--secondary);
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        padding: 20px;
+        width: 80%;
+
+        color: var(--text);
+
+        &::placeholder {
+          color: var(--hint);
+        }
+
+        &:focus {
+          outline: none;
+          border: none;
+        }
+      }
+
+      svg {
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
     }
   }
 }

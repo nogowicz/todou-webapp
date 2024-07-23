@@ -31,7 +31,7 @@ export default function PrepareSignUpForm({
     {
       id: 'credentials',
       forms: (
-        <div id="credentials">
+        <React.Fragment key="credentials">
           <CustomInput
             label={t('email')}
             placeholder="johndoe@todou.com"
@@ -65,7 +65,7 @@ export default function PrepareSignUpForm({
               required: t('required-field'),
             })}
           />
-        </div>
+        </React.Fragment>
       ),
       buttons: (
         <>
@@ -84,7 +84,7 @@ export default function PrepareSignUpForm({
     {
       id: 'personal-info',
       forms: (
-        <>
+        <React.Fragment key="personal-info">
           <CustomInput
             label={t('first-name')}
             placeholder="John"
@@ -104,7 +104,7 @@ export default function PrepareSignUpForm({
             error={errors.lastName}
             {...register('lastName', { required: t('required-field') })}
           />
-        </>
+        </React.Fragment>
       ),
       buttons: (
         <div className={styles.form__buttonsContainer}>

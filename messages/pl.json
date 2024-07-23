@@ -65,6 +65,7 @@
     "not-important": "Nieważne",
     "urgent": "Pilne",
     "not-urgent": "Niepilne",
-    "deadline": "Termin"
+    "deadline": "Termin",
+    "input-placeholder-subtask": "Dodaj Podzadanie"
   }
 }

@@ -1,3 +1,4 @@
+import ReactQueryProvider from '../utils/Providers/ReactQueryProvider';
 import Navbar from '@/components/navbar/Navbar';
 
 import styles from './layout.module.scss';
@@ -8,9 +9,11 @@ export default async function AuthenticatedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={styles.layoutContainer}>
-      <Navbar />
-      {children}
-    </div>
+    <ReactQueryProvider>
+      <div className={styles.layoutContainer}>
+        <Navbar />
+        {children}
+      </div>
+    </ReactQueryProvider>
   );
 }

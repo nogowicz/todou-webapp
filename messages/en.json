@@ -65,6 +65,7 @@
     "not-important": "Not Important",
     "urgent": "Urgent",
     "not-urgent": "Not Urgent",
-    "deadline": "Deadline"
+    "deadline": "Deadline",
+    "input-placeholder-subtask": "Add Subtask"
   }
 }
