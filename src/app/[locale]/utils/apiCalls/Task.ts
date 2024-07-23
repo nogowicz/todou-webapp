@@ -2,6 +2,8 @@
 
 import { TaskImportance, TaskUrgency } from '@/types/Task';
 import { cookies } from 'next/headers';
+import { getLists } from './List';
+import { revalidateTag } from 'next/cache';
 
 export async function addNewTask(
   token: string,
@@ -70,4 +72,5 @@ export async function createTask(
     note,
     notificationTime
   );
+  revalidateTag('userLists');
 }

@@ -1,7 +1,6 @@
 import { verifySession } from '@/lib/session';
 import { TaskImportance, TaskUrgency } from '@/types/Task';
 import { PrismaClient } from '@prisma/client';
-import { revalidateTag } from 'next/cache';
 
 const prisma = new PrismaClient();
 
@@ -46,13 +45,11 @@ export const createNewTaskInDb = async (
         addedBy: Number(session.userId),
       },
     });
-
     return newTask;
   } catch (error) {
     console.error('Error creating new task:', error);
     throw error;
   } finally {
-    revalidateTag('userLists');
     await prisma.$disconnect();
   }
 };

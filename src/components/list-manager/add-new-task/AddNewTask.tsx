@@ -22,7 +22,7 @@ import styles from './add-new-task.module.scss';
 import { FaPlus } from 'react-icons/fa';
 import CustomButton from '@/components/custom-button/CustomButton';
 import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
-import { createTask } from '@/app/[locale]/utils/apiCalls/task';
+import { createTask } from '@/app/[locale]/utils/apiCalls/Task';
 
 interface IAddNewTask {
   isVisible: boolean;
@@ -80,6 +80,13 @@ export default function AddNewTask({
         note,
         null
       );
+      setTaskName('');
+      setDate(null);
+      setNote('');
+      setImportance(TaskImportanceObject[0]);
+      setUrgency(TaskUrgencyObject[0]);
+      setSubtask('');
+      setSubtasks([]);
       onClose();
     } catch (error) {
       console.error('Error creating new task:', error);
