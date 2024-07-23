@@ -1,9 +1,4 @@
-import React, {
-  ComponentType,
-  Dispatch,
-  SetStateAction,
-  useState,
-} from 'react';
+import React, { ComponentType } from 'react';
 import Select, { GroupBase, OptionProps, SingleValueProps } from 'react-select';
 
 interface ICustomSelectProps<T> {
@@ -12,19 +7,21 @@ interface ICustomSelectProps<T> {
   SingleValue:
     | ComponentType<SingleValueProps<T, false, GroupBase<T>>>
     | undefined;
-  selectedData: T | null;
-  setSelectedData: Dispatch<SetStateAction<T | null>>;
+  selectedData: T;
+  setSelectedData: (value: T) => void;
 }
 
 export default function CustomSelect<T>({
   data,
   Option,
   SingleValue,
-  selectedData = data[0],
+  selectedData,
   setSelectedData,
 }: ICustomSelectProps<T>) {
   const handleChange = (value: T | null) => {
-    setSelectedData(value);
+    if (value !== null) {
+      setSelectedData(value);
+    }
   };
 
   return (

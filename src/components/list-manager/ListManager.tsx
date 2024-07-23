@@ -17,7 +17,6 @@ export default function ListManager({ lists }: any) {
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
-
   return (
     <div className={styles.listManager}>
       <CustomButton
