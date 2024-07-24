@@ -1,9 +1,10 @@
 'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
 import styles from './navbar-link.module.scss';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 interface INavbarLink {
   children: React.ReactNode;

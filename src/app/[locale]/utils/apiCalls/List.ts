@@ -12,11 +12,18 @@ async function getData(token: string) {
     next: { tags: ['userLists'] },
   };
 
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!BASE_URL) {
+    throw new Error('Base URL is not defined');
+  }
+
   try {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const response = await fetch(`${BASE_URL}/api/list`, options);
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to fetch data: ${response.status} - ${errorText}`
+      );
     }
     const lists = await response.json();
     return lists;
@@ -28,8 +35,7 @@ async function getData(token: string) {
 
 export async function getLists() {
   const token = cookies().get('session')?.value ?? '';
-  const data = await getData(token);
-  return data;
+  return await getData(token);
 }
 
 async function createNewList(
@@ -38,9 +44,13 @@ async function createNewList(
   selectedIcon: number,
   selectedColor: number
 ) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  if (!BASE_URL) {
+    throw new Error('Base URL is not defined');
+  }
+
   try {
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-    const response = await fetch(`${BASE_URL}api/lists`, {
+    const response = await fetch(`${BASE_URL}/api/lists`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -52,13 +62,20 @@ async function createNewList(
         color: selectedColor,
       }),
     });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `Failed to create list: ${response.status} - ${errorText}`
+      );
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      return new Response(JSON.stringify({ message: error.message }), {
-        status: 500,
-      });
+      console.error('Error creating list:', error);
+      throw new Error(`Failed to create list: ${error.message}`);
     }
   }
 }

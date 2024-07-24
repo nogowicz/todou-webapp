@@ -12,6 +12,9 @@ async function getData(token: string) {
 
   try {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    if (!BASE_URL) {
+      throw new Error('Base URL is not defined');
+    }
     const response = await fetch(`${BASE_URL}/api/user`, options);
     if (!response.ok) {
       throw new Error('Failed to fetch data');

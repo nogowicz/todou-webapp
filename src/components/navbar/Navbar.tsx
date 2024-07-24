@@ -19,7 +19,7 @@ export default async function Navbar() {
             <Logo width={180} />
           </Link>
           <p>{t('main-menu')}</p>
-          <MenuItems />
+          <MenuItems t={t} />
         </div>
         <div className={styles.navbar__container__fields}>
           <p>{t('preferences')}</p>

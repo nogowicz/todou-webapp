@@ -1,15 +1,19 @@
 import { CiViewList } from 'react-icons/ci';
 import { IoHomeOutline, IoSearch } from 'react-icons/io5';
-import EisenhowerMatrixIcon from '@/components/eisenhower-matrix-icon/EisenhowerMatrixIcon';
-import { getTranslations } from 'next-intl/server';
-import NavbarLink from '../navbar-link/NavbarLink';
 import { useLocale } from 'next-intl';
+
+import NavbarLink from '../navbar-link/NavbarLink';
+
+import EisenhowerMatrixIcon from '@/components/eisenhower-matrix-icon/EisenhowerMatrixIcon';
 
 const ICON_SIZE = 24;
 
-const MenuItems = async () => {
+interface IMenuItems {
+  t: Function;
+}
+
+export default function MenuItems({ t }: IMenuItems) {
   const locale = useLocale();
-  const t = await getTranslations('NavigationComponent');
 
   const menuItems = [
     {
@@ -44,6 +48,4 @@ const MenuItems = async () => {
       ))}
     </>
   );
-};
-
-export default MenuItems;
+}

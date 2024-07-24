@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
+// import { useTranslations } from 'next-intl';
 import { BiMoon, BiSun } from 'react-icons/bi';
 import { MdOutlineDoorFront } from 'react-icons/md';
 
@@ -9,6 +9,7 @@ import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
 import { useMountedTheme } from '@/hooks/useMountedTheme';
 
 import NavbarLink from '../navbar-link/NavbarLink';
+import { useTranslations } from 'next-intl';
 
 interface INavLinkAction {
   type: 'logout' | 'theme';
