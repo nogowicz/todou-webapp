@@ -12,8 +12,20 @@ import styles from './list-manager.module.scss';
 import AddNewList from './add-new-list/AddNewList';
 import { useTranslations } from 'next-intl';
 import AddNewTask from './add-new-task/AddNewTask';
+import { IList } from '@/types/List';
+import { ITask } from '@/types/Task';
 
-export default function ListManager({ lists }: any) {
+interface IListManager {
+  lists: IList[];
+  handleNewList: (list: IList) => void;
+  handleNewTask: (task: ITask) => void;
+}
+
+export default function ListManager({
+  lists,
+  handleNewList,
+  handleNewTask,
+}: IListManager) {
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
@@ -40,11 +52,13 @@ export default function ListManager({ lists }: any) {
       <AddNewList
         isVisible={showAddListModal}
         onClose={() => setShowAddListModal(false)}
+        handleNewList={handleNewList}
         t={t}
       />
       <AddNewTask
         isVisible={showAddTaskModal}
         onClose={() => setShowAddTaskModal(false)}
+        handleNewTask={handleNewTask}
         t={t}
         lists={lists}
       />

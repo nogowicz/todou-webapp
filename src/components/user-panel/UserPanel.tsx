@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { FaChevronDown } from 'react-icons/fa';
 
-import getUser from '@/app/[locale]/utils/apiCalls/User';
+import getUser from '@/actions/User';
 
 import styles from './user-panel.module.scss';
 

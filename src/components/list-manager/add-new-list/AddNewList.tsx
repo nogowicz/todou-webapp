@@ -10,34 +10,49 @@ import {
 import CustomButton from '@/components/custom-button/CustomButton';
 import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
 import { createNewList } from '@/controllers/List';
+import { IList } from '@/types/List';
 
 interface IAddNewList {
   isVisible: boolean;
   onClose: () => void;
+  handleNewList: (list: IList) => void;
   t: Function;
 }
 
-export default function AddNewList({ isVisible, onClose, t }: IAddNewList) {
+export default function AddNewList({
+  isVisible,
+  onClose,
+  handleNewList,
+  t,
+}: IAddNewList) {
   const [selectedIcon, setSelectedIcon] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
   const [listName, setListName] = useState('');
+  const { user } = useUser();
   const { token } = useUser();
 
   const handleAddNewList = async () => {
-    if (!listName || !token) {
+    if (!listName || !token || !user) {
       console.log('List name or token is required');
       return;
     }
 
     try {
-      const newList = await createNewList(
-        token,
-        listName,
-        selectedIcon,
-        selectedColor
-      );
+      const newList: IList = {
+        listName: listName,
+        iconId: selectedIcon,
+        colorVariant: selectedColor,
+        task: [],
+        canBeDeleted: true,
+        createdAt: new Date(),
+        createdBy: user.userId,
+        isArchived: false,
+        isFavorite: false,
+        listId: -1,
+      };
+      handleNewList(newList);
+      await createNewList(token, listName, selectedIcon, selectedColor);
       onClose();
-      console.log('New list created:', newList);
     } catch (error) {
       console.error('Error creating new list:', error);
     }

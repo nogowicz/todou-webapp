@@ -2,12 +2,13 @@ import React, { useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { createTask } from '@/app/[locale]/utils/apiCalls/Task';
+import { createTask } from '@/actions/Task';
 import styles from './add-new-task.module.scss';
 import TaskDetails from './task-details/TaskDetails';
 import Subtask from './subtask/Subtask';
 import { IList } from '@/types/List';
 import {
+  ITask,
   ITaskImportance,
   ITaskUrgency,
   TaskImportanceObject,
@@ -19,6 +20,7 @@ interface IAddNewTask {
   isVisible: boolean;
   onClose: () => void;
   t: Function;
+  handleNewTask: (task: ITask) => void;
   lists: IList[];
 }
 
@@ -26,16 +28,17 @@ export default function AddNewTask({
   isVisible,
   onClose,
   t,
+  handleNewTask,
   lists,
 }: IAddNewTask) {
   const initialTaskState = {
-    taskName: '',
+    title: '',
     subtask: '',
     subtasks: [] as string[],
     currentList: lists[0] as IList,
     importance: (TaskImportanceObject[0] as ITaskImportance) || null,
     urgency: (TaskUrgencyObject[0] as ITaskUrgency) || null,
-    date: null as Date | null,
+    deadline: null as Date | null,
     note: '',
   };
   const [task, setTask] = useState(initialTaskState);
@@ -44,6 +47,23 @@ export default function AddNewTask({
 
   const handleAddNewTask = async () => {
     onClose();
+    const newTask: ITask = {
+      title: task.title,
+      deadline: task.deadline,
+      importance: task.importance.name,
+      urgency: task.urgency.name,
+      subtask: [],
+      listId: task.currentList.listId,
+      note: task.note,
+      addedBy: -1,
+      assignedTo: -1,
+      createdAt: new Date(),
+      isCompleted: false,
+      taskId: -1,
+      notificationTime: null,
+    };
+
+    handleNewTask(newTask);
 
     let updatedSubtasks = [...task.subtasks];
     if (task.subtask.trim() !== '') {
@@ -53,8 +73,8 @@ export default function AddNewTask({
 
     try {
       await createTask(
-        task.taskName,
-        task.date,
+        task.title,
+        task.deadline,
         task.importance.name,
         task.urgency.name,
         updatedSubtasks,
@@ -98,9 +118,9 @@ export default function AddNewTask({
         </div>
         <CustomInput
           placeholder={t('input-placeholder-task')}
-          value={task.taskName}
+          value={task.title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setTask({ ...task, taskName: e.target.value })
+            setTask({ ...task, title: e.target.value })
           }
         />
         <TaskDetails
@@ -116,8 +136,8 @@ export default function AddNewTask({
           }
           urgency={task.urgency}
           setUrgency={(urgency: ITaskUrgency) => setTask({ ...task, urgency })}
-          date={task.date}
-          setDate={(date: Date | null) => setTask({ ...task, date })}
+          date={task.deadline}
+          setDate={(deadline: Date | null) => setTask({ ...task, deadline })}
         />
         <div>
           <div className={styles.addNewTask__subtaskInput}>
@@ -150,7 +170,7 @@ export default function AddNewTask({
             ))}
           </div>
         </div>
-        <CustomButton disabled={!task.taskName} onClick={handleAddNewTask}>
+        <CustomButton disabled={!task.title} onClick={handleAddNewTask}>
           {t('add-new-task')}
         </CustomButton>
       </div>

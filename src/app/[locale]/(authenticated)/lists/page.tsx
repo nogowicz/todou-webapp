@@ -1,9 +1,7 @@
-import { IList } from '@/types/List';
 import styles from './page.module.scss';
 import UserPanel from '@/components/user-panel/UserPanel';
-import ListManager from '@/components/list-manager/ListManager';
-import ListItem from '@/components/list-item/ListItem';
-import { getLists } from '../../utils/apiCalls/List';
+import ListContainer from '@/components/list-container/ListContainer';
+import { getLists } from '@/actions/List';
 
 export default async function Lists() {
   const data = await getLists();
@@ -12,12 +10,7 @@ export default async function Lists() {
       <div className={styles.listPage__upperContainer}>
         <UserPanel />
       </div>
-      <ListManager lists={data} />
-      <div className={styles.listPage__listsContainer}>
-        {data.map((list: IList) => (
-          <ListItem key={list.listId} {...list} />
-        ))}
-      </div>
+      <ListContainer lists={data} />
     </main>
   );
 }
