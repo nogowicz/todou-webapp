@@ -6,7 +6,7 @@ import styles from './custom-button.module.scss';
 
 interface ICustomButton {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   href?: string;
   isLoading?: boolean;
   disabled?: boolean;
