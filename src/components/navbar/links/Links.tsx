@@ -1,18 +1,21 @@
-'use client';
-
 import { CiViewList } from 'react-icons/ci';
 import { IoHomeOutline, IoSearch } from 'react-icons/io5';
-import EisenhowerMatrixIcon from '@/components/eisenhower-matrix-icon/EisenhowerMatrixIcon';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
+
 import NavbarLink from '../navbar-link/NavbarLink';
+
+import EisenhowerMatrixIcon from '@/components/eisenhower-matrix-icon/EisenhowerMatrixIcon';
 
 const ICON_SIZE = 24;
 
-const useMainMenu = () => {
-  const locale = useLocale();
-  const t = useTranslations('NavigationComponent');
+interface IMenuItems {
+  t: Function;
+}
 
-  return [
+export default function MenuItems({ t }: IMenuItems) {
+  const locale = useLocale();
+
+  const menuItems = [
     {
       name: t('dashboard'),
       icon: <IoHomeOutline size={ICON_SIZE} />,
@@ -34,13 +37,10 @@ const useMainMenu = () => {
       href: `/${locale}/search`,
     },
   ];
-};
 
-export default function MenuItems() {
-  const mainMenu = useMainMenu();
   return (
     <>
-      {mainMenu.map((item, index) => (
+      {menuItems.map((item, index) => (
         <NavbarLink key={index} href={item.href}>
           {item.icon}
           {item.name}

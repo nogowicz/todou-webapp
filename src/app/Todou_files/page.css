@@ -1,0 +1,371 @@
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/app/[locale]/(authenticated)/lists/page.module.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.page_listPage__MI7Na {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 40px;
+  justify-content: center;
+}
+.page_listPage__upperContainer__yl8cu {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.page_listPage__listsContainer__AC6nH {
+  margin: 40px 0;
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/custom-button/custom-button.module.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.custom-button_link__KrFaB {
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.custom-button_button__HDp2W {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 100%;
+  padding: 20px 0px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+.custom-button_button__HDp2W:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.custom-button_button__HDp2W[disabled] {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.custom-button_primary__1iV_U {
+  color: var(--primary);
+  background-color: var(--primary-transparent);
+}
+
+.custom-button_secondary__MyYcY {
+  color: var(--text);
+  background-color: var(--tertiary);
+}
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/list-manager/list-manager.module.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.list-manager_listManager__5P_SM {
+  display: flex;
+  max-width: 1000px;
+  gap: 60px;
+}
+.list-manager_listManager__button__FwLMM {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px 20px;
+  gap: 20px;
+}
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/list-manager/add-new-list/add-new-list.module.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.add-new-list_addNewList__FEWkf {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--secondary);
+  padding: 40px;
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.add-new-list_addNewList__upperContainer__j8Kcq {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-new-list_addNewList__upperContainer__placeholder__VeZqf {
+  width: 32px;
+}
+.add-new-list_addNewList__upperContainer__j8Kcq svg:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.add-new-list_addNewList__iconsContainer__cKMAK {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+}
+.add-new-list_addNewList__iconsContainer__icon__Kd_Sc {
+  border-radius: 10px;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-new-list_addNewList__iconsContainer__icon__Kd_Sc.add-new-list_active__akwZG {
+  border: 3px solid var(--tertiary);
+}
+.add-new-list_addNewList__iconsContainer__icon__Kd_Sc:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.add-new-list_addNewList__colorsContainer__cWwC3 {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-bottom: 40px;
+  justify-content: center;
+  align-items: center;
+}
+.add-new-list_addNewList__colorsContainer__color__sd3kt {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+.add-new-list_addNewList__colorsContainer__color__sd3kt.add-new-list_active__akwZG {
+  border: 3px solid var(--tertiary);
+}
+.add-new-list_addNewList__colorsContainer__color__sd3kt:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/custom-input/custom-input.module.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.custom-input_customInput__vJVD_ {
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0;
+  width: 100%;
+  position: relative;
+  min-width: 400px;
+}
+.custom-input_customInput__labelContainer__mZFAX {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-input_customInput__labelContainer__label__M1XiM {
+  margin: 0 10px;
+  font-size: 18px;
+}
+.custom-input_focused__IXGpw .custom-input_customInput__labelContainer__label__M1XiM {
+  color: var(--primary);
+}
+.custom-input_error__zo7CF .custom-input_customInput__labelContainer__label__M1XiM {
+  color: var(--red) !important;
+}
+.custom-input_customInput__labelContainer__mZFAX p {
+  font-size: 18px;
+  margin: 0;
+  text-decoration: none;
+  color: var(--primary);
+}
+.custom-input_customInput__labelContainer__mZFAX p:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.custom-input_customInput__inputContainer__mi5qL {
+  background-color: var(--tertiary);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 10px;
+  gap: 20px;
+  border-radius: 10px;
+  border: 2px solid;
+  border-color: var(--primary);
+}
+.custom-input_error__zo7CF .custom-input_customInput__inputContainer__mi5qL {
+  border-color: #D82A38 !important;
+}
+.custom-input_notFocused__G42HX .custom-input_customInput__inputContainer__mi5qL {
+  border-color: transparent;
+}
+.custom-input_customInput__inputContainer__icon__JmPz_ {
+  color: var(--text);
+}
+.custom-input_focused__IXGpw .custom-input_customInput__inputContainer__icon__JmPz_ {
+  color: var(--primary);
+}
+.custom-input_error__zo7CF .custom-input_customInput__inputContainer__icon__JmPz_ {
+  color: #D82A38 !important;
+}
+.custom-input_customInput__inputContainer__icon__JmPz_:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.custom-input_customInput__inputContainer__input__vVu1p {
+  background-color: transparent;
+  border: 0;
+  font-size: 20px;
+  width: 75%;
+}
+.custom-input_customInput__inputContainer__input__vVu1p::placeholder {
+  color: var(--hint);
+}
+.custom-input_customInput__inputContainer__input__vVu1p:focus {
+  outline: none;
+}
+.custom-input_customInput__error__GJCaU {
+  color: #D82A38;
+  position: absolute;
+  left: 10px;
+  top: 65px;
+}
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/list-manager/add-new-task/add-new-task.module.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.add-new-task_addNewTask__MZQZH {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: var(--secondary);
+  padding: 40px;
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.add-new-task_addNewTask__upperContainer__rJR98 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.add-new-task_addNewTask__upperContainer__placeholder__gSlOv {
+  width: 32px;
+}
+.add-new-task_addNewTask__upperContainer__rJR98 svg:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.add-new-task_addNewTask__taskDetails__lByg4 {
+  background-color: var(--tertiary);
+}
+.add-new-task_addNewTask__taskDetails__list__hSGHi {
+  display: flex;
+  justify-content: space-between;
+}
+.add-new-task_addNewTask__taskDetails__list__select__xiqmo div {
+  border: none;
+  border-radius: 10px;
+  background-color: var(--background);
+  color: var(--text);
+}
+.add-new-task_addNewTask__taskDetails__list__select__xiqmo div div {
+  background-color: var(--background);
+  color: var(--text);
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/user-panel/user-panel.module.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.user-panel_userPanel__Mfm0k {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.user-panel_userPanel__left__2EsCY {
+  display: flex;
+  flex-direction: column;
+}
+.user-panel_userPanel__left__2EsCY h3 {
+  margin: 0;
+}
+.user-panel_userPanel__left__2EsCY p {
+  margin: 0;
+}
+.user-panel_userPanel__right__XE6Sm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.user-panel_userPanel__right__notification__VEfDW {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.user-panel_userPanel__right__notification__VEfDW:before {
+  background-color: var(--primary);
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.user-panel_userPanel__right__notification__VEfDW svg {
+  color: var(--hint);
+}
+.user-panel_userPanel__right__notification__VEfDW:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.user-panel_userPanel__right__user__vD6Ni {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  font-weight: 600;
+}
+.user-panel_userPanel__right__user__vD6Ni:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.user-panel_userPanel__right__user__vD6Ni img {
+  border-radius: 50%;
+}
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/list-item/list-item.module.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.list-item_listItem__d0okY {
+  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  width: 260px;
+  min-height: 140px;
+}
+.list-item_listItem__taskAmount__oeB4o {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 0 10px 0 10px;
+  padding: 5px 15px;
+  font-size: 20px;
+}
+.list-item_listItem__d0okY svg {
+  position: absolute;
+  z-index: -1;
+}
+.list-item_listItem__d0okY p {
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  font-weight: 600;
+  font-size: 25px;
+}
+.list-item_listItem__d0okY:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}

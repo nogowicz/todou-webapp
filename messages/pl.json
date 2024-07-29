@@ -54,9 +54,18 @@
     "add-new-task": "Dodaj Nowe Zadanie",
     "grid": "Siatka",
     "list": "Lista",
-    "input-placeholder": "Nazwa Listy",
+    "input-placeholder-list": "Nazwa Listy",
     "select-icon": "Wybierz Ikonę",
     "select-color": "Wybierz Kolor",
-    "no-list-found": "Nie Znaleziono Listy"
+    "no-list-found": "Nie Znaleziono Listy",
+    "input-placeholder-task": "Nazwa Zadania",
+    "importance": "Ważność",
+    "urgency": "Pilnoiść",
+    "important": "Ważne",
+    "not-important": "Nieważne",
+    "urgent": "Pilne",
+    "not-urgent": "Niepilne",
+    "deadline": "Termin",
+    "input-placeholder-subtask": "Dodaj Podzadanie"
   }
 }

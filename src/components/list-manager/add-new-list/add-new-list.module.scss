@@ -39,9 +39,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 3px solid;
+      border-color: transparent;
 
       &.active {
-        border: 3px solid var(--tertiary);
+        border-color: var(--tertiary);
       }
 
       &:hover {
@@ -63,9 +65,11 @@
       width: 44px;
       height: 44px;
       border-radius: 10px;
+      border: 3px solid;
+      border-color: transparent;
 
       &.active {
-        border: 3px solid var(--tertiary);
+        border-color: var(--tertiary);
       }
 
       &:hover {

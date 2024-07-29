@@ -54,9 +54,18 @@
     "add-new-task": "Add New Task",
     "grid": "Grid",
     "list": "List",
-    "input-placeholder": "List Name",
+    "input-placeholder-list": "List Name",
     "select-icon": "Select Icon",
     "select-color": "Select Color",
-    "no-list-found": "No List Found"
+    "no-list-found": "No List Found",
+    "input-placeholder-task": "Task Name",
+    "importance": "Importance",
+    "urgency": "Urgency",
+    "important": "Important",
+    "not-important": "Not Important",
+    "urgent": "Urgent",
+    "not-urgent": "Not Urgent",
+    "deadline": "Deadline",
+    "input-placeholder-subtask": "Add Subtask"
   }
 }

@@ -2,11 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-import { useMountedTheme } from '@/hooks/useMountedTheme';
 
 import styles from './navbar-link.module.scss';
+import { usePathname } from 'next/navigation';
 
 interface INavbarLink {
   children: React.ReactNode;
@@ -16,18 +14,12 @@ interface INavbarLink {
 
 export default function NavbarLink({ children, href, onClick }: INavbarLink) {
   const currentPathname = usePathname();
-  const { mounted, resolvedTheme } = useMountedTheme();
-  const themeClass = resolvedTheme ? styles[resolvedTheme] : '';
 
   const combinedClass = [
     styles.navbarLink,
-    themeClass,
     currentPathname === href ? styles.active : '',
   ].join(' ');
 
-  if (!mounted) {
-    return null;
-  }
   if (href) {
     return (
       <Link className={combinedClass} href={href}>
