@@ -1,0 +1,15 @@
+.listPage {
+  margin: 20px 0 0 0;
+
+  &__upperContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__leftSide {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+}
