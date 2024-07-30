@@ -67,5 +67,8 @@
     "not-urgent": "Not Urgent",
     "deadline": "Deadline",
     "input-placeholder-subtask": "Add Subtask"
+  },
+  "Loader": {
+    "loading": "Loading..."
   }
 }

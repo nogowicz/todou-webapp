@@ -5,6 +5,7 @@ import { getLists } from '@/actions/List';
 
 export default async function Lists() {
   const data = await getLists();
+
   return (
     <main className={styles.listPage}>
       <div className={styles.listPage__upperContainer}>

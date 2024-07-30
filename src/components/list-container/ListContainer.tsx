@@ -1,5 +1,5 @@
 'use client';
-import React, { useOptimistic } from 'react';
+import React, { useEffect, useOptimistic, useState } from 'react';
 
 import { IList } from '@/types/List';
 import ListItem from '../list-item/ListItem';
@@ -14,6 +14,21 @@ interface IListContainer {
 
 export default function ListContainer({ lists }: IListContainer) {
   const [optimisticLists, updateOptimisticLists] = useOptimistic(lists);
+  const [isMounted, setIsMounted] = useState(false);
+  const [listStyle, setListStyle] = useState<'grid' | 'list'>('grid');
+  const listModifierClass =
+    listStyle === 'grid'
+      ? styles.listsContainer__grid
+      : styles.listsContainer__list;
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedListStyle = localStorage.getItem('listStyle');
+      if (storedListStyle) {
+        setListStyle(storedListStyle as 'grid' | 'list');
+      }
+    }
+  }, []);
 
   const handleNewList = (newList: IList) => {
     updateOptimisticLists((lists) => [...lists, newList]);
@@ -33,8 +48,12 @@ export default function ListContainer({ lists }: IListContainer) {
     });
   };
 
-  if (!optimisticLists || optimisticLists.length === 0) {
-    return <div>No lists found</div>;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
   }
 
   return (
@@ -43,11 +62,13 @@ export default function ListContainer({ lists }: IListContainer) {
         lists={lists}
         handleNewList={handleNewList}
         handleNewTask={handleNewTask}
+        listStyle={listStyle}
+        setListStyle={setListStyle}
       />
 
-      <div className={styles.listsContainer}>
+      <div className={listModifierClass}>
         {optimisticLists.map((list: IList) => (
-          <ListItem key={list.listId} {...list} />
+          <ListItem key={list.listId} list={list} listStyle={listStyle} />
         ))}
       </div>
     </>
