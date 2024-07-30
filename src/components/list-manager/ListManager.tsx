@@ -15,6 +15,8 @@ import AddNewTask from './add-new-task/AddNewTask';
 import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
 import { CiBoxList } from 'react-icons/ci';
+import { MdOutlineSync } from 'react-icons/md';
+import { revalidateLists } from '@/actions/List';
 
 interface IListManager {
   lists: IList[];
@@ -64,6 +66,14 @@ export default function ListManager({
       >
         {listStyle === 'grid' ? <BsGrid size={24} /> : <CiBoxList size={24} />}
         {t(listStyle)}
+      </CustomButton>
+      <CustomButton
+        className={styles.listManager__button}
+        onClick={() => revalidateLists()}
+        variant="secondary"
+      >
+        <MdOutlineSync size={24} />
+        {t('sync')}
       </CustomButton>
       <AddNewList
         isVisible={showAddListModal}

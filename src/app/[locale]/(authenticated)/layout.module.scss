@@ -1,4 +1,11 @@
 .layoutContainer {
   display: flex;
   flex-direction: row;
+
+  &__mainContainer {
+    width: 100%;
+    margin: 40px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
 }

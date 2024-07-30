@@ -6,7 +6,7 @@
   align-items: center;
   gap: 30px;
   padding: 10px 20px;
-  color: var(--hint);
+  color: var(--hint) !important;
   font-weight: bold;
   border-radius: 10px;
   font-size: 16px;
@@ -20,5 +20,5 @@
 
 .active {
   background-color: var(--primary-transparent);
-  color: var(--primary);
+  color: var(--primary) !important;
 }

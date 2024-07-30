@@ -91,3 +91,9 @@ input:-webkit-autofill::first-line {
   font-size: $p-font-size-medium;
   font-family: $font-family;
 }
+
+a:-webkit-any-link {
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+}
