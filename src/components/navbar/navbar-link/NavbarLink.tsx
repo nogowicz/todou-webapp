@@ -1,5 +1,4 @@
 'use client';
-
 import React from 'react';
 import Link from 'next/link';
 
@@ -10,15 +9,24 @@ interface INavbarLink {
   children: React.ReactNode;
   href?: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  exact?: boolean;
 }
 
-export default function NavbarLink({ children, href, onClick }: INavbarLink) {
+export default function NavbarLink({
+  children,
+  href,
+  onClick,
+  exact,
+}: INavbarLink) {
   const currentPathname = usePathname();
 
-  const combinedClass = [
-    styles.navbarLink,
-    currentPathname === href ? styles.active : '',
-  ].join(' ');
+  const isActive = exact
+    ? currentPathname === href
+    : currentPathname.startsWith(href ?? 'test');
+
+  const combinedClass = [styles.navbarLink, isActive ? styles.active : ''].join(
+    ' '
+  );
 
   if (href) {
     return (

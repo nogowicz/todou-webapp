@@ -12,27 +12,19 @@ import styles from './list-manager.module.scss';
 import AddNewList from './add-new-list/AddNewList';
 import { useTranslations } from 'next-intl';
 import AddNewTask from './add-new-task/AddNewTask';
-import { IList } from '@/types/List';
-import { ITask } from '@/types/Task';
 import { CiBoxList } from 'react-icons/ci';
 import { MdOutlineSync } from 'react-icons/md';
 import { revalidateLists } from '@/actions/List';
+import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
 
-interface IListManager {
-  lists: IList[];
-  handleNewList: (list: IList) => void;
-  handleNewTask: (task: ITask) => void;
-  listStyle: 'list' | 'grid';
-  setListStyle: Dispatch<SetStateAction<'list' | 'grid'>>;
-}
-
-export default function ListManager({
-  lists,
-  handleNewList,
-  handleNewTask,
-  listStyle,
-  setListStyle,
-}: IListManager) {
+export default function ListManager() {
+  const {
+    optimisticLists,
+    listStyle,
+    setListStyle,
+    handleNewList,
+    handleNewTask,
+  } = useListContext();
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
@@ -86,7 +78,7 @@ export default function ListManager({
         onClose={() => setShowAddTaskModal(false)}
         handleNewTask={handleNewTask}
         t={t}
-        lists={lists}
+        lists={optimisticLists}
       />
     </div>
   );

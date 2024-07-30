@@ -20,28 +20,32 @@ export default function MenuItems({ t }: IMenuItems) {
       name: t('dashboard'),
       icon: <IoHomeOutline size={ICON_SIZE} />,
       href: `/${locale}`,
+      exact: true,
     },
     {
       name: t('lists'),
       icon: <CiViewList size={ICON_SIZE} />,
       href: `/${locale}/lists`,
+      exact: false,
     },
     {
       name: t('eisenhower-matrix'),
       icon: <EisenhowerMatrixIcon />,
       href: `/${locale}/matrix`,
+      exact: false,
     },
     {
       name: t('search'),
       icon: <IoSearch size={ICON_SIZE} />,
       href: `/${locale}/search`,
+      exact: false,
     },
   ];
 
   return (
     <>
       {menuItems.map((item, index) => (
-        <NavbarLink key={index} href={item.href}>
+        <NavbarLink key={index} href={item.href} exact={item.exact}>
           {item.icon}
           {item.name}
         </NavbarLink>

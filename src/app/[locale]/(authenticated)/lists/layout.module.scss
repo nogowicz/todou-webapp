@@ -1,0 +1,12 @@
+.layoutContainer {
+  display: flex;
+  flex-direction: row;
+
+  &__lists {
+    flex: 1;
+  }
+
+  &__details {
+    flex: 2;
+  }
+}
