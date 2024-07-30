@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { RiPlayListAddLine } from 'react-icons/ri';
 import { BsGrid } from 'react-icons/bs';
@@ -14,21 +14,27 @@ import { useTranslations } from 'next-intl';
 import AddNewTask from './add-new-task/AddNewTask';
 import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
+import { CiBoxList } from 'react-icons/ci';
 
 interface IListManager {
   lists: IList[];
   handleNewList: (list: IList) => void;
   handleNewTask: (task: ITask) => void;
+  listStyle: 'list' | 'grid';
+  setListStyle: Dispatch<SetStateAction<'list' | 'grid'>>;
 }
 
 export default function ListManager({
   lists,
   handleNewList,
   handleNewTask,
+  listStyle,
+  setListStyle,
 }: IListManager) {
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
+
   return (
     <div className={styles.listManager}>
       <CustomButton
@@ -45,9 +51,19 @@ export default function ListManager({
         <FaPlus size={24} />
         {t('add-new-task')}
       </CustomButton>
-      <CustomButton className={styles.listManager__button} variant="secondary">
-        <BsGrid size={24} />
-        {t('grid')}
+      <CustomButton
+        onClick={() => {
+          setListStyle((prev) => (prev === 'grid' ? 'list' : 'grid'));
+          localStorage.setItem(
+            'listStyle',
+            listStyle === 'grid' ? 'list' : 'grid'
+          );
+        }}
+        className={styles.listManager__button}
+        variant="secondary"
+      >
+        {listStyle === 'grid' ? <BsGrid size={24} /> : <CiBoxList size={24} />}
+        {t(listStyle)}
       </CustomButton>
       <AddNewList
         isVisible={showAddListModal}

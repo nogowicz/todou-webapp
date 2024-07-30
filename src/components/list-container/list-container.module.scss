@@ -1,6 +1,17 @@
 .listsContainer {
-  margin: 40px 0;
-  display: flex;
-  gap: 60px;
-  flex-wrap: wrap;
+
+  &__grid {
+    margin: 40px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 40px 40px 0 0;
+  }
+
 }

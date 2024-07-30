@@ -67,5 +67,8 @@
     "not-urgent": "Niepilne",
     "deadline": "Termin",
     "input-placeholder-subtask": "Dodaj Podzadanie"
+  },
+  "Loader": {
+    "loading": "Ładowanie..."
   }
 }
