@@ -11,6 +11,7 @@ import {
 import { BsThreeDots } from 'react-icons/bs';
 import { ITask } from '@/types/Task';
 import Task from '@/components/task/Task';
+import { notFound } from 'next/navigation';
 
 const ICON_SIZE = 50;
 
@@ -18,10 +19,10 @@ export default async function Page({ params }: { params: Params }) {
   const data = await getLists();
 
   const list: IList = data.find((list: IList) => list.listId === +params.slug);
-  const tasks: ITask[] = list.task;
   if (!list) {
-    return <div>List not found</div>;
+    return notFound();
   }
+  const tasks: ITask[] = list.task;
 
   return (
     <div className={styles.listPage}>
