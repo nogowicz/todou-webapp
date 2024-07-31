@@ -44,6 +44,7 @@ body {
   color: var(--text);
   background-color: var(--background);
   margin: 0;
+  overflow-y: hidden;
 
   h2 {
     font-size: var(--h2-font-size-large);
@@ -96,4 +97,23 @@ a:-webkit-any-link {
   color: var(--text);
   cursor: pointer;
   text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tertiary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-transparent);
+  /* Color of the scrollbar thumb on hover */
 }

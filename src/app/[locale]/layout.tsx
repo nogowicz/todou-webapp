@@ -4,7 +4,6 @@ import { Poppins } from 'next/font/google';
 import { Providers } from './providers';
 
 import './globals.scss';
-import { getMessages } from 'next-intl/server';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400', '600', '700'] });
 

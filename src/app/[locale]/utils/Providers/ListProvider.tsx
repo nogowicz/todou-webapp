@@ -1,19 +1,11 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
 import { useOptimistic } from 'react';
 
 interface ListContextType {
   optimisticLists: IList[];
-  listStyle: 'grid' | 'list';
-  setListStyle: React.Dispatch<React.SetStateAction<'grid' | 'list'>>;
   handleNewList: (newList: IList) => void;
   handleNewTask: (newTask: ITask) => void;
 }
@@ -25,17 +17,6 @@ export const ListProvider: React.FC<{
   initialLists: IList[];
 }> = ({ children, initialLists }) => {
   const [optimisticLists, updateOptimisticLists] = useOptimistic(initialLists);
-  const [listStyle, setListStyle] = useState<'grid' | 'list'>('grid');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedListStyle = localStorage.getItem('listStyle');
-      if (storedListStyle) {
-        setListStyle(storedListStyle as 'grid' | 'list');
-      }
-    }
-  }, []);
-
   const handleNewList = (newList: IList) => {
     updateOptimisticLists((lists) => [...lists, newList]);
   };
@@ -56,8 +37,6 @@ export const ListProvider: React.FC<{
 
   const value = {
     optimisticLists,
-    listStyle,
-    setListStyle,
     handleNewList,
     handleNewTask,
   };

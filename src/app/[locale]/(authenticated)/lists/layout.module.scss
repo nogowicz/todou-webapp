@@ -1,12 +1,13 @@
 .layoutContainer {
   display: flex;
   flex-direction: row;
+  height: 73vh;
 
   &__lists {
     flex: 1;
   }
 
   &__details {
-    flex: 2;
+    flex: 3;
   }
 }

@@ -6,18 +6,34 @@ import ListItem from '../list-item/ListItem';
 
 import styles from './list-container.module.scss';
 import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
+import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
 export default function ListContainer() {
-  const { optimisticLists, listStyle } = useListContext();
-  const listModifierClass =
-    listStyle === 'grid'
-      ? styles.listsContainer__grid
-      : styles.listsContainer__list;
+  const { optimisticLists } = useListContext();
+  const currentPathname = usePathname();
+  const locale = useLocale();
+  const isExactListPath = currentPathname === `/${locale}/lists`;
+  // const listModifierClass = isExactListPath
+  //   ? styles.listsContainer__grid
+  //   : styles.listsContainer__list;
 
   return (
-    <div className={listModifierClass}>
+    <div
+      // className={listModifierClass}
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: isExactListPath ? '60px' : '30px',
+        flexDirection: isExactListPath ? 'row' : 'column',
+      }}
+    >
       {optimisticLists.map((list: IList) => (
-        <ListItem key={list.listId} list={list} listStyle={listStyle} />
+        <ListItem
+          key={list.listId}
+          list={list}
+          listStyle={isExactListPath ? 'grid' : 'list'}
+        />
       ))}
     </div>
   );
