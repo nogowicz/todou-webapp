@@ -1,15 +1,31 @@
 .listPage {
   flex: 1;
   margin: 0 0 0 40px;
+  height: 95%;
+  padding: 0 20px 0 0;
+  overflow-y: auto;
 
   &__upperContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    h3 {
+      margin: 0;
+    }
+
     &__leftSide {
       display: flex;
       align-items: center;
+      gap: 20px;
+    }
+  }
+
+  &__tasksContainer {
+
+    &__tasks {
+      display: flex;
+      flex-direction: column;
       gap: 20px;
     }
   }

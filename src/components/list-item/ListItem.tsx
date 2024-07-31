@@ -6,12 +6,15 @@ import { listColorTheme, listIconTheme } from './ListStyles';
 import Link from 'next/link';
 
 import styles from './list-item.module.scss';
+import { usePathname } from 'next/navigation';
 interface IListItem {
   list: IList;
   listStyle: 'list' | 'grid';
 }
 
 export default function ListItem({ list, listStyle }: IListItem) {
+  const currentPath = usePathname();
+  const index = currentPath.split('/').pop();
   // const listModifierClass =
   //   listStyle === 'grid' ? styles.listItem__grid : styles.listItem__list;
   const isGrid = listStyle === 'grid';
@@ -29,6 +32,10 @@ export default function ListItem({ list, listStyle }: IListItem) {
           display: isGrid ? 'block' : 'flex',
           alignItems: 'center',
           gap: isGrid ? 0 : '20px',
+          border:
+            index && +index === list.listId
+              ? `2px solid ${listColorTheme[list.colorVariant]}`
+              : 'none',
         }}
       >
         <div
@@ -38,7 +45,7 @@ export default function ListItem({ list, listStyle }: IListItem) {
             position: 'absolute',
             top: 0,
             right: 0,
-            borderRadius: '0 10px 0 10px',
+            borderRadius: '0 6px 0 6px',
             padding: isGrid ? '5px 15px' : '5px 10px',
             fontSize: isGrid ? '20px' : '16px',
           }}
@@ -49,7 +56,6 @@ export default function ListItem({ list, listStyle }: IListItem) {
           size: listStyle === 'grid' ? 130 : 40,
           color: `${listColorTheme[list.colorVariant]}50`,
           position: isGrid ? 'absolute' : 'relative',
-          zIndex: -1,
         })}
         <p
           style={{
