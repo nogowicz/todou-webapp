@@ -32,10 +32,11 @@ export default function ListItem({ list, listStyle }: IListItem) {
           display: isGrid ? 'block' : 'flex',
           alignItems: 'center',
           gap: isGrid ? 0 : '20px',
-          border:
+          border: '2px solid',
+          borderColor:
             index && +index === list.listId
-              ? `2px solid ${listColorTheme[list.colorVariant]}`
-              : 'none',
+              ? listColorTheme[list.colorVariant]
+              : 'transparent',
         }}
       >
         <div

@@ -40,7 +40,11 @@ export default async function Page({ params }: { params: Params }) {
         <p>Tasks - {tasks.length}</p>
         <div className={styles.listPage__tasksContainer__tasks}>
           {tasks.map((task) => (
-            <Task key={task.taskId} task={task} />
+            <Task
+              key={task.taskId}
+              task={task}
+              primaryColor={listColorTheme[list.colorVariant]}
+            />
           ))}
         </div>
       </div>
