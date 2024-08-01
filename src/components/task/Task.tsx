@@ -3,14 +3,13 @@ import { ITask } from '@/types/Task';
 import React, { useEffect, useRef } from 'react';
 
 import styles from './task.module.scss';
-import { FaCheck } from 'react-icons/fa';
 import { ISubtask } from '@/types/Subtask';
 import { GoGitBranch } from 'react-icons/go';
 import { IoCalendarOutline } from 'react-icons/io5';
 import { useFormatter } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import Checkbox from '../checkbox/CheckBox';
 import Subtask from '../subtask/Subtask';
+import Checkbox from '../checkbox/Checkbox';
 
 interface TaskProps {
   task: ITask;
@@ -34,10 +33,14 @@ export default function Task({ task, primaryColor }: TaskProps) {
 
   const deadlineColor = (date: Date | null) => {
     const now = new Date();
+    now.setHours(2);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
     if (date === null) return null;
     if (date < now) {
       return styles.pastDeadline;
-    } else if (date.toDateString() === now.toDateString()) {
+    } else if (date.toISOString() === now.toISOString()) {
       return styles.today;
     } else {
       return styles.upcoming;

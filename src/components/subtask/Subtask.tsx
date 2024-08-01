@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './subtask.module.scss';
 import { ISubtask } from '@/types/Subtask';
-import Checkbox from '../checkbox/CheckBox';
+import Checkbox from '../checkbox/Checkbox';
 
 interface SubtaskProps {
   subtask: ISubtask;
