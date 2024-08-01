@@ -1,6 +1,6 @@
 'use client';
 import { ITask } from '@/types/Task';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './task.module.scss';
 import { ISubtask } from '@/types/Subtask';
@@ -10,6 +10,9 @@ import { useFormatter } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
 import Checkbox from '../checkbox/Checkbox';
+import { updateTask } from '@/actions/Task';
+import { BiTaskX } from 'react-icons/bi';
+import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
 
 interface TaskProps {
   task: ITask;
@@ -20,10 +23,13 @@ const ICON_SIZE = 20;
 
 export default function Task({ task, primaryColor }: TaskProps) {
   const format = useFormatter();
+  const { handleUpdateTask } = useListContext();
   const deadlineDate = task.deadline ? new Date(task.deadline) : null;
-  const [isSubtasksCollapsed, setIsSubtasksCollapsed] = React.useState(true);
+  const [isSubtasksCollapsed, setIsSubtasksCollapsed] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (subtasksRef.current) {
       const { scrollHeight } = subtasksRef.current;
@@ -72,14 +78,28 @@ export default function Task({ task, primaryColor }: TaskProps) {
             style={{
               transform: isSubtasksCollapsed
                 ? 'rotate(0deg)'
-                : 'rotate(180deg)',
+                : 'rotate(-180deg)',
               transition: 'transform 0.5s ease-in-out',
             }}
           />
         </div>
       )}
       <div className={styles.taskContainer__main}>
-        <Checkbox isCompleted={task.isCompleted} primaryColor={primaryColor} />
+        <Checkbox
+          isCompleted={task.isCompleted}
+          primaryColor={primaryColor}
+          onClick={async () => {
+            setIsCompleted((prev) => !prev);
+            const updatedCompletedTask = {
+              ...task,
+              updatedAt: new Date(),
+              isCompleted: !isCompleted,
+            };
+
+            await updateTask(updatedCompletedTask);
+            handleUpdateTask(updatedCompletedTask);
+          }}
+        />
         <p>{task.title}</p>
       </div>
       <div className={styles.taskContainer__details}>

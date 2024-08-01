@@ -72,6 +72,7 @@ export interface ITask {
   addedBy: number;
   assignedTo: number;
   createdAt: Date;
+  updatedAt: Date;
   notificationTime: Date | null;
   subtask: ISubtask[];
 }

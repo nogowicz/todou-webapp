@@ -12,7 +12,11 @@ interface SubtaskProps {
 export default function Subtask({ subtask, primaryColor }: SubtaskProps) {
   return (
     <div className={styles.subtaskContainer}>
-      <Checkbox isCompleted={subtask.isCompleted} primaryColor={primaryColor} />
+      <Checkbox
+        onClick={() => console.log('Clicked')}
+        isCompleted={subtask.isCompleted}
+        primaryColor={primaryColor}
+      />
       <p>{subtask.title}</p>
     </div>
   );

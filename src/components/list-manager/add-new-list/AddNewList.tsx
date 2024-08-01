@@ -48,6 +48,7 @@ export default function AddNewList({
         createdBy: user.userId,
         isArchived: false,
         isFavorite: false,
+        updatedAt: new Date(),
         listId: -1,
       };
       handleNewList(newList);

@@ -1,5 +1,5 @@
 import { verifySession } from '@/lib/session';
-import { TaskImportance, TaskUrgency } from '@/types/Task';
+import { ITask, TaskImportance, TaskUrgency } from '@/types/Task';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -41,6 +41,7 @@ export const createNewTaskInDb = async (
         note: note,
         notificationTime: notificationTime,
         createdAt: new Date(),
+        updatedAt: new Date(),
         assignedTo: Number(session.userId),
         addedBy: Number(session.userId),
       },
@@ -48,6 +49,48 @@ export const createNewTaskInDb = async (
     return newTask;
   } catch (error) {
     console.error('Error creating new task:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+export const updateTaskInDb = async (token: string, task: ITask) => {
+  try {
+    const session = await verifySession(token);
+
+    if (!session?.isAuth || !session.userId) {
+      return null;
+    }
+
+    const existingTask = await prisma.task.findUnique({
+      where: { taskId: task.taskId },
+    });
+
+    if (!existingTask) {
+      return null;
+    }
+
+    const updatedTask = await prisma.task.update({
+      where: { taskId: task.taskId },
+      data: {
+        title: task.title ?? existingTask.title,
+        isCompleted: task.isCompleted ?? existingTask.isCompleted,
+        deadline: task.deadline ?? existingTask.deadline,
+        importance: task.importance ?? existingTask.importance,
+        urgency: task.urgency ?? existingTask.urgency,
+        listId: task.listId ?? existingTask.listId,
+        note: task.note ?? existingTask.note,
+        notificationTime:
+          task.notificationTime ?? existingTask.notificationTime,
+        updatedAt: new Date(),
+        assignedTo: task.assignedTo ?? existingTask.assignedTo,
+      },
+    });
+
+    return updatedTask;
+  } catch (error) {
+    console.error('Error updating task:', error);
     throw error;
   } finally {
     await prisma.$disconnect();

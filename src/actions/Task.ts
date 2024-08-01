@@ -1,11 +1,12 @@
 'use server';
 
-import { TaskImportance, TaskUrgency } from '@/types/Task';
+import { ITask, TaskImportance, TaskUrgency } from '@/types/Task';
 import { cookies } from 'next/headers';
-import { getLists } from './List';
 import { revalidateTag } from 'next/cache';
 
-export async function addNewTask(
+const token = cookies().get('session')?.value ?? '';
+
+export async function createTaskRequest(
   token: string,
   title: string,
   deadline: Date | null,
@@ -60,8 +61,7 @@ export async function createTask(
   note: string | null,
   notificationTime: Date | null
 ) {
-  const token = cookies().get('session')?.value ?? '';
-  await addNewTask(
+  await createTaskRequest(
     token,
     title,
     deadline,
@@ -72,5 +72,39 @@ export async function createTask(
     note,
     notificationTime
   );
+  revalidateTag('userLists');
+}
+
+export async function updateTaskRequest(token: string, task: ITask) {
+  try {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/api/task`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        task,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('DATA:', data);
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update task: ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+export async function updateTask(task: ITask) {
+  await updateTaskRequest(token, task);
   revalidateTag('userLists');
 }

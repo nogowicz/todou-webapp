@@ -5,4 +5,5 @@ export interface ISubtask {
   isCompleted: boolean;
   addedBy: string;
   createdAt: Date;
+  updatedAt: Date;
 }

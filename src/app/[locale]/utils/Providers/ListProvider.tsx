@@ -8,6 +8,7 @@ interface ListContextType {
   optimisticLists: IList[];
   handleNewList: (newList: IList) => void;
   handleNewTask: (newTask: ITask) => void;
+  handleUpdateTask: (updatedTask: ITask) => void;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -35,10 +36,27 @@ export const ListProvider: React.FC<{
     });
   };
 
+  const handleUpdateTask = (updatedTask: ITask) => {
+    updateOptimisticLists((lists) => {
+      return lists.map((list) => {
+        if (list.listId === updatedTask.listId) {
+          return {
+            ...list,
+            tasks: list.task.map((task) =>
+              task.taskId === updatedTask.taskId ? updatedTask : task
+            ),
+          };
+        }
+        return list;
+      });
+    });
+  };
+
   const value = {
     optimisticLists,
     handleNewList,
     handleNewTask,
+    handleUpdateTask,
   };
 
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;

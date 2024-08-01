@@ -7,5 +7,6 @@ export interface IUser {
   photo: Buffer | null;
   idDefaultList: number | null;
   createdAt: Date;
+  updatedAt: Date;
   isVerified: boolean;
 }
