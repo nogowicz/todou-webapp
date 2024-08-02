@@ -13,10 +13,10 @@ import { useTranslations } from 'next-intl';
 import AddNewTask from './add-new-task/AddNewTask';
 import { MdOutlineSync } from 'react-icons/md';
 import { revalidateLists } from '@/actions/List';
-// import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
+import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
 
 export default function ListManager() {
-  // const { optimisticLists, handleNewList, handleNewTask } = useListContext();
+  const { optimisticLists, handleNewList, handleNewTask } = useListContext();
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
@@ -46,7 +46,7 @@ export default function ListManager() {
         <MdOutlineSync size={24} />
         {t('sync')}
       </CustomButton>
-      {/* <AddNewList
+      <AddNewList
         isVisible={showAddListModal}
         onClose={() => setShowAddListModal(false)}
         handleNewList={handleNewList}
@@ -58,7 +58,7 @@ export default function ListManager() {
         handleNewTask={handleNewTask}
         t={t}
         lists={optimisticLists}
-      /> */}
+      />
     </div>
   );
 }
