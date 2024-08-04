@@ -9,13 +9,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { getSignInSchema } from './validationSchema';
-import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
 import { FormType } from '../form-switcher/FormSwitcher';
 
 import CustomInput from '../../custom-input/CustomInput';
 import CustomButton from '../../custom-button/CustomButton';
 
 import styles from './sign-in-form.module.scss';
+import { useUser } from '@/utils/Providers/UserProvider';
 interface ISignInForm {
   setCurrentForm: Dispatch<SetStateAction<FormType>>;
 }

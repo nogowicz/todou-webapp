@@ -76,5 +76,9 @@
     "list-not-found": "Przepraszamy, ale nie możemy znaleźć tej listy.",
     "page-not-found": "Przepraszamy, ale nie możemy znaleźć tej strony.",
     "go-home-link": "Wróć do strony głównej"
+  },
+  "Tasks": {
+    "tasks": "Zadania",
+    "completed": "Ukończone"
   }
 }

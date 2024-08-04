@@ -76,5 +76,9 @@
     "list-not-found": "Sorry, but we can’t seem to find that list.",
     "page-not-found": "This page could not be found.",
     "go-home-link": "Go back to Home"
+  },
+  "Tasks": {
+    "tasks": "Tasks",
+    "completed": "Completed"
   }
 }

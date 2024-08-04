@@ -8,12 +8,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { getSignUpSchema } from './validationSchema';
 import { FormType } from '../form-switcher/FormSwitcher';
-import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
 
 import Pagination from '@/components/pagination/Pagination';
 import PrepareSignUpForm, { IPrepareSignUpForm } from './helpers';
 
 import styles from './sign-up-form.module.scss';
+import { useUser } from '@/utils/Providers/UserProvider';
 interface Inputs {
   firstName: string;
   lastName: string;
