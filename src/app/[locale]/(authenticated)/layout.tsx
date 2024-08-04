@@ -4,7 +4,8 @@ import styles from './layout.module.scss';
 import UserPanel from '@/components/user-panel/UserPanel';
 import { getLists } from '@/actions/List';
 import { IList } from '@/types/List';
-import { ListProvider } from '../utils/Providers/ListProvider';
+import ListManager from '@/components/list-manager/ListManager';
+import { ListProvider } from '@/utils/Providers/ListProvider';
 
 export default async function AuthenticatedLayout({
   children,
@@ -18,6 +19,7 @@ export default async function AuthenticatedLayout({
         <Navbar />
         <div className={styles.layoutContainer__mainContainer}>
           <UserPanel />
+          <ListManager />
           {children}
         </div>
       </div>

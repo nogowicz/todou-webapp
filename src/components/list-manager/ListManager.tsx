@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 
 import { RiPlayListAddLine } from 'react-icons/ri';
 import { FaPlus } from 'react-icons/fa';
@@ -13,7 +13,7 @@ import { useTranslations } from 'next-intl';
 import AddNewTask from './add-new-task/AddNewTask';
 import { MdOutlineSync } from 'react-icons/md';
 import { revalidateLists } from '@/actions/List';
-import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
+import { useListContext } from '@/utils/Providers/ListProvider';
 
 export default function ListManager() {
   const { optimisticLists, handleNewList, handleNewTask } = useListContext();

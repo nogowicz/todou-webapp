@@ -5,9 +5,9 @@ import { IList } from '@/types/List';
 import ListItem from '../list-item/ListItem';
 
 import styles from './list-container.module.scss';
-import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
 import { usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
+import { useListContext } from '@/utils/Providers/ListProvider';
 
 export default function ListContainer() {
   const { optimisticLists } = useListContext();

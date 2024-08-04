@@ -11,8 +11,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
 import Checkbox from '../checkbox/Checkbox';
 import { updateTask } from '@/actions/Task';
-import { BiTaskX } from 'react-icons/bi';
-import { useListContext } from '@/app/[locale]/utils/Providers/ListProvider';
+import { useListContext } from '@/utils/Providers/ListProvider';
 
 interface TaskProps {
   task: ITask;
