@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
@@ -15,6 +15,7 @@ import {
   TaskUrgencyObject,
 } from '@/types/Task';
 import { FaPlus } from 'react-icons/fa';
+import { usePathname } from 'next/navigation';
 
 interface IAddNewTask {
   isVisible: boolean;
@@ -31,16 +32,31 @@ export default function AddNewTask({
   handleNewTask,
   lists,
 }: IAddNewTask) {
+  const currentPath = usePathname();
+  const index = Number(currentPath.split('/').pop());
+  const list: IList = lists.find((list) => list.listId === index) || lists[0];
+
   const initialTaskState = {
     title: '',
     subtask: '',
     subtasks: [] as string[],
-    currentList: lists[0] as IList,
+    currentList: list,
     importance: (TaskImportanceObject[0] as ITaskImportance) || null,
     urgency: (TaskUrgencyObject[0] as ITaskUrgency) || null,
     deadline: null as Date | null,
     note: '',
   };
+
+  useEffect(() => {
+    const index = Number(currentPath.split('/').pop());
+    const list = lists.find((list) => list.listId === index) || lists[0];
+
+    setTask((prevTask) => ({
+      ...prevTask,
+      currentList: list,
+    }));
+  }, [currentPath, lists]);
+
   const [task, setTask] = useState(initialTaskState);
 
   const subtaskInputRef = useRef<HTMLInputElement>(null);
