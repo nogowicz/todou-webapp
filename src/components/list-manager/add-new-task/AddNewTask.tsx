@@ -60,6 +60,7 @@ export default function AddNewTask({
       createdAt: new Date(),
       isCompleted: false,
       taskId: -1,
+      updatedAt: new Date(),
       notificationTime: null,
     };
 

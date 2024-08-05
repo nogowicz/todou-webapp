@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -68,4 +69,8 @@ export async function createList(
 ) {
   const token = cookies().get('session')?.value ?? '';
   return createNewList(token, listName, selectedIcon, selectedColor);
+}
+
+export async function revalidateLists() {
+  revalidateTag('lists');
 }

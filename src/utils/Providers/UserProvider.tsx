@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { createSession, deleteSession } from '../../../../lib/session';
 import { useRouter } from 'next/navigation';
+import { createSession, deleteSession } from '@/lib/session';
 
 interface User {
   userId: number;

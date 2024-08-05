@@ -49,6 +49,7 @@ export async function signUp(data: SignUpData) {
         password: hashedPassword,
         idDefaultList: defaultUsersList.listId,
         createdAt: new Date(),
+        updatedAt: new Date(),
       },
     });
 
@@ -70,7 +71,7 @@ export async function signUp(data: SignUpData) {
       lastName: newUser.lastName,
       email: newUser.email,
       createdAt: newUser.createdAt,
-      photo: newUser.photo,
+      photo: newUser.photoURL,
       idDefaultList: newUser.idDefaultList,
       isVerified: newUser.isVerified,
     };
@@ -108,7 +109,7 @@ export async function signIn(data: SignInData) {
       lastName: user.lastName,
       email: user.email,
       createdAt: user.createdAt,
-      photo: user.photo,
+      photo: user.photoURL,
       idDefaultList: user.idDefaultList,
       isVerified: user.isVerified,
     };
@@ -137,7 +138,7 @@ export const getUser = cache(async (token: string) => {
         lastName: true,
         email: true,
         createdAt: true,
-        photo: true,
+        photoURL: true,
         idDefaultList: true,
         isVerified: true,
       },

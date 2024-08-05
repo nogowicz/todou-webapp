@@ -8,9 +8,9 @@ import {
   listIconTheme,
 } from '@/components/list-item/ListStyles';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { useUser } from '@/app/[locale]/utils/Providers/UserProvider';
 import { createNewList } from '@/controllers/List';
 import { IList } from '@/types/List';
+import { useUser } from '@/utils/Providers/UserProvider';
 
 interface IAddNewList {
   isVisible: boolean;
@@ -28,8 +28,7 @@ export default function AddNewList({
   const [selectedIcon, setSelectedIcon] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
   const [listName, setListName] = useState('');
-  const { user } = useUser();
-  const { token } = useUser();
+  const { user, token } = useUser();
 
   const handleAddNewList = async () => {
     if (!listName || !token || !user) {
@@ -48,6 +47,7 @@ export default function AddNewList({
         createdBy: user.userId,
         isArchived: false,
         isFavorite: false,
+        updatedAt: new Date(),
         listId: -1,
       };
       handleNewList(newList);

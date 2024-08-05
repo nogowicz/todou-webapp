@@ -1,17 +1,7 @@
-.listPage {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.listContainer {
   width: 100%;
-  margin: 40px;
-  justify-content: center;
-
-  &__upperContainer {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-
+  height: 95%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: red;
 }

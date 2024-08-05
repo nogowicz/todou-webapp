@@ -1,19 +1,28 @@
-import ReactQueryProvider from '../utils/Providers/ReactQueryProvider';
 import Navbar from '@/components/navbar/Navbar';
 
 import styles from './layout.module.scss';
+import UserPanel from '@/components/user-panel/UserPanel';
+import { getLists } from '@/actions/List';
+import { IList } from '@/types/List';
+import ListManager from '@/components/list-manager/ListManager';
+import { ListProvider } from '@/utils/Providers/ListProvider';
 
 export default async function AuthenticatedLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialLists: IList[] = await getLists();
   return (
-    <ReactQueryProvider>
+    <ListProvider initialLists={initialLists}>
       <div className={styles.layoutContainer}>
         <Navbar />
-        {children}
+        <div className={styles.layoutContainer__mainContainer}>
+          <UserPanel />
+          <ListManager />
+          {children}
+        </div>
       </div>
-    </ReactQueryProvider>
+    </ListProvider>
   );
 }

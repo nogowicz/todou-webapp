@@ -6,6 +6,7 @@ export interface IList {
   canBeDeleted: boolean;
   createdBy: number | null;
   createdAt: Date;
+  updatedAt: Date;
   isFavorite: boolean;
   isArchived: boolean;
   colorVariant: number;

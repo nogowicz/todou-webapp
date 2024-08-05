@@ -4,8 +4,7 @@ import Loader from '@/components/loader/Loader';
 import styles from './loading.module.scss';
 import { useTranslations } from 'next-intl';
 
-export default function loading() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export default function Loading() {
   const t = useTranslations('Loader');
   return (
     <div className={styles.container}>

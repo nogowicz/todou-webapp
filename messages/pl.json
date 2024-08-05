@@ -66,9 +66,19 @@
     "urgent": "Pilne",
     "not-urgent": "Niepilne",
     "deadline": "Termin",
-    "input-placeholder-subtask": "Dodaj Podzadanie"
+    "input-placeholder-subtask": "Dodaj Podzadanie",
+    "sync": "Zsynchronizuj"
   },
   "Loader": {
     "loading": "Ładowanie..."
+  },
+  "NotFound": {
+    "list-not-found": "Przepraszamy, ale nie możemy znaleźć tej listy.",
+    "page-not-found": "Przepraszamy, ale nie możemy znaleźć tej strony.",
+    "go-home-link": "Wróć do strony głównej"
+  },
+  "Tasks": {
+    "tasks": "Zadania",
+    "completed": "Ukończone"
   }
 }

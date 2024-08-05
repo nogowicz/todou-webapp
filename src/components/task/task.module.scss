@@ -1,0 +1,74 @@
+.taskContainer {
+  background-color: var(--tertiary);
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin: 0 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px 10px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px 0 0 0;
+    align-items: center;
+    gap: 20px;
+
+    p {
+      margin: 0;
+      font-size: 18px;
+    }
+  }
+
+  &__details {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 10px 0 0 5px;
+    gap: 20px;
+
+    &__detail {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+  }
+
+  &__subtasks {
+    margin: 20px 0 0 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+  }
+}
+
+
+
+.pastDeadline {
+  color: var(--red);
+}
+
+.today {
+  color: var(--yellow);
+}
+
+.upcoming {
+  color: var(--green);
+}

@@ -1,0 +1,50 @@
+.taskContainer {
+  flex: 1;
+  height: 95%;
+  padding: 0 20px 0 0;
+  overflow-y: auto;
+  display: flex;
+
+  &__left {
+    flex: 1;
+
+    &__listsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  &__right {
+    flex: 2;
+
+    &__upperContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      h3 {
+        margin: 0;
+      }
+
+      &__leftSide {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+    }
+
+    &__tasksContainer {
+
+      p {
+        margin: 20px
+      }
+
+      &__tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  }
+}

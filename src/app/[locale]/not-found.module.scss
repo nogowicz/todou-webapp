@@ -1,0 +1,28 @@
+.notFoundContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  font-size: 20px;
+  font-weight: 600;
+  flex-direction: column;
+
+  a {
+    position: absolute;
+    bottom: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &::after {
+    position: absolute;
+    content: "404";
+    font-size: 300px;
+    font-weight: bold;
+    color: var(--primary-transparent);
+    z-index: -1;
+  }
+}

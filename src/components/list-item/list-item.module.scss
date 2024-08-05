@@ -4,7 +4,8 @@
     border-radius: 10px;
     padding: 20px;
     min-height: 180px;
-    width: 280px;
+    width: 295px;
+
 
     svg {
       position: absolute;
@@ -28,19 +29,19 @@
   }
 
   &__list {
-    width: 100%;
+    width: 85%;
     display: flex;
     position: relative;
     border-radius: 10px;
     align-items: center;
     padding: 0 20px;
     gap: 20px;
-
-
+    border: 2px solid;
 
     p {
       font-weight: 600;
       font-size: 18px;
+
     }
 
     &:hover {
@@ -54,8 +55,10 @@
     position: absolute;
     top: 0;
     right: 0;
-    border-radius: 0 10px 0 10px;
+    border-radius: 0 6px 0 6px;
     padding: 5px 15px;
     font-size: 20px;
   }
+
+
 }

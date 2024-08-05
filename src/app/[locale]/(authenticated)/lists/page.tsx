@@ -1,17 +1,20 @@
-import styles from './page.module.scss';
-import UserPanel from '@/components/user-panel/UserPanel';
+'use server';
 import ListContainer from '@/components/list-container/ListContainer';
-import { getLists } from '@/actions/List';
 
-export default async function Lists() {
-  const data = await getLists();
+// import styles from './default.module.scss';
 
+export default async function List() {
   return (
-    <main className={styles.listPage}>
-      <div className={styles.listPage__upperContainer}>
-        <UserPanel />
-      </div>
-      <ListContainer lists={data} />
-    </main>
+    <div
+      // className={styles.listContainer}
+      style={{
+        width: '100%',
+        height: '95%',
+        overflowX: 'hidden',
+        overflowY: 'auto',
+      }}
+    >
+      <ListContainer />
+    </div>
   );
 }

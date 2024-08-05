@@ -29,6 +29,7 @@ model list {
   canBeDeleted Boolean?     @default(true)
   isShared     Boolean?     @default(false)
   createdAt    DateTime?    @db.DateTime(0)
+  updatedAt    DateTime?    @db.DateTime(0)
   isFavorite   Boolean?     @default(false)
   isArchived   Boolean?     @default(false)
   createdBy    Int?         @default(-1)
@@ -46,6 +47,7 @@ model subtask {
   isCompleted Boolean?  @default(false)
   addedBy     String    @db.VarChar(45)
   createdAt   DateTime? @db.DateTime(0)
+  updatedAt   DateTime? @db.DateTime(0)
   task        task      @relation(fields: [taskId], references: [taskId], onDelete: Cascade, map: "subtask_ibfk_1")
 
   @@index([taskId], map: "taskId")
@@ -63,6 +65,7 @@ model task {
   addedBy          Int
   assignedTo       Int
   createdAt        DateTime?        @db.DateTime(0)
+  updatedAt        DateTime?        @db.DateTime(0)
   notificationTime DateTime?        @db.DateTime(0)
   subtask          subtask[]
   list             list             @relation(fields: [listId], references: [listId], onDelete: Cascade, map: "task_ibfk_1")
@@ -76,9 +79,10 @@ model user {
   lastName      String       @db.VarChar(45)
   email         String       @unique(map: "email") @db.VarChar(45)
   password      String       @db.VarChar(61)
-  photo         Bytes?       @db.Blob
+  photoURL      String?      @db.VarChar(300)
   idDefaultList Int
   createdAt     DateTime     @db.DateTime(0)
+  updatedAt     DateTime?    @db.DateTime(0)
   isVerified    Boolean      @default(false)
   invitation    invitation[]
   list          list         @relation(fields: [idDefaultList], references: [listId], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_1")
