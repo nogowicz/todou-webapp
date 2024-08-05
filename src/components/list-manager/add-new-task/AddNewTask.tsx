@@ -62,7 +62,6 @@ export default function AddNewTask({
   const subtaskInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddNewTask = async () => {
-    onClose();
     const newTask: ITask = {
       title: task.title,
       deadline: task.deadline,
@@ -81,7 +80,7 @@ export default function AddNewTask({
     };
 
     handleNewTask(newTask);
-
+    onClose();
     let updatedSubtasks = [...task.subtasks];
     if (task.subtask.trim() !== '') {
       updatedSubtasks = [...updatedSubtasks, task.subtask];

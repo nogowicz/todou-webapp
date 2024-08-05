@@ -51,8 +51,11 @@ export default function AddNewList({
         listId: -1,
       };
       handleNewList(newList);
-      await createNewList(token, listName, selectedIcon, selectedColor);
       onClose();
+      setListName('');
+      setSelectedColor(0);
+      setSelectedIcon(0);
+      await createNewList(token, listName, selectedIcon, selectedColor);
     } catch (error) {
       console.error('Error creating new list:', error);
     }
