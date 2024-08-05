@@ -85,7 +85,7 @@ export default function Task({ task, primaryColor }: TaskProps) {
       )}
       <div className={styles.taskContainer__main}>
         <Checkbox
-          isCompleted={task.isCompleted}
+          isCompleted={isCompleted}
           primaryColor={primaryColor}
           onClick={async () => {
             setIsCompleted((prev) => !prev);
@@ -95,8 +95,8 @@ export default function Task({ task, primaryColor }: TaskProps) {
               isCompleted: !isCompleted,
             };
 
-            await updateTask(updatedCompletedTask);
             handleUpdateTask(updatedCompletedTask);
+            await updateTask(updatedCompletedTask);
           }}
         />
         <p>{task.title}</p>

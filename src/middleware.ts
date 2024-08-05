@@ -9,17 +9,29 @@ export default async function middleware(req: NextRequest) {
   const protectedRoutes = [
     `/${isValidLocale}`,
     `/${isValidLocale}/lists`,
+    `/${isValidLocale}/lists/:id`,
     `/${isValidLocale}/matrix`,
     `/${isValidLocale}/search`,
   ];
   const loginRoute = `/${isValidLocale}/welcome`;
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;
+  const isProtected = protectedRoutes.some((route) => {
+    const routeSegments = route.split('/').filter(Boolean);
+    const pathSegments = currentPath.split('/').filter(Boolean);
+
+    if (routeSegments.length !== pathSegments.length) return false;
+
+    return routeSegments.every(
+      (segment, index) =>
+        segment === pathSegments[index] || segment.startsWith(':')
+    );
+  });
 
   console.log('Current path:', currentPath);
   console.log('Locale:', isValidLocale);
 
-  if (protectedRoutes.includes(currentPath)) {
+  if (isProtected) {
     console.log('Checking session for protected route');
     if (!cookie) {
       console.log(`Session invalid. Redirecting to ${loginRoute}`);
