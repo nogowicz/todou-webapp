@@ -52,8 +52,8 @@ const TaskDetails = ({
   };
 
   return (
-    <div className={styles.addNewTask__taskDetails}>
-      <div className={styles.addNewTask__taskDetails__option}>
+    <div className={styles.overlay__addNewTask__taskDetails}>
+      <div className={styles.overlay__addNewTask__taskDetails__option}>
         <p>{t('list')}</p>
         <CustomSelect<IList>
           data={lists}
@@ -63,7 +63,7 @@ const TaskDetails = ({
           setSelectedData={setCurrentList}
         />
       </div>
-      <div className={styles.addNewTask__taskDetails__option}>
+      <div className={styles.overlay__addNewTask__taskDetails__option}>
         <p>{t('importance')}</p>
         <CustomSelect<ITaskImportance>
           data={TaskImportanceObject}
@@ -73,7 +73,7 @@ const TaskDetails = ({
           setSelectedData={setImportance}
         />
       </div>
-      <div className={styles.addNewTask__taskDetails__option}>
+      <div className={styles.overlay__addNewTask__taskDetails__option}>
         <p>{t('urgency')}</p>
         <CustomSelect<ITaskUrgency>
           data={TaskUrgencyObject}
@@ -83,10 +83,12 @@ const TaskDetails = ({
           setSelectedData={setUrgency}
         />
       </div>
-      <div className={styles.addNewTask__taskDetails__option}>
+      <div className={styles.overlay__addNewTask__taskDetails__option}>
         <p>{t('deadline')}</p>
         <div
-          className={styles.addNewTask__taskDetails__option__datePicker}
+          className={
+            styles.overlay__addNewTask__taskDetails__option__datePicker
+          }
           onClick={handleDatePickerClick}
         >
           <IoCalendarOutline size={32} />

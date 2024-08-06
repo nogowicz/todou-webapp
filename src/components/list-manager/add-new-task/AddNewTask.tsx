@@ -35,6 +35,26 @@ export default function AddNewTask({
   const currentPath = usePathname();
   const index = Number(currentPath.split('/').pop());
   const list: IList = lists.find((list) => list.listId === index) || lists[0];
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible, onClose]);
 
   const initialTaskState = {
     title: '',
@@ -126,69 +146,77 @@ export default function AddNewTask({
 
   if (isVisible) {
     return (
-      <div className={styles.addNewTask}>
-        <div className={styles.addNewTask__upperContainer}>
-          <div className={styles.addNewTask__upperContainer__placeholder} />
-          <p>{t('add-new-task')}</p>
-          <IoClose onClick={onClose} size={40} />
-        </div>
-        <CustomInput
-          placeholder={t('input-placeholder-task')}
-          value={task.title}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setTask({ ...task, title: e.target.value })
-          }
-        />
-        <TaskDetails
-          t={t}
-          lists={lists}
-          currentList={task.currentList}
-          setCurrentList={(list: IList) =>
-            setTask({ ...task, currentList: list })
-          }
-          importance={task.importance}
-          setImportance={(importance: ITaskImportance) =>
-            setTask({ ...task, importance })
-          }
-          urgency={task.urgency}
-          setUrgency={(urgency: ITaskUrgency) => setTask({ ...task, urgency })}
-          date={task.deadline}
-          setDate={(deadline: Date | null) => setTask({ ...task, deadline })}
-        />
-        <div>
-          <div className={styles.addNewTask__subtaskInput}>
-            <FaPlus size={24} />
-            <input
-              title="subtask"
-              ref={subtaskInputRef}
-              placeholder={t('input-placeholder-subtask')}
-              value={task.subtask}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTask({ ...task, subtask: e.target.value })
+      <div className={styles.overlay}>
+        <div className={styles.overlay__addNewTask} ref={modalRef}>
+          <div className={styles.overlay__addNewTask__upperContainer}>
+            <div
+              className={
+                styles.overlay__addNewTask__upperContainer__placeholder
               }
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (e.key === 'Enter') {
-                  addNewSubtask(task.subtask);
-                  subtaskInputRef.current?.focus();
-                }
-              }}
             />
+            <p>{t('add-new-task')}</p>
+            <IoClose onClick={onClose} size={40} />
           </div>
-          <div className={styles.addNewTask__subtasksContainer}>
-            {task.subtasks.map((currentSubtask, index) => (
-              <Subtask
-                key={index}
-                index={index}
-                subtask={currentSubtask}
-                updateSubtask={updateSubtask}
-                removeSubtask={removeSubtask}
+          <CustomInput
+            placeholder={t('input-placeholder-task')}
+            value={task.title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTask({ ...task, title: e.target.value })
+            }
+          />
+          <TaskDetails
+            t={t}
+            lists={lists}
+            currentList={task.currentList}
+            setCurrentList={(list: IList) =>
+              setTask({ ...task, currentList: list })
+            }
+            importance={task.importance}
+            setImportance={(importance: ITaskImportance) =>
+              setTask({ ...task, importance })
+            }
+            urgency={task.urgency}
+            setUrgency={(urgency: ITaskUrgency) =>
+              setTask({ ...task, urgency })
+            }
+            date={task.deadline}
+            setDate={(deadline: Date | null) => setTask({ ...task, deadline })}
+          />
+          <div>
+            <div className={styles.overlay__addNewTask__subtaskInput}>
+              <FaPlus size={24} />
+              <input
+                title="subtask"
+                ref={subtaskInputRef}
+                placeholder={t('input-placeholder-subtask')}
+                value={task.subtask}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTask({ ...task, subtask: e.target.value })
+                }
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === 'Enter') {
+                    addNewSubtask(task.subtask);
+                    subtaskInputRef.current?.focus();
+                  }
+                }}
               />
-            ))}
+            </div>
+            <div className={styles.overlay__addNewTask__subtasksContainer}>
+              {task.subtasks.map((currentSubtask, index) => (
+                <Subtask
+                  key={index}
+                  index={index}
+                  subtask={currentSubtask}
+                  updateSubtask={updateSubtask}
+                  removeSubtask={removeSubtask}
+                />
+              ))}
+            </div>
           </div>
+          <CustomButton disabled={!task.title} onClick={handleAddNewTask}>
+            {t('add-new-task')}
+          </CustomButton>
         </div>
-        <CustomButton disabled={!task.title} onClick={handleAddNewTask}>
-          {t('add-new-task')}
-        </CustomButton>
       </div>
     );
   }

@@ -18,9 +18,11 @@ const Subtask = ({
   const subtaskInputRef = useRef<HTMLInputElement>(null);
   console.log(Subtask);
   return (
-    <div className={styles.addNewTask__subtasksContainer__subtask}>
+    <div className={styles.overlay__addNewTask__subtasksContainer__subtask}>
       <div
-        className={styles.addNewTask__subtasksContainer__subtask__checkbox}
+        className={
+          styles.overlay__addNewTask__subtasksContainer__subtask__checkbox
+        }
       />
       <input
         title="subtask"
