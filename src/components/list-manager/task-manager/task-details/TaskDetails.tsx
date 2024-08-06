@@ -16,7 +16,7 @@ import {
   UrgencyOption,
   UrgencySingleValue,
 } from '../helpers';
-import styles from '../add-new-task.module.scss';
+import styles from '../task-manager.module.scss';
 
 interface TaskDetailsProps {
   t: Function;
@@ -97,7 +97,7 @@ const TaskDetails = ({
             type="date"
             title="deadline"
             ref={dateInputRef}
-            value={date?.toISOString().split('T')[0] || ''}
+            value={(date && new Date(date).toISOString().split('T')[0]) || ''}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDate(new Date(e.target.value))
             }

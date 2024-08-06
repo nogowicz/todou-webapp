@@ -3,7 +3,7 @@ import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
 import { createTask } from '@/actions/Task';
-import styles from './add-new-task.module.scss';
+import styles from './task-manager.module.scss';
 import TaskDetails from './task-details/TaskDetails';
 import Subtask from './subtask/Subtask';
 import { IList } from '@/types/List';
@@ -23,19 +23,29 @@ interface IAddNewTask {
   t: Function;
   handleNewTask: (task: ITask) => void;
   lists: IList[];
+  editedTask?: ITask;
 }
 
-export default function AddNewTask({
+export default function TaskManager({
   isVisible,
   onClose,
   t,
   handleNewTask,
   lists,
+  editedTask,
 }: IAddNewTask) {
   const currentPath = usePathname();
   const index = Number(currentPath.split('/').pop());
   const list: IList = lists.find((list) => list.listId === index) || lists[0];
   const modalRef = useRef<HTMLDivElement>(null);
+  const editedTaskImportance =
+    editedTask?.importance === 'Not important'
+      ? TaskImportanceObject[0]
+      : TaskImportanceObject[1];
+  const editedTaskUrgency =
+    editedTask?.urgency === 'Not urgent'
+      ? TaskUrgencyObject[0]
+      : TaskUrgencyObject[1];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -57,14 +67,18 @@ export default function AddNewTask({
   }, [isVisible, onClose]);
 
   const initialTaskState = {
-    title: '',
+    title: editedTask?.title ?? '',
     subtask: '',
     subtasks: [] as string[],
     currentList: list,
-    importance: (TaskImportanceObject[0] as ITaskImportance) || null,
-    urgency: (TaskUrgencyObject[0] as ITaskUrgency) || null,
-    deadline: null as Date | null,
-    note: '',
+    importance: editedTask
+      ? (editedTaskImportance as ITaskImportance)
+      : (TaskImportanceObject[0] as ITaskImportance),
+    urgency: editedTask
+      ? (editedTaskUrgency as ITaskUrgency)
+      : (TaskUrgencyObject[0] as ITaskUrgency),
+    deadline: editedTask?.deadline ?? null,
+    note: editedTask?.note ?? '',
   };
 
   useEffect(() => {
@@ -100,6 +114,7 @@ export default function AddNewTask({
     };
 
     handleNewTask(newTask);
+
     onClose();
     let updatedSubtasks = [...task.subtasks];
     if (task.subtask.trim() !== '') {
@@ -154,7 +169,7 @@ export default function AddNewTask({
                 styles.overlay__addNewTask__upperContainer__placeholder
               }
             />
-            <p>{t('add-new-task')}</p>
+            <p>{editedTask ? t('edit-task') : t('add-new-task')}</p>
             <IoClose onClick={onClose} size={40} />
           </div>
           <CustomInput
@@ -214,7 +229,7 @@ export default function AddNewTask({
             </div>
           </div>
           <CustomButton disabled={!task.title} onClick={handleAddNewTask}>
-            {t('add-new-task')}
+            {editedTask ? t('update-task') : t('add-new-task')}
           </CustomButton>
         </div>
       </div>

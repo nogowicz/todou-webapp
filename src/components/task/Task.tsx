@@ -6,12 +6,13 @@ import styles from './task.module.scss';
 import { ISubtask } from '@/types/Subtask';
 import { GoGitBranch } from 'react-icons/go';
 import { IoCalendarOutline } from 'react-icons/io5';
-import { useFormatter } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
 import Checkbox from '../checkbox/Checkbox';
 import { updateTask } from '@/actions/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
+import TaskManager from '../list-manager/task-manager/TaskManager';
 
 interface TaskProps {
   task: ITask;
@@ -22,12 +23,14 @@ const ICON_SIZE = 20;
 
 export default function Task({ task, primaryColor }: TaskProps) {
   const format = useFormatter();
-  const { handleUpdateTask } = useListContext();
+  const t = useTranslations('ListPage');
+  const { handleUpdateTask, optimisticLists } = useListContext();
   const deadlineDate = task.deadline ? new Date(task.deadline) : null;
   const [isSubtasksCollapsed, setIsSubtasksCollapsed] = useState(true);
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
+  const [showEditTaskModal, setShowEditTaskModal] = useState(false);
 
   useEffect(() => {
     if (subtasksRef.current) {
@@ -65,78 +68,99 @@ export default function Task({ task, primaryColor }: TaskProps) {
   const subtasks: ISubtask[] = task.subtask;
   const completedSubtasks = subtasks.filter((subtask) => subtask.isCompleted);
 
-  return (
-    <div className={styles.taskContainer}>
-      {subtasks.length > 0 && (
-        <div
-          className={styles.taskContainer__arrow}
-          onClick={() => setIsSubtasksCollapsed((prev) => !prev)}
-        >
-          <MdKeyboardArrowDown
-            size={ICON_SIZE * 1.5}
-            style={{
-              transform: isSubtasksCollapsed
-                ? 'rotate(0deg)'
-                : 'rotate(-180deg)',
-              transition: 'transform 0.5s ease-in-out',
-            }}
-          />
-        </div>
-      )}
-      <div className={styles.taskContainer__main}>
-        <Checkbox
-          isCompleted={isCompleted}
-          primaryColor={primaryColor}
-          onClick={async () => {
-            setIsCompleted((prev) => !prev);
-            const updatedCompletedTask = {
-              ...task,
-              updatedAt: new Date(),
-              isCompleted: !isCompleted,
-            };
+  function handleNewTask(task: ITask): void {
+    throw new Error('Function not implemented.');
+  }
 
-            handleUpdateTask(updatedCompletedTask);
-            await updateTask(updatedCompletedTask);
-          }}
-        />
-        <p>{task.title}</p>
-      </div>
-      <div className={styles.taskContainer__details}>
+  return (
+    <>
+      <div
+        className={styles.taskContainer}
+        onClick={() => setShowEditTaskModal(true)}
+      >
         {subtasks.length > 0 && (
-          <div className={styles.taskContainer__details__detail}>
-            <GoGitBranch
-              size={ICON_SIZE}
+          <div
+            className={styles.taskContainer__arrow}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsSubtasksCollapsed((prev) => !prev);
+            }}
+          >
+            <MdKeyboardArrowDown
+              size={ICON_SIZE * 1.5}
               style={{
-                transform: 'scale(1, -1)',
+                transform: isSubtasksCollapsed
+                  ? 'rotate(0deg)'
+                  : 'rotate(-180deg)',
+                transition: 'transform 0.5s ease-in-out',
               }}
             />
-            {completedSubtasks.length} / {subtasks.length}
           </div>
         )}
-        {deadlineDate && (
+        <div className={styles.taskContainer__main}>
+          <Checkbox
+            isCompleted={isCompleted}
+            primaryColor={primaryColor}
+            onClick={async (e) => {
+              e.stopPropagation();
+              setIsCompleted((prev) => !prev);
+              const updatedCompletedTask = {
+                ...task,
+                updatedAt: new Date(),
+                isCompleted: !isCompleted,
+              };
+
+              handleUpdateTask(updatedCompletedTask);
+              await updateTask(updatedCompletedTask);
+            }}
+          />
+          <p>{task.title}</p>
+        </div>
+        <div className={styles.taskContainer__details}>
+          {subtasks.length > 0 && (
+            <div className={styles.taskContainer__details__detail}>
+              <GoGitBranch
+                size={ICON_SIZE}
+                style={{
+                  transform: 'scale(1, -1)',
+                }}
+              />
+              {completedSubtasks.length} / {subtasks.length}
+            </div>
+          )}
+          {deadlineDate && (
+            <div
+              className={`${styles.taskContainer__details__detail}  ${deadlineColorClass}`}
+            >
+              <IoCalendarOutline size={ICON_SIZE} />
+              {deadline}
+            </div>
+          )}
+        </div>
+        {subtasks.length > 0 && (
           <div
-            className={`${styles.taskContainer__details__detail}  ${deadlineColorClass}`}
+            className={styles.taskContainer__subtasks}
+            style={{ maxHeight: maxHeight }}
+            ref={subtasksRef}
           >
-            <IoCalendarOutline size={ICON_SIZE} />
-            {deadline}
+            {subtasks.map((subtask) => (
+              <Subtask
+                key={subtask.subtaskId}
+                subtask={subtask}
+                primaryColor={primaryColor}
+              />
+            ))}
           </div>
         )}
       </div>
-      {subtasks.length > 0 && (
-        <div
-          className={styles.taskContainer__subtasks}
-          style={{ maxHeight: maxHeight }}
-          ref={subtasksRef}
-        >
-          {subtasks.map((subtask) => (
-            <Subtask
-              key={subtask.subtaskId}
-              subtask={subtask}
-              primaryColor={primaryColor}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+      <TaskManager
+        isVisible={showEditTaskModal}
+        onClose={() => setShowEditTaskModal(false)}
+        handleNewTask={handleNewTask}
+        t={t}
+        lists={optimisticLists}
+        editedTask={task}
+      />
+    </>
   );
 }

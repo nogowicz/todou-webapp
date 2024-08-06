@@ -1,6 +1,6 @@
 import { IoClose } from 'react-icons/io5';
 import { useRef } from 'react';
-import styles from '../add-new-task.module.scss';
+import styles from '../task-manager.module.scss';
 
 interface SubtaskProps {
   index: number;
@@ -16,7 +16,6 @@ const Subtask = ({
   removeSubtask,
 }: SubtaskProps) => {
   const subtaskInputRef = useRef<HTMLInputElement>(null);
-  console.log(Subtask);
   return (
     <div className={styles.overlay__addNewTask__subtasksContainer__subtask}>
       <div
