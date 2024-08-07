@@ -17,8 +17,8 @@ import {
 import { FaPlus } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { ISubtask } from '@/types/Subtask';
-import { useUser } from '@/utils/Providers/UserProvider';
 import { useListContext } from '@/utils/Providers/ListProvider';
+import { listColorTheme } from '@/components/list-item/ListStyles';
 
 interface IAddNewTask {
   isVisible: boolean;
@@ -175,7 +175,11 @@ export default function TaskManager({
     setTask({ ...task, subtasks: newSubtasks });
   };
 
-  const updateSubtask = (index: number, newSubtask: string) => {
+  const updateSubtask = (
+    index: number,
+    newSubtask: string,
+    isCompleted: boolean
+  ) => {
     if (index < 0 || index >= task.subtasks.length) {
       console.error('Index out of bounds');
       return;
@@ -183,7 +187,12 @@ export default function TaskManager({
 
     const updatedSubtasks = task.subtasks.map((subtask, i) =>
       i === index
-        ? { ...subtask, title: newSubtask, updatedAt: new Date() }
+        ? {
+            ...subtask,
+            title: newSubtask,
+            isCompleted: isCompleted,
+            updatedAt: new Date(),
+          }
         : subtask
     );
 
@@ -280,6 +289,7 @@ export default function TaskManager({
                   subtask={currentSubtask}
                   updateSubtask={updateSubtask}
                   removeSubtask={removeSubtask}
+                  primaryColor={listColorTheme[list.colorVariant]}
                 />
               ))}
             </div>
