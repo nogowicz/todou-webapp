@@ -3,6 +3,7 @@
 import { ITask, TaskImportance, TaskUrgency } from '@/types/Task';
 import { cookies } from 'next/headers';
 import { revalidateTag } from 'next/cache';
+import { ISubtask } from '@/types/Subtask';
 
 const token = cookies().get('session')?.value ?? '';
 
@@ -12,7 +13,7 @@ export async function createTaskRequest(
   deadline: Date | null,
   importance: TaskImportance | null,
   urgency: TaskUrgency | null,
-  subtask: string[],
+  subtask: ISubtask[],
   listId: number,
   note: string | null,
   notificationTime: Date | null
@@ -56,7 +57,7 @@ export async function createTask(
   deadline: Date | null,
   importance: TaskImportance | null,
   urgency: TaskUrgency | null,
-  subtask: string[],
+  subtask: ISubtask[],
   listId: number,
   note: string | null,
   notificationTime: Date | null

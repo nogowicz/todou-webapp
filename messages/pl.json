@@ -52,6 +52,8 @@
   "ListPage": {
     "create-new-list": "Utwórz Nową Listę",
     "add-new-task": "Dodaj Nowe Zadanie",
+    "edit-task": "Edytuj Zadanie",
+    "update-task": "Zaktualizuj Zadanie",
     "grid": "Siatka",
     "list": "Lista",
     "input-placeholder-list": "Nazwa Listy",

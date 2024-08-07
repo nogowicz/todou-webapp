@@ -13,7 +13,10 @@ export default function Subtask({ subtask, primaryColor }: SubtaskProps) {
   return (
     <div className={styles.subtaskContainer}>
       <Checkbox
-        onClick={() => console.log('Clicked')}
+        onClick={(e) => {
+          e.stopPropagation();
+          console.log('Clicked');
+        }}
         isCompleted={subtask.isCompleted}
         primaryColor={primaryColor}
       />

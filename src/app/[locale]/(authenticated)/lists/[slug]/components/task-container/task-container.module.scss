@@ -1,8 +1,7 @@
 .taskContainer {
   flex: 1;
-  height: 95%;
-  padding: 0 20px 0 0;
-  overflow-y: auto;
+  height: 70vh;
+  overflow-y: hidden;
   display: flex;
 
   &__left {
@@ -12,11 +11,16 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      height: 100%;
+      overflow-y: auto;
     }
   }
 
   &__right {
     flex: 2;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 20px;
 
     &__upperContainer {
       display: flex;
@@ -36,6 +40,7 @@
 
     &__tasksContainer {
 
+
       p {
         margin: 20px
       }
@@ -44,6 +49,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+
       }
     }
   }
