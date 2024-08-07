@@ -45,7 +45,7 @@ model subtask {
   title       String    @db.VarChar(45)
   taskId      Int
   isCompleted Boolean?  @default(false)
-  addedBy     String    @db.VarChar(45)
+  addedBy     Int
   createdAt   DateTime? @db.DateTime(0)
   updatedAt   DateTime? @db.DateTime(0)
   task        task      @relation(fields: [taskId], references: [taskId], onDelete: Cascade, map: "subtask_ibfk_1")

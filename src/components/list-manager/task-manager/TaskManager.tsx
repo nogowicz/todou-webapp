@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { createTask } from '@/actions/Task';
+import { createTask, updateTask } from '@/actions/Task';
 import styles from './task-manager.module.scss';
 import TaskDetails from './task-details/TaskDetails';
 import Subtask from './subtask/Subtask';
@@ -15,13 +15,15 @@ import {
   TaskUrgencyObject,
 } from '@/types/Task';
 import { FaPlus } from 'react-icons/fa';
-import { usePathname } from 'next/navigation';
+import { notFound, usePathname } from 'next/navigation';
+import { ISubtask } from '@/types/Subtask';
+import { useUser } from '@/utils/Providers/UserProvider';
+import { useListContext } from '@/utils/Providers/ListProvider';
 
 interface IAddNewTask {
   isVisible: boolean;
   onClose: () => void;
   t: Function;
-  handleNewTask: (task: ITask) => void;
   lists: IList[];
   editedTask?: ITask;
 }
@@ -30,11 +32,11 @@ export default function TaskManager({
   isVisible,
   onClose,
   t,
-  handleNewTask,
   lists,
   editedTask,
 }: IAddNewTask) {
   const currentPath = usePathname();
+  const { handleNewTask, handleUpdateTask } = useListContext();
   const index = Number(currentPath.split('/').pop());
   const list: IList = lists.find((list) => list.listId === index) || lists[0];
   const modalRef = useRef<HTMLDivElement>(null);
@@ -69,7 +71,7 @@ export default function TaskManager({
   const initialTaskState = {
     title: editedTask?.title ?? '',
     subtask: '',
-    subtasks: [] as string[],
+    subtasks: editedTask?.subtask ?? [],
     currentList: list,
     importance: editedTask
       ? (editedTaskImportance as ITaskImportance)
@@ -101,7 +103,7 @@ export default function TaskManager({
       deadline: task.deadline,
       importance: task.importance.name,
       urgency: task.urgency.name,
-      subtask: [],
+      subtask: task.subtasks,
       listId: task.currentList.listId,
       note: task.note,
       addedBy: -1,
@@ -116,11 +118,21 @@ export default function TaskManager({
     handleNewTask(newTask);
 
     onClose();
-    let updatedSubtasks = [...task.subtasks];
+    let updatedSubtasks: ISubtask[] = [...task.subtasks];
+
     if (task.subtask.trim() !== '') {
-      updatedSubtasks = [...updatedSubtasks, task.subtask];
-      setTask({ ...task, subtasks: updatedSubtasks, subtask: '' });
+      const subtaskInInput: ISubtask = {
+        title: task.subtask,
+        isCompleted: false,
+        subtaskId: -1,
+        taskId: -1,
+        addedBy: -1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      updatedSubtasks = [...updatedSubtasks, subtaskInInput];
     }
+    setTask({ ...task, subtasks: updatedSubtasks, subtask: '' });
 
     try {
       await createTask(
@@ -139,10 +151,19 @@ export default function TaskManager({
     }
   };
 
-  const addNewSubtask = (subtaskName: string) => {
+  const addNewSubtask = (newSubtask: string) => {
+    const newSubtaskObject: ISubtask = {
+      title: newSubtask,
+      isCompleted: false,
+      subtaskId: -1,
+      taskId: -1,
+      addedBy: -1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
     setTask((prevTask) => ({
       ...prevTask,
-      subtasks: [...prevTask.subtasks, subtaskName],
+      subtasks: [...prevTask.subtasks, newSubtaskObject],
       subtask: '',
     }));
   };
@@ -154,9 +175,43 @@ export default function TaskManager({
   };
 
   const updateSubtask = (index: number, newSubtask: string) => {
+    const newSubtaskObject: ISubtask = {
+      title: newSubtask,
+      isCompleted: false,
+      subtaskId: -1,
+      taskId: -1,
+      addedBy: -1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
     const newSubtasks = [...task.subtasks];
-    newSubtasks[index] = newSubtask;
+    newSubtasks[index] = newSubtaskObject;
     setTask({ ...task, subtasks: newSubtasks });
+  };
+
+  const handleUpdateCurrentTask = async () => {
+    if (editedTask) {
+      const updatedTask: ITask = {
+        title: task.title,
+        deadline: task.deadline,
+        importance: task.importance.name,
+        urgency: task.urgency.name,
+        subtask: task.subtasks,
+        listId: task.currentList.listId,
+        note: task.note,
+        addedBy: editedTask.addedBy,
+        assignedTo: editedTask.assignedTo,
+        createdAt: editedTask.createdAt,
+        isCompleted: editedTask.isCompleted,
+        taskId: editedTask?.taskId,
+        updatedAt: new Date(),
+        notificationTime: null,
+      };
+
+      handleUpdateTask(updatedTask);
+      await updateTask(updatedTask);
+      onClose();
+    }
   };
 
   if (isVisible) {
@@ -228,7 +283,10 @@ export default function TaskManager({
               ))}
             </div>
           </div>
-          <CustomButton disabled={!task.title} onClick={handleAddNewTask}>
+          <CustomButton
+            disabled={!task.title}
+            onClick={editedTask ? handleUpdateCurrentTask : handleAddNewTask}
+          >
             {editedTask ? t('update-task') : t('add-new-task')}
           </CustomButton>
         </div>

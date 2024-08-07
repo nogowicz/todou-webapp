@@ -1,10 +1,11 @@
 import { IoClose } from 'react-icons/io5';
 import { useRef } from 'react';
 import styles from '../task-manager.module.scss';
+import { ISubtask } from '@/types/Subtask';
 
 interface SubtaskProps {
   index: number;
-  subtask: string;
+  subtask: ISubtask;
   updateSubtask: (index: number, newSubtask: string) => void;
   removeSubtask: (index: number) => void;
 }
@@ -26,7 +27,7 @@ const Subtask = ({
       <input
         title="subtask"
         placeholder="Enter subtask"
-        value={subtask}
+        value={subtask.title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           updateSubtask(index, e.target.value)
         }

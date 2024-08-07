@@ -68,10 +68,6 @@ export default function Task({ task, primaryColor }: TaskProps) {
   const subtasks: ISubtask[] = task.subtask;
   const completedSubtasks = subtasks.filter((subtask) => subtask.isCompleted);
 
-  function handleNewTask(task: ITask): void {
-    throw new Error('Function not implemented.');
-  }
-
   return (
     <>
       <div
@@ -156,7 +152,6 @@ export default function Task({ task, primaryColor }: TaskProps) {
       <TaskManager
         isVisible={showEditTaskModal}
         onClose={() => setShowEditTaskModal(false)}
-        handleNewTask={handleNewTask}
         t={t}
         lists={optimisticLists}
         editedTask={task}

@@ -16,7 +16,7 @@ import { revalidateLists } from '@/actions/List';
 import { useListContext } from '@/utils/Providers/ListProvider';
 
 export default function ListManager() {
-  const { optimisticLists, handleNewList, handleNewTask } = useListContext();
+  const { optimisticLists, handleNewList } = useListContext();
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
@@ -55,7 +55,6 @@ export default function ListManager() {
       <TaskManager
         isVisible={showAddTaskModal}
         onClose={() => setShowAddTaskModal(false)}
-        handleNewTask={handleNewTask}
         t={t}
         lists={optimisticLists}
       />
