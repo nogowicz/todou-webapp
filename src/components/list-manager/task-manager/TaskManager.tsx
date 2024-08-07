@@ -170,6 +170,11 @@ export default function TaskManager({
   };
 
   const removeSubtask = (index: number) => {
+    if (index < 0 || index >= task.subtasks.length) {
+      console.error('Index out of bounds');
+      return;
+    }
+
     const newSubtasks = [...task.subtasks];
     newSubtasks.splice(index, 1);
     setTask({ ...task, subtasks: newSubtasks });

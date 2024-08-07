@@ -73,6 +73,23 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
       return null;
     }
 
+    const existingSubtaskIds = existingTask.subtask.map(
+      (subtask) => subtask.subtaskId
+    );
+    const updatedSubtaskIds = task.subtask.map((subtask) => subtask.subtaskId);
+
+    const subtasksToRemove = existingSubtaskIds.filter(
+      (id) => !updatedSubtaskIds.includes(id)
+    );
+
+    await prisma.subtask.deleteMany({
+      where: {
+        subtaskId: {
+          in: subtasksToRemove,
+        },
+      },
+    });
+
     const updatedTask = await prisma.task.update({
       where: { taskId: task.taskId },
       data: {
@@ -89,7 +106,6 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
         assignedTo: task.assignedTo ?? existingTask.assignedTo,
       },
     });
-    console.log(task.subtask);
     if (task.subtask) {
       for (const subtask of task.subtask) {
         if (existingTask.taskId !== subtask.taskId) {
@@ -97,7 +113,6 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
             `Subtask with taskId ${subtask.taskId} does not match the current task.`
           );
         }
-        console.log(subtask);
         await prisma.subtask.upsert({
           where: { subtaskId: subtask.subtaskId },
           update: {
