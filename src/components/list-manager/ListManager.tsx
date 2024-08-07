@@ -10,13 +10,13 @@ import CustomButton from '../custom-button/CustomButton';
 import styles from './list-manager.module.scss';
 import AddNewList from './add-new-list/AddNewList';
 import { useTranslations } from 'next-intl';
-import AddNewTask from './add-new-task/AddNewTask';
+import TaskManager from './task-manager/TaskManager';
 import { MdOutlineSync } from 'react-icons/md';
 import { revalidateLists } from '@/actions/List';
 import { useListContext } from '@/utils/Providers/ListProvider';
 
 export default function ListManager() {
-  const { optimisticLists, handleNewList, handleNewTask } = useListContext();
+  const { optimisticLists, handleNewList } = useListContext();
   const [showAddListModal, setShowAddListModal] = useState(false);
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const t = useTranslations('ListPage');
@@ -52,10 +52,9 @@ export default function ListManager() {
         handleNewList={handleNewList}
         t={t}
       />
-      <AddNewTask
+      <TaskManager
         isVisible={showAddTaskModal}
         onClose={() => setShowAddTaskModal(false)}
-        handleNewTask={handleNewTask}
         t={t}
         lists={optimisticLists}
       />

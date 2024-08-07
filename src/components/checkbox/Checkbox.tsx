@@ -6,7 +6,7 @@ import { FaCheck } from 'react-icons/fa';
 interface ICheckbox {
   isCompleted: boolean;
   primaryColor: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function Checkbox({

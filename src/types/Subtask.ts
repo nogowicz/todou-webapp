@@ -3,7 +3,7 @@ export interface ISubtask {
   title: string;
   taskId: number;
   isCompleted: boolean;
-  addedBy: string;
+  addedBy: number;
   createdAt: Date;
   updatedAt: Date;
 }

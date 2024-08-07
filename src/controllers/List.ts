@@ -56,6 +56,7 @@ export const createNewList = async (
         iconId: iconId,
         colorVariant: colorVariant,
         createdAt: new Date(),
+        updatedAt: new Date(),
         canBeDeleted: true,
         isArchived: false,
         isFavorite: false,

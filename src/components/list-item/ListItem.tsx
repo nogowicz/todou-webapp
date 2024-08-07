@@ -29,7 +29,7 @@ export default function ListItem({ list, listStyle }: IListItem) {
           borderColor:
             index && +index === list.listId
               ? `${listColorTheme[list.colorVariant]}`
-              : 'transparent',
+              : '',
         }}
       >
         <div

@@ -1,10 +1,11 @@
 import { IoClose } from 'react-icons/io5';
 import { useRef } from 'react';
-import styles from '../add-new-task.module.scss';
+import styles from '../task-manager.module.scss';
+import { ISubtask } from '@/types/Subtask';
 
 interface SubtaskProps {
   index: number;
-  subtask: string;
+  subtask: ISubtask;
   updateSubtask: (index: number, newSubtask: string) => void;
   removeSubtask: (index: number) => void;
 }
@@ -16,16 +17,17 @@ const Subtask = ({
   removeSubtask,
 }: SubtaskProps) => {
   const subtaskInputRef = useRef<HTMLInputElement>(null);
-  console.log(Subtask);
   return (
-    <div className={styles.addNewTask__subtasksContainer__subtask}>
+    <div className={styles.overlay__addNewTask__subtasksContainer__subtask}>
       <div
-        className={styles.addNewTask__subtasksContainer__subtask__checkbox}
+        className={
+          styles.overlay__addNewTask__subtasksContainer__subtask__checkbox
+        }
       />
       <input
         title="subtask"
         placeholder="Enter subtask"
-        value={subtask}
+        value={subtask.title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           updateSubtask(index, e.target.value)
         }

@@ -1,4 +1,5 @@
 import { verifySession } from '@/lib/session';
+import { ISubtask } from '@/types/Subtask';
 import { ITask, TaskImportance, TaskUrgency } from '@/types/Task';
 import { PrismaClient } from '@prisma/client';
 
@@ -10,7 +11,7 @@ export const createNewTaskInDb = async (
   deadline: Date | null,
   importance: TaskImportance,
   urgency: TaskUrgency,
-  subtask: string[],
+  subtask: ISubtask[],
   listId: number,
   note: string | null,
   notificationTime: Date | null
@@ -31,9 +32,9 @@ export const createNewTaskInDb = async (
         urgency: urgency,
         listId: listId,
         subtask: {
-          create: subtask.map((subtaskTitle) => ({
-            title: subtaskTitle,
-            addedBy: session.userId.toString(), // Ensure this is a string
+          create: subtask.map((subtask) => ({
+            title: subtask.title,
+            addedBy: session.userId,
             createdAt: new Date(),
             isCompleted: false,
           })),
@@ -85,6 +86,15 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
           task.notificationTime ?? existingTask.notificationTime,
         updatedAt: new Date(),
         assignedTo: task.assignedTo ?? existingTask.assignedTo,
+        subtask: {
+          updateMany: task.subtask.map((subtask) => ({
+            where: { subtaskId: subtask.subtaskId },
+            data: {
+              title: subtask.title,
+              isCompleted: subtask.isCompleted,
+            },
+          })),
+        },
       },
     });
 

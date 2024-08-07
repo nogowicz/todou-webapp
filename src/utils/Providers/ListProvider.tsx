@@ -28,7 +28,7 @@ export const ListProvider: React.FC<{
         if (list.listId === newTask.listId) {
           return {
             ...list,
-            tasks: [...list.task, newTask],
+            task: [...list.task, newTask],
           };
         }
         return list;
@@ -42,7 +42,7 @@ export const ListProvider: React.FC<{
         if (list.listId === updatedTask.listId) {
           return {
             ...list,
-            tasks: list.task.map((task) =>
+            task: list.task.map((task) =>
               task.taskId === updatedTask.taskId ? updatedTask : task
             ),
           };

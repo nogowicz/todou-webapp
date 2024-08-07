@@ -45,7 +45,7 @@ model subtask {
   title       String
   taskId      Int
   isCompleted Boolean?  @default(false)
-  addedBy     String
+  addedBy     Int
   createdAt   DateTime? 
   updatedAt   DateTime? 
   task        task      @relation(fields: [taskId], references: [taskId])

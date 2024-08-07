@@ -52,6 +52,8 @@
   "ListPage": {
     "create-new-list": "Create New List",
     "add-new-task": "Add New Task",
+    "edit-task": "Edit Task",
+    "update-task": "Update Task",
     "grid": "Grid",
     "list": "List",
     "input-placeholder-list": "List Name",
