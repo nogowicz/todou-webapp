@@ -143,6 +143,7 @@ export default function Task({ task, primaryColor }: TaskProps) {
               <Subtask
                 key={subtask.subtaskId}
                 subtask={subtask}
+                task={task}
                 primaryColor={primaryColor}
               />
             ))}

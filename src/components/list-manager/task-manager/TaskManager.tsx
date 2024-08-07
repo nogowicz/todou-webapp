@@ -15,7 +15,7 @@ import {
   TaskUrgencyObject,
 } from '@/types/Task';
 import { FaPlus } from 'react-icons/fa';
-import { notFound, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ISubtask } from '@/types/Subtask';
 import { useUser } from '@/utils/Providers/UserProvider';
 import { useListContext } from '@/utils/Providers/ListProvider';
@@ -145,6 +145,7 @@ export default function TaskManager({
         task.note,
         null
       );
+
       setTask(initialTaskState);
     } catch (error) {
       console.error('Error creating new task:', error);
@@ -175,18 +176,18 @@ export default function TaskManager({
   };
 
   const updateSubtask = (index: number, newSubtask: string) => {
-    const newSubtaskObject: ISubtask = {
-      title: newSubtask,
-      isCompleted: false,
-      subtaskId: -1,
-      taskId: -1,
-      addedBy: -1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    const newSubtasks = [...task.subtasks];
-    newSubtasks[index] = newSubtaskObject;
-    setTask({ ...task, subtasks: newSubtasks });
+    if (index < 0 || index >= task.subtasks.length) {
+      console.error('Index out of bounds');
+      return;
+    }
+
+    const updatedSubtasks = task.subtasks.map((subtask, i) =>
+      i === index
+        ? { ...subtask, title: newSubtask, updatedAt: new Date() }
+        : subtask
+    );
+
+    setTask({ ...task, subtasks: updatedSubtasks });
   };
 
   const handleUpdateCurrentTask = async () => {

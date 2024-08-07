@@ -66,6 +66,7 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
 
     const existingTask = await prisma.task.findUnique({
       where: { taskId: task.taskId },
+      include: { subtask: true },
     });
 
     if (!existingTask) {
@@ -86,17 +87,33 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
           task.notificationTime ?? existingTask.notificationTime,
         updatedAt: new Date(),
         assignedTo: task.assignedTo ?? existingTask.assignedTo,
-        subtask: {
-          updateMany: task.subtask.map((subtask) => ({
-            where: { subtaskId: subtask.subtaskId },
-            data: {
-              title: subtask.title,
-              isCompleted: subtask.isCompleted,
-            },
-          })),
-        },
       },
     });
+    console.log(task.subtask);
+    if (task.subtask) {
+      for (const subtask of task.subtask) {
+        if (existingTask.taskId !== subtask.taskId) {
+          throw new Error(
+            `Subtask with taskId ${subtask.taskId} does not match the current task.`
+          );
+        }
+        console.log(subtask);
+        await prisma.subtask.upsert({
+          where: { subtaskId: subtask.subtaskId },
+          update: {
+            title: subtask.title,
+            isCompleted: subtask.isCompleted,
+          },
+          create: {
+            subtaskId: subtask.subtaskId,
+            title: subtask.title,
+            isCompleted: subtask.isCompleted,
+            taskId: task.taskId,
+            addedBy: session.userId,
+          },
+        });
+      }
+    }
 
     return updatedTask;
   } catch (error) {
