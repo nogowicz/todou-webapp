@@ -86,13 +86,7 @@
   }
 
   @include breakpoint.media('<=LGphone') {
-    margin-top: 40px;
-
-    &__container {
-      &__right {
-        padding: 0 20px;
-      }
-    }
+    margin: 40px 0
   }
 
 
