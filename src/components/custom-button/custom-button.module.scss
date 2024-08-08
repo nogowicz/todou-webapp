@@ -1,5 +1,4 @@
 @use '../../styles/variables' as *;
-@use '../../styles/breakpoints' as breakpoint;
 
 .link {
   text-decoration: none;
@@ -33,9 +32,6 @@
     cursor: default;
   }
 
-  @include breakpoint.media('<=LGphone') {
-    width: 90%;
-  }
 }
 
 .primary {

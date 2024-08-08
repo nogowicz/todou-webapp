@@ -1,13 +1,11 @@
 @use '../../styles/variables' as *;
-@use '../../styles/breakpoints' as breakpoint;
 
 .customInput {
   display: flex;
   flex-direction: column;
-  margin: 40px 0;
+  margin: 0 0 40px 0;
   width: 100%;
   position: relative;
-  min-width: 400px;
 
   &__labelContainer {
     display: flex;
@@ -24,6 +22,10 @@
 
       .error & {
         color: var(--red) !important;
+
+        p {
+          text-align: left !important
+        }
       }
     }
 
@@ -108,9 +110,6 @@
     top: 65px;
   }
 
-  @include breakpoint.media('<=LGphone') {
-    min-width: 250px;
-    margin: 20px 0;
-  }
+
 
 }

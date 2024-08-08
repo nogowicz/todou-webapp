@@ -27,7 +27,7 @@ export default function Welcome() {
         </div>
         <div className={styles.welcome__container__right}>
           <div className={styles.welcome__container__right__logo}>
-            <Logo />
+            <Logo width={250} />
           </div>
           <div className={styles.welcome__container__right__placeholder} />
           <FormSwitcher />
