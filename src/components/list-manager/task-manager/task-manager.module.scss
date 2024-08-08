@@ -101,6 +101,11 @@
 
       svg {
         color: var(--hint);
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
       }
 
       input {
@@ -171,13 +176,11 @@
 
   ::-webkit-scrollbar-track {
     background: var(--background);
-    border-radius: 10px;
     margin: 20px
   }
 
   ::-webkit-scrollbar-thumb {
     background: var(--tertiary);
-    border-radius: 10px;
 
   }
 

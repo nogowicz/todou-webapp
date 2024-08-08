@@ -13,6 +13,7 @@ import Checkbox from '../checkbox/Checkbox';
 import { updateTask } from '@/actions/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import TaskManager from '../list-manager/task-manager/TaskManager';
+import { BsThreeDots } from 'react-icons/bs';
 
 interface TaskProps {
   task: ITask;
@@ -70,10 +71,7 @@ export default function Task({ task, primaryColor }: TaskProps) {
 
   return (
     <>
-      <div
-        className={styles.taskContainer}
-        onClick={() => setShowEditTaskModal(true)}
-      >
+      <div className={styles.taskContainer}>
         {subtasks.length > 0 && (
           <div
             className={styles.taskContainer__arrow}
@@ -94,23 +92,33 @@ export default function Task({ task, primaryColor }: TaskProps) {
           </div>
         )}
         <div className={styles.taskContainer__main}>
-          <Checkbox
-            isCompleted={isCompleted}
-            primaryColor={primaryColor}
-            onClick={async (e) => {
-              e.stopPropagation();
-              setIsCompleted((prev) => !prev);
-              const updatedCompletedTask = {
-                ...task,
-                updatedAt: new Date(),
-                isCompleted: !isCompleted,
-              };
+          <div className={styles.taskContainer__main__left}>
+            <Checkbox
+              isCompleted={isCompleted}
+              primaryColor={primaryColor}
+              onClick={async (e) => {
+                e.stopPropagation();
+                setIsCompleted((prev) => !prev);
+                const updatedCompletedTask = {
+                  ...task,
+                  updatedAt: new Date(),
+                  isCompleted: !isCompleted,
+                };
 
-              handleUpdateTask(updatedCompletedTask);
-              await updateTask(updatedCompletedTask);
+                handleUpdateTask(updatedCompletedTask);
+                await updateTask(updatedCompletedTask);
+              }}
+            />
+            <p>{task.title}</p>
+          </div>
+
+          <BsThreeDots
+            style={{
+              marginTop: subtasks.length > 0 ? '20px' : 0,
             }}
+            onClick={() => setShowEditTaskModal(true)}
+            size={ICON_SIZE * 1.5}
           />
-          <p>{task.title}</p>
         </div>
         <div className={styles.taskContainer__details}>
           {subtasks.length > 0 && (

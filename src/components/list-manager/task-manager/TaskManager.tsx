@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
@@ -153,11 +153,12 @@ export default function TaskManager({
   };
 
   const addNewSubtask = (newSubtask: string) => {
+    if (newSubtask.trim() === '') return;
     const newSubtaskObject: ISubtask = {
       title: newSubtask,
       isCompleted: false,
       subtaskId: -1,
-      taskId: -1,
+      taskId: editedTask ? editedTask?.taskId : -1,
       addedBy: -1,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -269,7 +270,13 @@ export default function TaskManager({
           />
           <div>
             <div className={styles.overlay__addNewTask__subtaskInput}>
-              <FaPlus size={24} />
+              <FaPlus
+                size={24}
+                onClick={() => {
+                  addNewSubtask(task.subtask);
+                  subtaskInputRef.current?.focus();
+                }}
+              />
               <input
                 title="subtask"
                 ref={subtaskInputRef}

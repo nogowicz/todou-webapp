@@ -108,25 +108,27 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
     });
     if (task.subtask) {
       for (const subtask of task.subtask) {
-        if (existingTask.taskId !== subtask.taskId) {
-          throw new Error(
-            `Subtask with taskId ${subtask.taskId} does not match the current task.`
-          );
+        if (subtask.subtaskId > 0) {
+          await prisma.subtask.update({
+            where: { subtaskId: subtask.subtaskId },
+            data: {
+              title: subtask.title,
+              isCompleted: subtask.isCompleted,
+              updatedAt: new Date(),
+            },
+          });
+        } else {
+          await prisma.subtask.create({
+            data: {
+              title: subtask.title,
+              isCompleted: subtask.isCompleted,
+              taskId: task.taskId,
+              addedBy: session.userId,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
         }
-        await prisma.subtask.upsert({
-          where: { subtaskId: subtask.subtaskId },
-          update: {
-            title: subtask.title,
-            isCompleted: subtask.isCompleted,
-          },
-          create: {
-            subtaskId: subtask.subtaskId,
-            title: subtask.title,
-            isCompleted: subtask.isCompleted,
-            taskId: task.taskId,
-            addedBy: session.userId,
-          },
-        });
       }
     }
 
