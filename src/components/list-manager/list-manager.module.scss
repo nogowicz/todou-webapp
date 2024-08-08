@@ -8,8 +8,8 @@
   &__button {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 15px 20px;
+    justify-content: flex-start !important;
+    padding: 15px 20px !important;
     gap: 20px;
     max-width: 335px;
     min-width: 295px;
