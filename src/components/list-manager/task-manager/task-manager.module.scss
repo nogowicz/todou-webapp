@@ -15,8 +15,8 @@
     min-width: 800px;
     padding: 40px;
     border-radius: 10px;
-    overflow-y: auto;
     max-height: 85vh;
+    overflow-y: auto;
 
     &__upperContainer {
       display: flex;
@@ -101,6 +101,11 @@
 
       svg {
         color: var(--hint);
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
       }
 
       input {
@@ -137,18 +142,6 @@
         align-items: center;
         width: 100%;
 
-        &__checkbox {
-          background-color: var(--tertiary);
-          width: 32px;
-          height: 32px;
-          border-radius: 5px;
-
-          &:hover {
-            cursor: pointer;
-            opacity: 0.7;
-          }
-        }
-
 
         input {
           background-color: var(--secondary);
@@ -178,5 +171,24 @@
         }
       }
     }
+  }
+
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+    margin: 20px
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-transparent);
   }
 }

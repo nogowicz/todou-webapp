@@ -32,6 +32,8 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     return notFound();
   }
   const tasks: ITask[] = list.task;
+  const inCompleteTasks: ITask[] = tasks.filter((task) => !task.isCompleted);
+  const completedTasks: ITask[] = tasks.filter((task) => task.isCompleted);
   return (
     <div className={styles.taskContainer}>
       <div className={styles.taskContainer__left}>
@@ -56,10 +58,10 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         </div>
         <div className={styles.taskContainer__right__tasksContainer}>
           <p>
-            {t('tasks')} - {tasks.length}
+            {t('tasks')} - {inCompleteTasks.length}
           </p>
           <div className={styles.taskContainer__right__tasksContainer__tasks}>
-            {tasks.map((task) => (
+            {inCompleteTasks.map((task) => (
               <Task
                 key={task.taskId}
                 task={task}
@@ -68,6 +70,22 @@ export default function TaskContainer({ slug }: ITaskContainer) {
             ))}
           </div>
         </div>
+        {completedTasks.length > 0 && (
+          <div className={styles.taskContainer__right__tasksContainer}>
+            <p>
+              {t('completed')} - {completedTasks.length}
+            </p>
+            <div className={styles.taskContainer__right__tasksContainer__tasks}>
+              {completedTasks.map((task) => (
+                <Task
+                  key={task.taskId}
+                  task={task}
+                  primaryColor={listColorTheme[list.colorVariant]}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

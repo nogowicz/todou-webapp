@@ -109,15 +109,12 @@ a:-webkit-any-link {
 
 ::-webkit-scrollbar-track {
   background: var(--tertiary);
-  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   background: var(--secondary);
-  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-transparent);
-  /* Color of the scrollbar thumb on hover */
 }

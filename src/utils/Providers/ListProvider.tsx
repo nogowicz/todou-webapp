@@ -3,12 +3,14 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
 import { useOptimistic } from 'react';
+import { ISubtask } from '@/types/Subtask';
 
 interface ListContextType {
   optimisticLists: IList[];
   handleNewList: (newList: IList) => void;
   handleNewTask: (newTask: ITask) => void;
   handleUpdateTask: (updatedTask: ITask) => void;
+  handleUpdateSubtask: (updatedSubtask: ISubtask, currentTask: ITask) => void;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -52,11 +54,45 @@ export const ListProvider: React.FC<{
     });
   };
 
+  const handleUpdateSubtask = (
+    updatedSubtask: ISubtask,
+    currentTask: ITask
+  ) => {
+    updateOptimisticLists((lists) => {
+      return lists.map((list) => {
+        if (list.listId === currentTask.listId) {
+          const updatedTasks = list.task.map((task) => {
+            if (task.taskId === currentTask.taskId) {
+              const updatedSubtasks = task.subtask.map((subtask) =>
+                subtask.subtaskId === updatedSubtask.subtaskId
+                  ? updatedSubtask
+                  : subtask
+              );
+
+              return {
+                ...task,
+                subtask: updatedSubtasks,
+              };
+            }
+            return task;
+          });
+
+          return {
+            ...list,
+            task: updatedTasks,
+          };
+        }
+        return list;
+      });
+    });
+  };
+
   const value = {
     optimisticLists,
     handleNewList,
     handleNewTask,
     handleUpdateTask,
+    handleUpdateSubtask,
   };
 
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;

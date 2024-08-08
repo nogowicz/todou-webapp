@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
@@ -15,10 +15,10 @@ import {
   TaskUrgencyObject,
 } from '@/types/Task';
 import { FaPlus } from 'react-icons/fa';
-import { notFound, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ISubtask } from '@/types/Subtask';
-import { useUser } from '@/utils/Providers/UserProvider';
 import { useListContext } from '@/utils/Providers/ListProvider';
+import { listColorTheme } from '@/components/list-item/ListStyles';
 
 interface IAddNewTask {
   isVisible: boolean;
@@ -145,6 +145,7 @@ export default function TaskManager({
         task.note,
         null
       );
+
       setTask(initialTaskState);
     } catch (error) {
       console.error('Error creating new task:', error);
@@ -152,11 +153,12 @@ export default function TaskManager({
   };
 
   const addNewSubtask = (newSubtask: string) => {
+    if (newSubtask.trim() === '') return;
     const newSubtaskObject: ISubtask = {
       title: newSubtask,
       isCompleted: false,
       subtaskId: -1,
-      taskId: -1,
+      taskId: editedTask ? editedTask?.taskId : -1,
       addedBy: -1,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -169,24 +171,38 @@ export default function TaskManager({
   };
 
   const removeSubtask = (index: number) => {
+    if (index < 0 || index >= task.subtasks.length) {
+      console.error('Index out of bounds');
+      return;
+    }
+
     const newSubtasks = [...task.subtasks];
     newSubtasks.splice(index, 1);
     setTask({ ...task, subtasks: newSubtasks });
   };
 
-  const updateSubtask = (index: number, newSubtask: string) => {
-    const newSubtaskObject: ISubtask = {
-      title: newSubtask,
-      isCompleted: false,
-      subtaskId: -1,
-      taskId: -1,
-      addedBy: -1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    const newSubtasks = [...task.subtasks];
-    newSubtasks[index] = newSubtaskObject;
-    setTask({ ...task, subtasks: newSubtasks });
+  const updateSubtask = (
+    index: number,
+    newSubtask: string,
+    isCompleted: boolean
+  ) => {
+    if (index < 0 || index >= task.subtasks.length) {
+      console.error('Index out of bounds');
+      return;
+    }
+
+    const updatedSubtasks = task.subtasks.map((subtask, i) =>
+      i === index
+        ? {
+            ...subtask,
+            title: newSubtask,
+            isCompleted: isCompleted,
+            updatedAt: new Date(),
+          }
+        : subtask
+    );
+
+    setTask({ ...task, subtasks: updatedSubtasks });
   };
 
   const handleUpdateCurrentTask = async () => {
@@ -254,7 +270,13 @@ export default function TaskManager({
           />
           <div>
             <div className={styles.overlay__addNewTask__subtaskInput}>
-              <FaPlus size={24} />
+              <FaPlus
+                size={24}
+                onClick={() => {
+                  addNewSubtask(task.subtask);
+                  subtaskInputRef.current?.focus();
+                }}
+              />
               <input
                 title="subtask"
                 ref={subtaskInputRef}
@@ -279,6 +301,7 @@ export default function TaskManager({
                   subtask={currentSubtask}
                   updateSubtask={updateSubtask}
                   removeSubtask={removeSubtask}
+                  primaryColor={listColorTheme[list.colorVariant]}
                 />
               ))}
             </div>

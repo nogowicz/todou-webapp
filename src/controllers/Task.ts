@@ -66,11 +66,29 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
 
     const existingTask = await prisma.task.findUnique({
       where: { taskId: task.taskId },
+      include: { subtask: true },
     });
 
     if (!existingTask) {
       return null;
     }
+
+    const existingSubtaskIds = existingTask.subtask.map(
+      (subtask) => subtask.subtaskId
+    );
+    const updatedSubtaskIds = task.subtask.map((subtask) => subtask.subtaskId);
+
+    const subtasksToRemove = existingSubtaskIds.filter(
+      (id) => !updatedSubtaskIds.includes(id)
+    );
+
+    await prisma.subtask.deleteMany({
+      where: {
+        subtaskId: {
+          in: subtasksToRemove,
+        },
+      },
+    });
 
     const updatedTask = await prisma.task.update({
       where: { taskId: task.taskId },
@@ -86,17 +104,33 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
           task.notificationTime ?? existingTask.notificationTime,
         updatedAt: new Date(),
         assignedTo: task.assignedTo ?? existingTask.assignedTo,
-        subtask: {
-          updateMany: task.subtask.map((subtask) => ({
+      },
+    });
+    if (task.subtask) {
+      for (const subtask of task.subtask) {
+        if (subtask.subtaskId > 0) {
+          await prisma.subtask.update({
             where: { subtaskId: subtask.subtaskId },
             data: {
               title: subtask.title,
               isCompleted: subtask.isCompleted,
+              updatedAt: new Date(),
             },
-          })),
-        },
-      },
-    });
+          });
+        } else {
+          await prisma.subtask.create({
+            data: {
+              title: subtask.title,
+              isCompleted: subtask.isCompleted,
+              taskId: task.taskId,
+              addedBy: session.userId,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          });
+        }
+      }
+    }
 
     return updatedTask;
   } catch (error) {
