@@ -47,6 +47,7 @@
   },
   "HomePage": {
     "greetings": "Dobrze Cię widzieć,",
+    "greetings-short": "Witaj, ",
     "subtitle": "Organizuj, priorytetyzuj i osiągaj. Oto twój plan na dzisiaj:"
   },
   "ListPage": {
