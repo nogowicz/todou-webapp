@@ -10,9 +10,10 @@ const ICON_SIZE = 24;
 
 interface IMenuItems {
   t: Function;
+  isMobile?: boolean;
 }
 
-export default function MenuItems({ t }: IMenuItems) {
+export default function MenuItems({ t, isMobile = false }: IMenuItems) {
   const locale = useLocale();
 
   const menuItems = [
@@ -41,6 +42,18 @@ export default function MenuItems({ t }: IMenuItems) {
       exact: false,
     },
   ];
+
+  if (isMobile) {
+    return (
+      <>
+        {menuItems.map((item, index) => (
+          <NavbarLink key={index} href={item.href} exact={item.exact}>
+            {item.icon}
+          </NavbarLink>
+        ))}
+      </>
+    );
+  }
 
   return (
     <>

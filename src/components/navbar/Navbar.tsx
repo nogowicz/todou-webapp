@@ -12,7 +12,7 @@ export default async function Navbar() {
   const t = await getTranslations('NavigationComponent');
 
   return (
-    <nav className={`${styles.navbar}`}>
+    <nav className={styles.navbar}>
       <div className={styles.navbar__container}>
         <div className={styles.navbar__container__fields}>
           <Link href={'/'}>
