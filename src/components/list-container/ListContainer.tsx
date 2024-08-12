@@ -15,18 +15,6 @@ export default function ListContainer() {
       {optimisticLists.map((list: IList) => (
         <ListItem key={list.listId} list={list} listStyle="grid" />
       ))}
-      {optimisticLists.map((list: IList) => (
-        <ListItem key={list.listId} list={list} listStyle="grid" />
-      ))}
-      {optimisticLists.map((list: IList) => (
-        <ListItem key={list.listId} list={list} listStyle="grid" />
-      ))}
-      {optimisticLists.map((list: IList) => (
-        <ListItem key={list.listId} list={list} listStyle="grid" />
-      ))}
-      {optimisticLists.map((list: IList) => (
-        <ListItem key={list.listId} list={list} listStyle="grid" />
-      ))}
     </div>
   );
 }
