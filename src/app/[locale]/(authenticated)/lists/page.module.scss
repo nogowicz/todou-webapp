@@ -1,7 +1,20 @@
+@use '../../../../styles/breakpoints' as breakpoint;
+
 .listContainer {
   width: 100%;
-  height: 95%;
+  height: 70vh;
   overflow-x: hidden;
-  overflow-y: scroll;
-  background-color: red;
+  overflow-y: auto;
+
+  @include breakpoint.media('<=SMdesktop') {
+    height: 75vh;
+  }
+
+  @include breakpoint.media('<=tablet') {
+    height: calc(75vh - 30px);
+  }
+
+  @include breakpoint.media('<=phone') {
+    height: calc(65vh - 30px);
+  }
 }

@@ -41,6 +41,8 @@
   }
 
   @include breakpoint.media('<=LGtablet') {
+    margin: 10px 0 20px 0;
+
     &__button {
       min-width: 50px;
       justify-content: center !important;

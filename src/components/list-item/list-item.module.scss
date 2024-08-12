@@ -1,11 +1,19 @@
+@use '../../styles/variables' as *;
+@use '../../styles/breakpoints' as breakpoint;
+
 .listItem {
-  &__grid {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 20%;
+  min-width: 200px;
+
+
+  &--grid {
     position: relative;
     border-radius: 10px;
     padding: 20px;
-    min-height: 180px;
-    width: 295px;
-
+    height: 180px;
+    width: 100%;
 
     svg {
       position: absolute;
@@ -17,7 +25,7 @@
       position: absolute;
       bottom: 0;
       font-weight: 600;
-      font-size: 25px;
+      font-size: $p-font-size-x-large;
     }
 
     &:hover {
@@ -25,10 +33,41 @@
       opacity: 0.7;
     }
 
+    @include breakpoint.media('<=desktop') {
+      height: 120px;
+
+      svg {
+        width: 80px;
+        height: 80px;
+      }
+
+      p {
+        font-size: $p-font-size-large;
+      }
+    }
+
+    @include breakpoint.media('<=tablet') {
+      height: 100px;
+      min-width: 150px;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    @include breakpoint.media('<=phone') {
+      min-width: 100px;
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
 
   }
 
-  &__list {
+  &--list {
     width: 85%;
     display: flex;
     position: relative;

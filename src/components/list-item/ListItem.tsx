@@ -20,7 +20,7 @@ export default function ListItem({ list, listStyle }: IListItem) {
   const t = useTranslations('Tasks');
   const index = currentPath.split('/').pop();
   const listModifierClass =
-    listStyle === 'grid' ? styles.listItem__grid : styles.listItem__list;
+    listStyle === 'grid' ? styles['listItem--grid'] : styles['listItem--list'];
 
   const inCompleteTasks: ITask[] = list.task.filter(
     (task) => !task.isCompleted

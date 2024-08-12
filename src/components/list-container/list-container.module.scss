@@ -2,13 +2,7 @@
   &__grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 60px;
+    gap: 20px;
+    border-right: 7px solid rgba(0, 0, 0, 0.01);
   }
-
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
 }
