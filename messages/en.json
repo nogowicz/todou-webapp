@@ -53,6 +53,7 @@
   "ListPage": {
     "create-new-list": "Create New List",
     "add-new-task": "Add New Task",
+    "delete-task": "Delete Task",
     "edit-task": "Edit Task",
     "update-task": "Update Task",
     "grid": "Grid",

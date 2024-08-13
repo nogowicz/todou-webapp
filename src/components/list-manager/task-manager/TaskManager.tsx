@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { createTask, updateTask } from '@/actions/Task';
+import { createTask, deleteTask, updateTask } from '@/actions/Task';
 import styles from './task-manager.module.scss';
 import TaskDetails from './task-details/TaskDetails';
 import Subtask from './subtask/Subtask';
@@ -36,7 +36,8 @@ export default function TaskManager({
   editedTask,
 }: IAddNewTask) {
   const currentPath = usePathname();
-  const { handleNewTask, handleUpdateTask } = useListContext();
+  const { handleNewTask, handleUpdateTask, handleDeleteTask } =
+    useListContext();
   const index = Number(currentPath.split('/').pop());
   const list: IList = lists.find((list) => list.listId === index) || lists[0];
   const modalRef = useRef<HTMLDivElement>(null);
@@ -230,6 +231,14 @@ export default function TaskManager({
     }
   };
 
+  const handleDeleteCurrentTask = async () => {
+    onClose();
+    if (editedTask) {
+      handleDeleteTask(editedTask.taskId, editedTask.listId);
+      await deleteTask(editedTask?.taskId);
+    }
+  };
+
   if (isVisible) {
     return (
       <div className={styles.overlay}>
@@ -306,12 +315,24 @@ export default function TaskManager({
               ))}
             </div>
           </div>
-          <CustomButton
-            disabled={!task.title}
-            onClick={editedTask ? handleUpdateCurrentTask : handleAddNewTask}
-          >
-            {editedTask ? t('update-task') : t('add-new-task')}
-          </CustomButton>
+          <div className={styles.overlay__addNewTask__buttonsContainer}>
+            {editedTask && (
+              <CustomButton
+                onClick={handleDeleteCurrentTask}
+                className={
+                  styles.overlay__addNewTask__buttonsContainer__deleteButton
+                }
+              >
+                {t('delete-task')}
+              </CustomButton>
+            )}
+            <CustomButton
+              disabled={!task.title}
+              onClick={editedTask ? handleUpdateCurrentTask : handleAddNewTask}
+            >
+              {editedTask ? t('update-task') : t('add-new-task')}
+            </CustomButton>
+          </div>
         </div>
       </div>
     );

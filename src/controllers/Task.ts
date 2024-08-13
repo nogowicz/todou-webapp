@@ -140,3 +140,37 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
     await prisma.$disconnect();
   }
 };
+
+export const deleteTaskInDb = async (token: string, taskId: number) => {
+  try {
+    const session = await verifySession(token);
+
+    if (!session?.isAuth || !session.userId) {
+      return null;
+    }
+
+    const task = await prisma.task.findUnique({
+      where: { taskId: taskId },
+      include: { subtask: true },
+    });
+
+    if (!task) {
+      return null;
+    }
+
+    await prisma.subtask.deleteMany({
+      where: { taskId: taskId },
+    });
+
+    const deletedTask = await prisma.task.delete({
+      where: { taskId: taskId },
+    });
+
+    return deletedTask;
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+};

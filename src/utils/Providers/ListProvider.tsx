@@ -11,6 +11,7 @@ interface ListContextType {
   handleNewTask: (newTask: ITask) => void;
   handleUpdateTask: (updatedTask: ITask) => void;
   handleUpdateSubtask: (updatedSubtask: ISubtask, currentTask: ITask) => void;
+  handleDeleteTask: (taskId: number, listId: number) => void;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -87,12 +88,27 @@ export const ListProvider: React.FC<{
     });
   };
 
+  const handleDeleteTask = (taskId: number, listId: number) => {
+    updateOptimisticLists((lists) => {
+      return lists.map((list) => {
+        if (list.listId === listId) {
+          return {
+            ...list,
+            task: list.task.filter((task) => task.taskId !== taskId),
+          };
+        }
+        return list;
+      });
+    });
+  };
+
   const value = {
     optimisticLists,
     handleNewList,
     handleNewTask,
     handleUpdateTask,
     handleUpdateSubtask,
+    handleDeleteTask,
   };
 
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;

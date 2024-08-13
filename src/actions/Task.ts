@@ -95,7 +95,6 @@ export async function updateTaskRequest(token: string, task: ITask) {
     }
 
     const data = await response.json();
-    console.log('DATA:', data);
     return data;
   } catch (error) {
     if (error instanceof Error) {
@@ -107,5 +106,38 @@ export async function updateTaskRequest(token: string, task: ITask) {
 
 export async function updateTask(task: ITask) {
   await updateTaskRequest(token, task);
+  revalidateTag('userLists');
+}
+
+export async function deleteTaskRequest(token: string, taskId: number) {
+  try {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/api/task`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        taskId,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to delete task: ${error.message}`);
+    }
+    throw error;
+  }
+}
+
+export async function deleteTask(taskId: number) {
+  await deleteTaskRequest(token, taskId);
   revalidateTag('userLists');
 }

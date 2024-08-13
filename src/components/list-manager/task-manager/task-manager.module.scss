@@ -175,6 +175,17 @@
         }
       }
     }
+
+    &__buttonsContainer {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      &__deleteButton {
+        background-color: var(--red-transparent);
+        color: var(--red);
+      }
+    }
   }
 
 
