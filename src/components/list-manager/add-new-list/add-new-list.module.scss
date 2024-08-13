@@ -1,3 +1,6 @@
+@use '../../../styles/breakpoints' as breakpoint;
+@use '../../../styles/variables' as *;
+
 .overlay {
   position: fixed;
   top: 0;
@@ -15,6 +18,7 @@
     background-color: var(--secondary);
     padding: 40px;
     border-radius: 10px;
+    min-width: 260px;
 
     &__upperContainer {
       display: flex;
@@ -40,6 +44,7 @@
       gap: 40px;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
 
       &__icon {
         border-radius: 10px;
@@ -68,6 +73,7 @@
       margin-bottom: 40px;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
 
       &__color {
         width: 44px;
@@ -83,6 +89,28 @@
         &:hover {
           cursor: pointer;
           opacity: 0.7;
+        }
+      }
+    }
+  }
+
+  @include breakpoint.media('<=LGphone') {
+    &__addNewList {
+      &__iconsContainer {
+        &__icon {
+          border-radius: 10px;
+          padding: 2px;
+          border: 2px solid;
+          border-color: transparent;
+          width: 25px;
+          height: 25px;
+        }
+      }
+
+      &__colorsContainer {
+        &__color {
+          width: 25px;
+          height: 25px;
         }
       }
     }

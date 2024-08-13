@@ -1,3 +1,6 @@
+@use '../../../styles/breakpoints' as breakpoint;
+@use '../../../styles/variables' as *;
+
 .overlay {
   position: fixed;
   top: 0;
@@ -17,6 +20,7 @@
     border-radius: 10px;
     max-height: 85vh;
     overflow-y: auto;
+    min-width: 260px;
 
     &__upperContainer {
       display: flex;
@@ -190,5 +194,53 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-transparent);
+  }
+
+
+  @include breakpoint.media('<=LGphone') {
+    &__addNewTask {
+      &__upperContainer {
+        p {
+          font-size: $p-font-size-small;
+        }
+
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+
+        &__placeholder {
+          width: 32px;
+        }
+      }
+
+      &__taskDetails {
+        p {
+          font-size: $p-font-size-x-small;
+        }
+
+        &__option {
+          &__datePicker {
+            min-width: 100px;
+
+            svg {
+              width: 28px;
+            }
+
+            input {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+
+      &__subtasksContainer {
+        &__subtask {
+          input {
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
 }
