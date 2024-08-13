@@ -1,3 +1,6 @@
+@use '../../styles/breakpoints' as breakpoint;
+@use '../../styles/variables' as *;
+
 .taskContainer {
   background-color: var(--tertiary);
   border-radius: 10px;
@@ -41,14 +44,18 @@
       justify-content: flex-start;
       align-items: center;
       gap: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90%;
 
       p {
+        overflow-wrap: break-word;
+        word-break: break-all;
         margin: 0;
-        font-size: 18px;
+        font-size: $p-font-size-medium;
+        flex: 1;
       }
     }
-
-
   }
 
   &__details {
@@ -57,6 +64,7 @@
     align-items: center;
     margin: 10px 0 0 5px;
     gap: 20px;
+    font-size: $p-font-size-small;
 
     &__detail {
       display: flex;
@@ -72,6 +80,27 @@
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.5s ease-in-out;
+  }
+
+  @include breakpoint.media('<=SMdesktop') {
+    padding: 5px 15px;
+
+    &__main {
+
+      &__left {
+        p {
+          font-size: $p-font-size-small;
+        }
+      }
+    }
+
+    &__details {
+      font-size: $p-font-size-x-small;
+    }
+  }
+
+  @include breakpoint.media('<=LGphone') {
+    margin: 0;
   }
 }
 

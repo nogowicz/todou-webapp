@@ -57,7 +57,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           <BsThreeDots size={ICON_SIZE} />
         </div>
         <div className={styles.taskContainer__right__tasksContainer}>
-          <p>
+          <p className={styles.taskContainer__right__tasksContainer__tittle}>
             {t('tasks')} - {inCompleteTasks.length}
           </p>
           <div className={styles.taskContainer__right__tasksContainer__tasks}>
@@ -72,7 +72,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         </div>
         {completedTasks.length > 0 && (
           <div className={styles.taskContainer__right__tasksContainer}>
-            <p>
+            <p className={styles.taskContainer__right__tasksContainer__tittle}>
               {t('completed')} - {completedTasks.length}
             </p>
             <div className={styles.taskContainer__right__tasksContainer__tasks}>

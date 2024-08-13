@@ -3,6 +3,7 @@
 .layoutContainer {
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 
   &__mainContainer {
     width: 100%;
