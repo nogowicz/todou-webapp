@@ -20,7 +20,7 @@
     border-radius: 10px;
     max-height: 85vh;
     overflow-y: auto;
-    min-width: 260px;
+    min-width: 600px;
 
     &__upperContainer {
       display: flex;
@@ -196,9 +196,16 @@
     background: var(--primary-transparent);
   }
 
+  @include breakpoint.media('<=tablet') {
+    &__addNewTask {
+      min-width: 440px;
+    }
+  }
 
   @include breakpoint.media('<=LGphone') {
     &__addNewTask {
+      min-width: 260px;
+
       &__upperContainer {
         p {
           font-size: $p-font-size-small;
