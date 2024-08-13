@@ -28,14 +28,14 @@ export default function ListManager() {
         onClick={() => setShowAddListModal((prev) => !prev)}
       >
         <RiPlayListAddLine size={24} />
-        {t('create-new-list')}
+        <p>{t('create-new-list')}</p>
       </CustomButton>
       <CustomButton
         className={styles.listManager__button}
         onClick={() => setShowAddTaskModal((prev) => !prev)}
       >
         <FaPlus size={24} />
-        {t('add-new-task')}
+        <p>{t('add-new-task')}</p>
       </CustomButton>
 
       <CustomButton
@@ -44,7 +44,7 @@ export default function ListManager() {
         variant="secondary"
       >
         <MdOutlineSync size={24} />
-        {t('sync')}
+        <p>{t('sync')}</p>
       </CustomButton>
       <AddNewList
         isVisible={showAddListModal}

@@ -1,0 +1,24 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles//breakpoints' as breakpoint;
+
+.nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  background-color: var(--tertiary);
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  @include breakpoint.media('>tablet') {
+    display: none;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { ComponentType } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import Select, { GroupBase, OptionProps, SingleValueProps } from 'react-select';
 
 interface ICustomSelectProps<T> {
@@ -18,6 +19,8 @@ export default function CustomSelect<T>({
   selectedData,
   setSelectedData,
 }: ICustomSelectProps<T>) {
+  const isMobile = useMediaQuery({ query: '(max-width: 440px)' });
+
   const handleChange = (value: T | null) => {
     if (value !== null) {
       setSelectedData(value);
@@ -47,7 +50,7 @@ export default function CustomSelect<T>({
           display: 'flex',
           border: 0,
           boxShadow: 'none',
-          minWidth: 200,
+          minWidth: isMobile ? 100 : 200,
           '&:hover': {
             border: 0,
             cursor: 'pointer',
@@ -59,7 +62,7 @@ export default function CustomSelect<T>({
           backgroundColor: 'var(--background)',
           borderRadius: 10,
           color: 'var(--text)',
-          fontSize: 18,
+          fontSize: isMobile ? 14 : 18,
         }),
         option: (base) => ({
           ...base,
@@ -78,7 +81,7 @@ export default function CustomSelect<T>({
           alignItems: 'center',
           gap: 20,
           color: 'var(--text)',
-          fontSize: 18,
+          fontSize: isMobile ? 14 : 18,
           padding: '5px 0',
         }),
         indicatorSeparator: (base) => ({

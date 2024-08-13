@@ -86,7 +86,7 @@ export default function SignUpForm({ setCurrentForm }: ISignUpForm) {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
     >
-      <div>{pages[page].forms}</div>
+      <div className={styles.form__inputsContainer}>{pages[page].forms}</div>
       <Pagination pages={pages} activePage={page} setPage={setPage} />
       {pages[page].buttons}
       <p className={styles.form__signInToAccount}>

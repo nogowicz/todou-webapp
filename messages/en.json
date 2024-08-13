@@ -47,6 +47,7 @@
   },
   "HomePage": {
     "greetings": "Good to see you,",
+    "greetings-short": "Welcome, ",
     "subtitle": "Organize, prioritize, and achieve. Here’s your roadmap for today:"
   },
   "ListPage": {

@@ -1,3 +1,6 @@
+@use '../../../../../../../styles/breakpoints' as breakpoint;
+@use '../../../../../../../styles//variables' as *;
+
 .taskContainer {
   flex: 1;
   height: 70vh;
@@ -8,11 +11,13 @@
     flex: 1;
 
     &__listsContainer {
+      min-width: 200px;
       display: flex;
       flex-direction: column;
       gap: 20px;
       height: 100%;
       overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 
@@ -21,6 +26,7 @@
     height: 100%;
     overflow-y: auto;
     padding: 0 20px;
+    overflow-x: hidden;
 
     &__upperContainer {
       display: flex;
@@ -41,7 +47,7 @@
     &__tasksContainer {
 
 
-      p {
+      &__tittle {
         margin: 20px
       }
 
@@ -53,4 +59,52 @@
       }
     }
   }
+
+  @include breakpoint.media('<=SMdesktop') {
+
+    &__left {
+
+      svg {
+        width: 50px;
+        height: 50px;
+      }
+
+      p {
+        font-size: $p-font-size-x-small;
+      }
+    }
+
+  }
+
+  @include breakpoint.media('<=LGtablet') {
+    &__left {
+      display: none;
+    }
+
+    &__right {
+      padding: 0 10px;
+    }
+
+  }
+
+  @include breakpoint.media('<=LGphone') {
+    height: calc(70vh - 60px);
+
+    &__right {
+      &__upperContainer {
+        h3 {
+          font-size: $h3-font-size-small;
+        }
+
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+    }
+
+  }
+
+
 }

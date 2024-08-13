@@ -1,17 +1,56 @@
+@use '../../styles/variables' as *;
+@use '../../styles/breakpoints' as breakpoint;
+
 .listManager {
   margin: 40px 0;
   display: flex;
   gap: 60px;
   flex-direction: row;
-  flex-wrap: wrap;
 
   &__button {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 15px 20px;
+    justify-content: flex-start !important;
+    padding: 15px 20px !important;
     gap: 20px;
     max-width: 335px;
-    min-width: 295px;
+    min-width: 280px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+
+  @include breakpoint.media('<=desktop') {
+    gap: 20px;
+  }
+
+  @include breakpoint.media('<=SMdesktop') {
+    gap: 10px;
+
+    &__button {
+      gap: 10px;
+      min-width: 215px;
+      padding: 15px 10px !important;
+
+      p {
+        font-size: $p-font-size-small;
+      }
+    }
+  }
+
+  @include breakpoint.media('<=LGtablet') {
+    margin: 10px 0 20px 0;
+
+    &__button {
+      min-width: 50px;
+      justify-content: center !important;
+      padding: 15px !important;
+
+      p {
+        display: none;
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/breakpoints' as breakpoint;
 
 .userPanel {
   display: flex;
@@ -11,6 +12,10 @@
     display: flex;
     flex-direction: column;
 
+    &__shortGreetings {
+      display: none;
+    }
+
     h3 {
       margin: 0;
     }
@@ -18,6 +23,40 @@
     p {
       margin: 0;
     }
+
+    @include breakpoint.media('<=SMdesktop') {
+      h3 {
+        font-size: $h3-font-size-x-small;
+      }
+
+      p {
+        font-size: $p-font-size-x-small;
+      }
+    }
+
+    @include breakpoint.media('<=LGtablet') {
+      p {
+        display: none;
+      }
+    }
+
+    @include breakpoint.media('<=tablet') {
+      h3 {
+        font-size: $h3-font-size-xx-small;
+      }
+    }
+
+    @include breakpoint.media('<=LGphone') {
+      &__shortGreetings {
+        display: block;
+      }
+
+      &__longGreetings {
+        display: none;
+      }
+    }
+
+
   }
 
   &__right {
@@ -25,33 +64,7 @@
     flex-direction: row;
     align-items: center;
     gap: 20px;
-
-    &__notification {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-
-      &:before {
-        background-color: var(--primary);
-        content: "";
-        position: absolute;
-        top: 4px;
-        right: 5px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-      }
-
-      svg {
-        color: var(--hint);
-      }
-
-      &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-      }
-    }
+    margin: 0 0 0 10px;
 
     &__user {
       display: flex;
@@ -67,8 +80,30 @@
 
       img {
         border-radius: 50%;
+        width: 50px;
+        height: 50px;
       }
 
+      @include breakpoint.media('<=SMdesktop') {
+        p {
+          font-size: $p-font-size-small;
+        }
+      }
+
+      @include breakpoint.media('<=tablet') {
+        gap: 10px;
+
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
 
     }
 

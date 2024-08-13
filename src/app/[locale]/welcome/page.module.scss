@@ -86,11 +86,19 @@
   }
 
   @include breakpoint.media('<=LGphone') {
-    margin-top: 40px;
+    padding: 20px 0;
 
     &__container {
       &__right {
-        padding: 0 20px;
+        &__logo {
+          img {
+            width: 150px;
+          }
+        }
+
+        &__terms {
+          font-size: $p-font-size-x-small !important;
+        }
       }
     }
   }

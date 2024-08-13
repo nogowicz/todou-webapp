@@ -20,25 +20,30 @@ export default function ListItem({ list, listStyle }: IListItem) {
   const t = useTranslations('Tasks');
   const index = currentPath.split('/').pop();
   const listModifierClass =
-    listStyle === 'grid' ? styles.listItem__grid : styles.listItem__list;
+    listStyle === 'grid' ? styles['listItem--grid'] : styles['listItem--list'];
+
+  const taskAmountClass =
+    listStyle === 'grid'
+      ? styles['listItem--grid__taskAmount']
+      : styles['listItem--list__taskAmount'];
 
   const inCompleteTasks: ITask[] = list.task.filter(
     (task) => !task.isCompleted
   );
   return (
-    <Link href={`/lists/${list.listId}`} className={styles.listItem}>
-      <div
-        className={listModifierClass}
-        style={{
-          backgroundColor: `${listColorTheme[list.colorVariant]}30`,
-          borderColor:
-            index && +index === list.listId
-              ? `${listColorTheme[list.colorVariant]}`
-              : '',
-        }}
-      >
+    <div
+      className={listModifierClass}
+      style={{
+        backgroundColor: `${listColorTheme[list.colorVariant]}30`,
+        borderColor:
+          index && +index === list.listId
+            ? `${listColorTheme[list.colorVariant]}`
+            : '',
+      }}
+    >
+      <Link href={`/lists/${list.listId}`} className={styles.listItem}>
         <div
-          className={styles.listItem__taskAmount}
+          className={taskAmountClass}
           style={{
             backgroundColor: `${listColorTheme[list.colorVariant]}`,
           }}
@@ -50,7 +55,7 @@ export default function ListItem({ list, listStyle }: IListItem) {
           color: `${listColorTheme[list.colorVariant]}50`,
         })}
         <p>{list.listName === 'Tasks' ? t('tasks') : list.listName}</p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
