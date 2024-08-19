@@ -1,0 +1,27 @@
+@use '../../styles/variables' as *;
+
+.contextMenu {
+  position: absolute;
+  z-index: 1000;
+  background-color: var(--secondary);
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+
+}
+
+.contextMenuItem {
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: $p-font-size-medium;
+
+  &:hover {
+    background-color: var(--primary-transparent);
+  }
+}

@@ -3,7 +3,7 @@ import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import { notFound } from 'next/navigation';
-import React, { cloneElement } from 'react';
+import React, { cloneElement, useCallback, useRef, useState } from 'react';
 
 import styles from './task-container.module.scss';
 import ListItem from '@/components/list-item/ListItem';
@@ -11,9 +11,15 @@ import {
   listColorTheme,
   listIconTheme,
 } from '@/components/list-item/ListStyles';
-import { BsThreeDots } from 'react-icons/bs';
+import { BsSortUp, BsThreeDots } from 'react-icons/bs';
 import Task from '@/components/task/Task';
 import { useTranslations } from 'next-intl';
+import ContextMenu, { IItems } from '@/components/context-menu/ContextMenu';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { MdOutlineDeleteForever } from 'react-icons/md';
+import { IoMdReorder } from 'react-icons/io';
+import { GoArchive, GoPeople } from 'react-icons/go';
+import { RiDeleteBin6Line } from 'react-icons/ri';
 
 interface ITaskContainer {
   slug: string;
@@ -23,7 +29,26 @@ const ICON_SIZE = 50;
 
 export default function TaskContainer({ slug }: ITaskContainer) {
   const { optimisticLists } = useListContext();
+  const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
+  const iconRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('Tasks');
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const handleContextMenu = useCallback((event: MouseEvent) => {
+    event.preventDefault();
+
+    if (iconRef.current) {
+      const rect = iconRef.current.getBoundingClientRect();
+      const x = rect.left - 250;
+      const y = rect.top + 40;
+
+      setContextMenuPosition({ x, y });
+      setContextMenuVisibility(true);
+    }
+  }, []);
 
   const list: IList | undefined = optimisticLists.find(
     (list: IList) => list.listId === +slug
@@ -34,6 +59,46 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   const tasks: ITask[] = list.task;
   const inCompleteTasks: ITask[] = tasks.filter((task) => !task.isCompleted);
   const completedTasks: ITask[] = tasks.filter((task) => task.isCompleted);
+
+  const menuItems: IItems[] = [
+    {
+      label: t('edit-list'),
+      icon: <AiOutlineEdit />,
+      onClick: () => console.log('Edit List clicked'),
+    },
+    {
+      label: t('sort-list'),
+      icon: <BsSortUp />,
+      onClick: () => console.log('Sort List clicked'),
+    },
+    {
+      label: t('delete-completed-tasks'),
+      icon: <MdOutlineDeleteForever />,
+      onClick: () => console.log('Delete Completed Tasks clicked'),
+    },
+    {
+      label: t('change-order'),
+      icon: <IoMdReorder />,
+      onClick: () => console.log('Change Order clicked'),
+    },
+    {
+      label: t('archive-list'),
+      icon: <GoArchive />,
+      onClick: () => console.log('Archive List clicked'),
+    },
+    {
+      label: t('invite-collaborators'),
+      icon: <GoPeople />,
+      onClick: () => console.log('Invite Collaborators clicked'),
+    },
+    {
+      label: t('delete-list'),
+      icon: <RiDeleteBin6Line />,
+      onClick: () => console.log('Delete List clicked'),
+      color: '#D82A38',
+    },
+  ];
+
   return (
     <div className={styles.taskContainer}>
       <div className={styles.taskContainer__left}>
@@ -54,7 +119,12 @@ export default function TaskContainer({ slug }: ITaskContainer) {
             })}
             <h3>{list.listName === 'Tasks' ? t('tasks') : list.listName}</h3>
           </div>
-          <BsThreeDots size={ICON_SIZE} />
+          <div ref={iconRef}>
+            <BsThreeDots
+              size={ICON_SIZE}
+              onClick={(event: any) => handleContextMenu(event)}
+            />
+          </div>
         </div>
         <div className={styles.taskContainer__right__tasksContainer}>
           <p className={styles.taskContainer__right__tasksContainer__tittle}>
@@ -87,6 +157,12 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           </div>
         )}
       </div>
+      <ContextMenu
+        items={menuItems}
+        visible={contextMenuVisibility}
+        setVisible={setContextMenuVisibility}
+        position={contextMenuPosition}
+      />
     </div>
   );
 }
