@@ -29,7 +29,7 @@ interface ITaskContainer {
 const ICON_SIZE = 50;
 
 export default function TaskContainer({ slug }: ITaskContainer) {
-  const { optimisticLists } = useListContext();
+  const { optimisticLists, handleUpdateList } = useListContext();
   const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
   const [listDetailsVisibility, setListDetailsVisibility] = useState(false);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -101,10 +101,6 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     },
   ];
 
-  const handleSubmitList = (list: IList) => {
-    console.log('handleSubmitList', list);
-  };
-
   return (
     <div className={styles.taskContainer}>
       <div className={styles.taskContainer__left}>
@@ -174,7 +170,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         list={list}
         isVisible={listDetailsVisibility}
         onClose={() => setListDetailsVisibility(false)}
-        handleSubmitList={handleSubmitList}
+        handleSubmitList={handleUpdateList}
       />
     </div>
   );

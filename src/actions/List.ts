@@ -8,31 +8,27 @@ if (!BASE_URL) {
   throw new Error('Base URL is not defined');
 }
 
-async function fetchData(url: string, options: RequestInit) {
-  try {
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error: ${response.status} - ${errorText}`);
-    }
-    return await response.json();
-  } catch (err) {
-    console.error(`Error fetching data from ${url}:`, err);
-    throw err;
-  }
-}
-
 async function getData(token: string) {
-  const options = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      accept: 'application/json',
-    },
-    next: { tags: ['userLists'] },
-  };
+  try {
+    const response = await fetch(`${BASE_URL}/api/list`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+      next: { tags: ['userLists'] },
+    });
 
-  return fetchData(`${BASE_URL}/api/list`, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw error;
+  }
 }
 
 export async function getLists() {
@@ -46,20 +42,30 @@ async function createNewList(
   selectedIcon: number,
   selectedColor: number
 ) {
-  const options = {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      listName,
-      icon: selectedIcon,
-      color: selectedColor,
-    }),
-  };
+  try {
+    const response = await fetch(`${BASE_URL}/api/list`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listName: listName,
+        iconId: selectedIcon,
+        colorVariant: selectedColor,
+      }),
+    });
 
-  return fetchData(`${BASE_URL}/api/lists`, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to create new list:', error);
+    throw error;
+  }
 }
 
 export async function createList(
@@ -68,7 +74,60 @@ export async function createList(
   selectedColor: number
 ) {
   const token = cookies().get('session')?.value ?? '';
-  return createNewList(token, listName, selectedIcon, selectedColor);
+  await createNewList(token, listName, selectedIcon, selectedColor);
+
+  revalidateLists();
+}
+
+async function updateExistingList(
+  token: string,
+  listId: number,
+  listName: string,
+  selectedIcon: number,
+  selectedColor: number
+) {
+  try {
+    const response = await fetch(`${BASE_URL}/api/list`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listId,
+        listName,
+        selectedIcon,
+        selectedColor,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to update list:', error);
+    throw error;
+  }
+}
+
+export async function updateList(
+  listId: number,
+  listName: string,
+  selectedIcon: number,
+  selectedColor: number
+) {
+  const token = cookies().get('session')?.value ?? '';
+  await updateExistingList(
+    token,
+    listId,
+    listName,
+    selectedIcon,
+    selectedColor
+  );
+  revalidateLists();
 }
 
 export async function revalidateLists() {

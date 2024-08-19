@@ -8,10 +8,10 @@ import {
   listIconTheme,
 } from '@/components/list-item/ListStyles';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { createNewList } from '@/controllers/List';
 import { IList } from '@/types/List';
 import { useUser } from '@/utils/Providers/UserProvider';
 import { useTranslations } from 'next-intl';
+import { createList, updateList } from '@/actions/List';
 
 interface IListDetails {
   list?: IList;
@@ -79,7 +79,7 @@ export default function ListDetails({
         setListName('');
         setSelectedColor(0);
         setSelectedIcon(0);
-        await createNewList(token, listName, selectedIcon, selectedColor);
+        await createList(listName, selectedIcon, selectedColor);
       } catch (error) {
         console.error('Error creating new list:', error);
       }
@@ -91,6 +91,12 @@ export default function ListDetails({
         colorVariant: selectedColor,
       };
       handleSubmitList(updatedList);
+      await updateList(
+        list.listId,
+        updatedList.listName,
+        updatedList.iconId,
+        updatedList.colorVariant
+      );
       onClose();
     }
   };

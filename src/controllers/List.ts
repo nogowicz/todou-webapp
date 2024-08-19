@@ -74,3 +74,40 @@ export const createNewList = async (
     await prisma.$disconnect();
   }
 };
+
+export const updateList = async (
+  token: string,
+  listId: number,
+  listName: string,
+  iconId: number,
+  colorVariant: number
+) => {
+  try {
+    const session = await verifySession(token);
+
+    if (!session?.isAuth) {
+      return;
+    }
+
+    const updatedList = await prisma.list.update({
+      where: {
+        listId: listId,
+        createdBy: session.userId,
+      },
+      data: {
+        listName: listName,
+        iconId: iconId,
+        colorVariant: colorVariant,
+        updatedAt: new Date(),
+      },
+    });
+
+    return updatedList;
+  } catch (error) {
+    console.error('Error updating list:', error);
+    throw error;
+  } finally {
+    revalidateTag('userLists');
+    await prisma.$disconnect();
+  }
+};
