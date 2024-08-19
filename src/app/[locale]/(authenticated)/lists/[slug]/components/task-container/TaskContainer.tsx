@@ -20,6 +20,7 @@ import { MdOutlineDeleteForever } from 'react-icons/md';
 import { IoMdReorder } from 'react-icons/io';
 import { GoArchive, GoPeople } from 'react-icons/go';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import ListDetails from '@/components/list-manager/list-details/ListDetails';
 
 interface ITaskContainer {
   slug: string;
@@ -30,6 +31,7 @@ const ICON_SIZE = 50;
 export default function TaskContainer({ slug }: ITaskContainer) {
   const { optimisticLists } = useListContext();
   const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
+  const [listDetailsVisibility, setListDetailsVisibility] = useState(false);
   const iconRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('Tasks');
   const [contextMenuPosition, setContextMenuPosition] = useState({
@@ -64,7 +66,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     {
       label: t('edit-list'),
       icon: <AiOutlineEdit />,
-      onClick: () => console.log('Edit List clicked'),
+      onClick: () => setListDetailsVisibility(true),
     },
     {
       label: t('sort-list'),
@@ -98,6 +100,10 @@ export default function TaskContainer({ slug }: ITaskContainer) {
       color: '#D82A38',
     },
   ];
+
+  const handleSubmitList = (list: IList) => {
+    console.log('handleSubmitList', list);
+  };
 
   return (
     <div className={styles.taskContainer}>
@@ -162,6 +168,13 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         visible={contextMenuVisibility}
         setVisible={setContextMenuVisibility}
         position={contextMenuPosition}
+      />
+
+      <ListDetails
+        list={list}
+        isVisible={listDetailsVisibility}
+        onClose={() => setListDetailsVisibility(false)}
+        handleSubmitList={handleSubmitList}
       />
     </div>
   );

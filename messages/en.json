@@ -52,6 +52,8 @@
   },
   "ListPage": {
     "create-new-list": "Create New List",
+    "save-changes": "Save Changes",
+    "edit-list": "Edit List",
     "add-new-task": "Add New Task",
     "delete-task": "Delete Task",
     "edit-task": "Edit Task",
