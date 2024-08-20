@@ -83,9 +83,11 @@ export async function createList(
 async function updateExistingList(
   token: string,
   listId: number,
-  listName: string,
-  selectedIcon: number,
-  selectedColor: number
+  listName?: string,
+  selectedIcon?: number,
+  selectedColor?: number,
+  isArchived?: boolean,
+  isShared?: boolean
 ) {
   try {
     const response = await fetch(`${BASE_URL}/api/list`, {
@@ -99,6 +101,8 @@ async function updateExistingList(
         listName,
         selectedIcon,
         selectedColor,
+        isArchived,
+        isShared,
       }),
     });
 
@@ -116,9 +120,11 @@ async function updateExistingList(
 
 export async function updateList(
   listId: number,
-  listName: string,
-  selectedIcon: number,
-  selectedColor: number
+  listName?: string,
+  selectedIcon?: number,
+  selectedColor?: number,
+  isArchived?: boolean,
+  isShared?: boolean
 ) {
   const token = cookies().get('session')?.value ?? '';
   await updateExistingList(
@@ -126,7 +132,9 @@ export async function updateList(
     listId,
     listName,
     selectedIcon,
-    selectedColor
+    selectedColor,
+    isArchived,
+    isShared
   );
   revalidateLists();
 }

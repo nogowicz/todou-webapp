@@ -19,9 +19,17 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { IoMdReorder } from 'react-icons/io';
 import { GoArchive, GoPeople } from 'react-icons/go';
-import { RiDeleteBin6Line } from 'react-icons/ri';
+import {
+  RiDeleteBin6Line,
+  RiInboxArchiveLine,
+  RiInboxUnarchiveLine,
+} from 'react-icons/ri';
 import ListDetails from '@/components/list-manager/list-details/ListDetails';
-import { deleteCompletedTasksInList, deleteList } from '@/actions/List';
+import {
+  deleteCompletedTasksInList,
+  deleteList,
+  updateList,
+} from '@/actions/List';
 import { useUser } from '@/utils/Providers/UserProvider';
 
 interface ITaskContainer {
@@ -91,9 +99,39 @@ export default function TaskContainer({ slug }: ITaskContainer) {
       isActive: true,
     },
     {
-      label: t('archive-list'),
-      icon: <GoArchive />,
-      onClick: () => console.log('Archive List clicked'),
+      label: list.isArchived ? t('unarchive-list') : t('archive-list'),
+      icon: list.isArchived ? <RiInboxUnarchiveLine /> : <RiInboxArchiveLine />,
+      onClick: list.isArchived
+        ? () => {
+            const updatedList: IList = {
+              ...list,
+              isArchived: false,
+            };
+            handleUpdateList(updatedList);
+            updateList(
+              list.listId,
+              undefined,
+              undefined,
+              undefined,
+              false,
+              undefined
+            );
+          }
+        : () => {
+            const updatedList: IList = {
+              ...list,
+              isArchived: true,
+            };
+            handleUpdateList(updatedList);
+            updateList(
+              list.listId,
+              undefined,
+              undefined,
+              undefined,
+              true,
+              undefined
+            );
+          },
       isActive: list.listId !== user?.idDefaultList,
     },
     {

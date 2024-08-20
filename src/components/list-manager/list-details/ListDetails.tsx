@@ -90,6 +90,7 @@ export default function ListDetails({
         iconId: selectedIcon,
         colorVariant: selectedColor,
       };
+      onClose();
       handleSubmitList(updatedList);
       await updateList(
         list.listId,
@@ -97,7 +98,6 @@ export default function ListDetails({
         updatedList.iconId,
         updatedList.colorVariant
       );
-      onClose();
     }
   };
 

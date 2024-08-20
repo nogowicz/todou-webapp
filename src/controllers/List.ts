@@ -78,9 +78,11 @@ export const createNewList = async (
 export const updateList = async (
   token: string,
   listId: number,
-  listName: string,
-  iconId: number,
-  colorVariant: number
+  listName?: string,
+  iconId?: number,
+  colorVariant?: number,
+  isArchived?: boolean,
+  isShared?: boolean
 ) => {
   try {
     const session = await verifySession(token);
@@ -89,17 +91,36 @@ export const updateList = async (
       return;
     }
 
+    const dataToUpdate: any = {
+      updatedAt: new Date(),
+    };
+
+    if (listName !== undefined) {
+      dataToUpdate.listName = listName;
+    }
+
+    if (iconId !== undefined) {
+      dataToUpdate.iconId = iconId;
+    }
+
+    if (colorVariant !== undefined) {
+      dataToUpdate.colorVariant = colorVariant;
+    }
+
+    if (isArchived !== undefined) {
+      dataToUpdate.isArchived = isArchived;
+    }
+
+    if (isShared !== undefined) {
+      dataToUpdate.isShared = isArchived;
+    }
+
     const updatedList = await prisma.list.update({
       where: {
         listId: listId,
         createdBy: session.userId,
       },
-      data: {
-        listName: listName,
-        iconId: iconId,
-        colorVariant: colorVariant,
-        updatedAt: new Date(),
-      },
+      data: dataToUpdate,
     });
 
     return updatedList;

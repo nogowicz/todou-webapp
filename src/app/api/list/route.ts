@@ -103,26 +103,23 @@ export async function PATCH(request: Request) {
     }
 
     const requestData = await request.json();
-    const { listId, listName, selectedIcon, selectedColor } = requestData;
-
-    console.log('TEST: ', requestData);
-
-    if (
-      !listName ||
-      typeof selectedIcon !== 'number' ||
-      typeof selectedColor !== 'number'
-    ) {
-      return new Response(JSON.stringify({ message: 'Invalid request body' }), {
-        status: 400,
-      });
-    }
+    const {
+      listId,
+      listName,
+      selectedIcon,
+      selectedColor,
+      isArchived,
+      isShared,
+    } = requestData;
 
     const updatedList = await updateList(
       token,
       listId,
       listName,
       selectedIcon,
-      selectedColor
+      selectedColor,
+      isArchived,
+      isShared
     );
 
     return new Response(JSON.stringify(updatedList), {
