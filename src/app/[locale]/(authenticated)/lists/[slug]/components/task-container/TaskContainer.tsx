@@ -21,6 +21,7 @@ import { IoMdReorder } from 'react-icons/io';
 import { GoArchive, GoPeople } from 'react-icons/go';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import ListDetails from '@/components/list-manager/list-details/ListDetails';
+import { deleteList } from '@/actions/List';
 
 interface ITaskContainer {
   slug: string;
@@ -96,7 +97,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     {
       label: t('delete-list'),
       icon: <RiDeleteBin6Line />,
-      onClick: () => console.log('Delete List clicked'),
+      onClick: () => deleteList(list.listId),
       color: '#D82A38',
     },
   ];
