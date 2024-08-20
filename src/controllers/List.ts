@@ -155,3 +155,48 @@ export const deleteListInDb = async (token: string, listId: number) => {
     await prisma.$disconnect();
   }
 };
+
+export const deleteCompletedTasksInListInDb = async (
+  token: string,
+  listId: number
+) => {
+  try {
+    const session = await verifySession(token);
+
+    if (!session?.isAuth) {
+      return null;
+    }
+
+    const tasksToDelete = await prisma.task.findMany({
+      where: {
+        listId: listId,
+        isCompleted: true,
+      },
+    });
+
+    if (tasksToDelete.length === 0) {
+      return 0;
+    }
+
+    await prisma.subtask.deleteMany({
+      where: {
+        taskId: {
+          in: tasksToDelete.map((task) => task.taskId),
+        },
+      },
+    });
+
+    const deletedTasks = await prisma.task.deleteMany({
+      where: {
+        taskId: {
+          in: tasksToDelete.map((task) => task.taskId),
+        },
+      },
+    });
+
+    return deletedTasks.count;
+  } catch (error) {
+    console.error('Error deleting completed tasks in list:', error);
+    throw error;
+  }
+};

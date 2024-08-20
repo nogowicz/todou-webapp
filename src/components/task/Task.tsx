@@ -109,7 +109,15 @@ export default function Task({ task, primaryColor }: TaskProps) {
                 await updateTask(updatedCompletedTask);
               }}
             />
-            <p>{task.title}</p>
+            <p
+              className={
+                isCompleted
+                  ? styles['taskContainer__main__left--completed']
+                  : ''
+              }
+            >
+              {task.title}
+            </p>
           </div>
 
           <BsThreeDots

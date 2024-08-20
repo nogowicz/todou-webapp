@@ -21,7 +21,7 @@ import { IoMdReorder } from 'react-icons/io';
 import { GoArchive, GoPeople } from 'react-icons/go';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import ListDetails from '@/components/list-manager/list-details/ListDetails';
-import { deleteList } from '@/actions/List';
+import { deleteCompletedTasksInList, deleteList } from '@/actions/List';
 
 interface ITaskContainer {
   slug: string;
@@ -77,7 +77,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     {
       label: t('delete-completed-tasks'),
       icon: <MdOutlineDeleteForever />,
-      onClick: () => console.log('Delete Completed Tasks clicked'),
+      onClick: () => deleteCompletedTasksInList(list.listId),
     },
     {
       label: t('change-order'),

@@ -167,6 +167,45 @@ export async function deleteList(listId: number) {
   redirect(`/${locale}/lists`);
 }
 
+export async function deleteCompletedTasksInListRequest(
+  token: string,
+  listId: number
+) {
+  try {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const response = await fetch(`${BASE_URL}/api/list/tasks`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        listId,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(
+        `Failed to delete completed tasks in list: ${error.message}`
+      );
+    }
+    throw error;
+  }
+}
+
+export async function deleteCompletedTasksInList(listId: number) {
+  const token = cookies().get('session')?.value ?? '';
+  await deleteCompletedTasksInListRequest(token, listId);
+  revalidateLists();
+}
+
 export async function revalidateLists() {
   revalidateTag('lists');
 }
