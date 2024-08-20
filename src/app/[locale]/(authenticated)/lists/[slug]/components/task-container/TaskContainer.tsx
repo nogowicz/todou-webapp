@@ -50,6 +50,10 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     y: 0,
   });
 
+  const optimisticListUnArchived = optimisticLists.filter(
+    (list: IList) => !list.isArchived
+  );
+
   const handleContextMenu = useCallback((event: MouseEvent) => {
     event.preventDefault();
 
@@ -153,7 +157,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     <div className={styles.taskContainer}>
       <div className={styles.taskContainer__left}>
         <div className={styles.taskContainer__left__listsContainer}>
-          {optimisticLists.map((list: IList) => (
+          {optimisticListUnArchived.map((list: IList) => (
             <ListItem list={list} listStyle="list" key={list.listId} />
           ))}
         </div>
