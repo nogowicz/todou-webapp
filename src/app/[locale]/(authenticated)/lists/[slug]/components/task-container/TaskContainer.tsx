@@ -22,6 +22,7 @@ import { GoArchive, GoPeople } from 'react-icons/go';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import ListDetails from '@/components/list-manager/list-details/ListDetails';
 import { deleteCompletedTasksInList, deleteList } from '@/actions/List';
+import { useUser } from '@/utils/Providers/UserProvider';
 
 interface ITaskContainer {
   slug: string;
@@ -33,6 +34,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   const { optimisticLists, handleUpdateList } = useListContext();
   const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
   const [listDetailsVisibility, setListDetailsVisibility] = useState(false);
+  const { user } = useUser();
   const iconRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('Tasks');
   const [contextMenuPosition, setContextMenuPosition] = useState({
@@ -68,37 +70,44 @@ export default function TaskContainer({ slug }: ITaskContainer) {
       label: t('edit-list'),
       icon: <AiOutlineEdit />,
       onClick: () => setListDetailsVisibility(true),
+      isActive: list.listId !== user?.idDefaultList,
     },
     {
       label: t('sort-list'),
       icon: <BsSortUp />,
       onClick: () => console.log('Sort List clicked'),
+      isActive: true,
     },
     {
       label: t('delete-completed-tasks'),
       icon: <MdOutlineDeleteForever />,
       onClick: () => deleteCompletedTasksInList(list.listId),
+      isActive: completedTasks.length > 0,
     },
     {
       label: t('change-order'),
       icon: <IoMdReorder />,
       onClick: () => console.log('Change Order clicked'),
+      isActive: true,
     },
     {
       label: t('archive-list'),
       icon: <GoArchive />,
       onClick: () => console.log('Archive List clicked'),
+      isActive: list.listId !== user?.idDefaultList,
     },
     {
       label: t('invite-collaborators'),
       icon: <GoPeople />,
       onClick: () => console.log('Invite Collaborators clicked'),
+      isActive: list.listId !== user?.idDefaultList,
     },
     {
       label: t('delete-list'),
       icon: <RiDeleteBin6Line />,
       onClick: () => deleteList(list.listId),
       color: '#D82A38',
+      isActive: list.listId !== user?.idDefaultList,
     },
   ];
 

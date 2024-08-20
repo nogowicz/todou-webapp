@@ -24,4 +24,18 @@
   &:hover {
     background-color: var(--primary-transparent);
   }
+
+  &--disabled {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: $p-font-size-medium;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: none;
+      cursor: default;
+    }
+  }
 }

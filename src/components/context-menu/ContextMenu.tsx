@@ -6,6 +6,7 @@ export interface IItems {
   icon: React.ReactElement;
   onClick: () => void;
   color?: string;
+  isActive?: boolean;
 }
 
 interface IContextMenu {
@@ -48,8 +49,12 @@ const ContextMenu = ({
       {items.map((item: IItems, index: number) => (
         <li
           key={index}
-          className={styles.contextMenuItem}
-          onClick={item.onClick}
+          className={
+            item.isActive
+              ? styles.contextMenuItem
+              : styles['contextMenuItem--disabled']
+          }
+          onClick={item.isActive ? item.onClick : () => {}}
           style={{ color: item.color }}
         >
           {cloneElement(item.icon, { size: 25 })}
