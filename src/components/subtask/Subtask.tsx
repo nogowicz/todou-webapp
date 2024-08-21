@@ -32,7 +32,13 @@ export default function Subtask({ task, subtask, primaryColor }: SubtaskProps) {
         isCompleted={subtask.isCompleted}
         primaryColor={primaryColor}
       />
-      <p>{subtask.title}</p>
+      <p
+        className={
+          subtask.isCompleted ? styles['subtaskContainer--completed'] : ''
+        }
+      >
+        {subtask.title}
+      </p>
     </div>
   );
 }

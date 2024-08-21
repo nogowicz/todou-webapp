@@ -8,7 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import CustomButton from '../custom-button/CustomButton';
 
 import styles from './list-manager.module.scss';
-import AddNewList from './add-new-list/AddNewList';
+import ListDetails from './list-details/ListDetails';
 import { useTranslations } from 'next-intl';
 import TaskManager from './task-manager/TaskManager';
 import { MdOutlineSync } from 'react-icons/md';
@@ -46,11 +46,10 @@ export default function ListManager() {
         <MdOutlineSync size={24} />
         <p>{t('sync')}</p>
       </CustomButton>
-      <AddNewList
+      <ListDetails
         isVisible={showAddListModal}
         onClose={() => setShowAddListModal(false)}
-        handleNewList={handleNewList}
-        t={t}
+        handleSubmitList={handleNewList}
       />
       <TaskManager
         isVisible={showAddTaskModal}

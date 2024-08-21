@@ -8,6 +8,7 @@ import { ISubtask } from '@/types/Subtask';
 interface ListContextType {
   optimisticLists: IList[];
   handleNewList: (newList: IList) => void;
+  handleUpdateList: (list: IList) => void;
   handleNewTask: (newTask: ITask) => void;
   handleUpdateTask: (updatedTask: ITask) => void;
   handleUpdateSubtask: (updatedSubtask: ISubtask, currentTask: ITask) => void;
@@ -23,6 +24,12 @@ export const ListProvider: React.FC<{
   const [optimisticLists, updateOptimisticLists] = useOptimistic(initialLists);
   const handleNewList = (newList: IList) => {
     updateOptimisticLists((lists) => [...lists, newList]);
+  };
+
+  const handleUpdateList = (list: IList) => {
+    updateOptimisticLists((lists) => {
+      return lists.map((l) => (l.listId === list.listId ? list : l));
+    });
   };
 
   const handleNewTask = (newTask: ITask) => {
@@ -105,6 +112,7 @@ export const ListProvider: React.FC<{
   const value = {
     optimisticLists,
     handleNewList,
+    handleUpdateList,
     handleNewTask,
     handleUpdateTask,
     handleUpdateSubtask,

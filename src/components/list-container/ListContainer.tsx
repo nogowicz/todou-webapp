@@ -9,10 +9,13 @@ import styles from './list-container.module.scss';
 
 export default function ListContainer() {
   const { optimisticLists } = useListContext();
+  const optimisticListUnArchived = optimisticLists.filter(
+    (list: IList) => !list.isArchived
+  );
 
   return (
     <div className={styles.listsContainer__grid}>
-      {optimisticLists.map((list: IList) => (
+      {optimisticListUnArchived.map((list: IList) => (
         <ListItem key={list.listId} list={list} listStyle="grid" />
       ))}
     </div>

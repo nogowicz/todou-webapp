@@ -52,6 +52,8 @@
   },
   "ListPage": {
     "create-new-list": "Create New List",
+    "save-changes": "Save Changes",
+    "edit-list": "Edit List",
     "add-new-task": "Add New Task",
     "delete-task": "Delete Task",
     "edit-task": "Edit Task",
@@ -83,6 +85,14 @@
   },
   "Tasks": {
     "tasks": "Tasks",
-    "completed": "Completed"
+    "completed": "Completed",
+    "edit-list": "Edit List",
+    "sort-list": "Sort List",
+    "delete-completed-tasks": "Delete Completed Tasks",
+    "change-order": "Change Order",
+    "archive-list": "Archive List",
+    "unarchive-list": "Unarchive List",
+    "invite-collaborators": "Invite Collaborators",
+    "delete-list": "Delete List"
   }
 }

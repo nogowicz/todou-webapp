@@ -1,6 +1,6 @@
 import React, { cloneElement, useEffect, useRef, useState } from 'react';
 
-import styles from './add-new-list.module.scss';
+import styles from './list-details.module.scss';
 import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import {
@@ -8,26 +8,30 @@ import {
   listIconTheme,
 } from '@/components/list-item/ListStyles';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { createNewList } from '@/controllers/List';
 import { IList } from '@/types/List';
 import { useUser } from '@/utils/Providers/UserProvider';
+import { useTranslations } from 'next-intl';
+import { createList, updateList } from '@/actions/List';
 
-interface IAddNewList {
+interface IListDetails {
+  list?: IList;
   isVisible: boolean;
   onClose: () => void;
-  handleNewList: (list: IList) => void;
-  t: Function;
+  handleSubmitList: (list: IList) => void;
 }
 
-export default function AddNewList({
+export default function ListDetails({
+  list,
   isVisible,
   onClose,
-  handleNewList,
-  t,
-}: IAddNewList) {
-  const [selectedIcon, setSelectedIcon] = useState(0);
-  const [selectedColor, setSelectedColor] = useState(0);
-  const [listName, setListName] = useState('');
+  handleSubmitList,
+}: IListDetails) {
+  const t = useTranslations('ListPage');
+  const [selectedIcon, setSelectedIcon] = useState(list ? list.iconId : 0);
+  const [selectedColor, setSelectedColor] = useState(
+    list ? list.colorVariant : 0
+  );
+  const [listName, setListName] = useState(list ? list.listName : '');
   const { user, token } = useUser();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -50,34 +54,50 @@ export default function AddNewList({
     };
   }, [isVisible, onClose]);
 
-  const handleAddNewList = async () => {
+  const handleSubmitCurrentList = async () => {
     if (!listName || !token || !user) {
       console.log('List name or token is required');
       return;
     }
-
-    try {
-      const newList: IList = {
+    if (!list) {
+      try {
+        const newList: IList = {
+          listName: listName,
+          iconId: selectedIcon,
+          colorVariant: selectedColor,
+          task: [],
+          canBeDeleted: true,
+          createdAt: new Date(),
+          createdBy: user.userId,
+          isArchived: false,
+          isFavorite: false,
+          updatedAt: new Date(),
+          listId: -1,
+        };
+        handleSubmitList(newList);
+        onClose();
+        setListName('');
+        setSelectedColor(0);
+        setSelectedIcon(0);
+        await createList(listName, selectedIcon, selectedColor);
+      } catch (error) {
+        console.error('Error creating new list:', error);
+      }
+    } else {
+      const updatedList: IList = {
+        ...list,
         listName: listName,
         iconId: selectedIcon,
         colorVariant: selectedColor,
-        task: [],
-        canBeDeleted: true,
-        createdAt: new Date(),
-        createdBy: user.userId,
-        isArchived: false,
-        isFavorite: false,
-        updatedAt: new Date(),
-        listId: -1,
       };
-      handleNewList(newList);
       onClose();
-      setListName('');
-      setSelectedColor(0);
-      setSelectedIcon(0);
-      await createNewList(token, listName, selectedIcon, selectedColor);
-    } catch (error) {
-      console.error('Error creating new list:', error);
+      handleSubmitList(updatedList);
+      await updateList(
+        list.listId,
+        updatedList.listName,
+        updatedList.iconId,
+        updatedList.colorVariant
+      );
     }
   };
 
@@ -91,7 +111,7 @@ export default function AddNewList({
                 styles.overlay__addNewList__upperContainer__placeholder
               }
             />
-            <p>{t('create-new-list')}</p>
+            <p>{list ? t('edit-list') : t('create-new-list')}</p>
             <IoClose onClick={onClose} size={32} />
           </div>
           <CustomInput
@@ -136,8 +156,8 @@ export default function AddNewList({
               ))}
             </div>
           </div>
-          <CustomButton disabled={!listName} onClick={handleAddNewList}>
-            {t('create-new-list')}
+          <CustomButton disabled={!listName} onClick={handleSubmitCurrentList}>
+            {list ? t('save-changes') : t('create-new-list')}
           </CustomButton>
         </div>
       </div>

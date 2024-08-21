@@ -55,6 +55,12 @@
         font-size: $p-font-size-medium;
         flex: 1;
       }
+
+      &--completed {
+        text-decoration: line-through;
+        text-decoration-thickness: 2px;
+        opacity: 0.5;
+      }
     }
   }
 
