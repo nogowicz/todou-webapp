@@ -42,6 +42,13 @@
         align-items: center;
         gap: 20px;
       }
+
+      &__rightSide {
+        &:hover {
+          opacity: 0.7;
+          cursor: pointer;
+        }
+      }
     }
 
     &__tasksContainer {

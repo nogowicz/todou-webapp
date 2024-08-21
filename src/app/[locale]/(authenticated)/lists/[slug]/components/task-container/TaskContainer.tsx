@@ -18,7 +18,7 @@ import ContextMenu, { IItems } from '@/components/context-menu/ContextMenu';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { IoMdReorder } from 'react-icons/io';
-import { GoArchive, GoPeople } from 'react-icons/go';
+import { GoPeople } from 'react-icons/go';
 import {
   RiDeleteBin6Line,
   RiInboxArchiveLine,
@@ -173,7 +173,10 @@ export default function TaskContainer({ slug }: ITaskContainer) {
             })}
             <h3>{list.listName === 'Tasks' ? t('tasks') : list.listName}</h3>
           </div>
-          <div ref={iconRef}>
+          <div
+            className={styles.taskContainer__right__upperContainer__rightSide}
+            ref={iconRef}
+          >
             <BsThreeDots
               size={ICON_SIZE}
               onClick={(event: any) => handleContextMenu(event)}
