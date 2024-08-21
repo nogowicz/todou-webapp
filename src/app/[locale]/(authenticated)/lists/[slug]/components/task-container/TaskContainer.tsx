@@ -12,7 +12,6 @@ import {
   listIconTheme,
 } from '@/components/list-item/ListStyles';
 import { BsSortUp, BsThreeDots } from 'react-icons/bs';
-import Task from '@/components/task/Task';
 import { useTranslations } from 'next-intl';
 import ContextMenu, { IItems } from '@/components/context-menu/ContextMenu';
 import { AiOutlineEdit } from 'react-icons/ai';
@@ -32,6 +31,8 @@ import {
 } from '@/actions/List';
 import { useUser } from '@/utils/Providers/UserProvider';
 
+import TasksList from './tasks-list/TasksList';
+import { closestCorners, DndContext } from '@dnd-kit/core';
 interface ITaskContainer {
   slug: string;
 }
@@ -153,80 +154,75 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     },
   ];
 
+  // const handleDragEnd = (result: DropResult) => {
+  //   console.log('result', result);
+  //   // const { source, destination } = result;
+  //   // if (!destination) return;
+  // };
+
   return (
-    <div className={styles.taskContainer}>
-      <div className={styles.taskContainer__left}>
-        <div className={styles.taskContainer__left__listsContainer}>
-          {optimisticListUnArchived.map((list: IList) => (
-            <ListItem list={list} listStyle="list" key={list.listId} />
-          ))}
-        </div>
-      </div>
-      <div className={styles.taskContainer__right}>
-        <div className={styles.taskContainer__right__upperContainer}>
-          <div
-            className={styles.taskContainer__right__upperContainer__leftSide}
-          >
-            {cloneElement(listIconTheme[list.iconId], {
-              color: listColorTheme[list.colorVariant],
-              size: ICON_SIZE,
-            })}
-            <h3>{list.listName === 'Tasks' ? t('tasks') : list.listName}</h3>
-          </div>
-          <div
-            className={styles.taskContainer__right__upperContainer__rightSide}
-            ref={iconRef}
-          >
-            <BsThreeDots
-              size={ICON_SIZE}
-              onClick={(event: any) => handleContextMenu(event)}
-            />
-          </div>
-        </div>
-        <div className={styles.taskContainer__right__tasksContainer}>
-          <p className={styles.taskContainer__right__tasksContainer__tittle}>
-            {t('tasks')} - {inCompleteTasks.length}
-          </p>
-          <div className={styles.taskContainer__right__tasksContainer__tasks}>
-            {inCompleteTasks.map((task) => (
-              <Task
-                key={task.taskId}
-                task={task}
-                primaryColor={listColorTheme[list.colorVariant]}
-              />
+    <DndContext collisionDetection={closestCorners}>
+      <div className={styles.taskContainer}>
+        <div className={styles.taskContainer__left}>
+          <div className={styles.taskContainer__left__listsContainer}>
+            {optimisticListUnArchived.map((list: IList) => (
+              <ListItem list={list} listStyle="list" key={list.listId} />
             ))}
           </div>
         </div>
-        {completedTasks.length > 0 && (
-          <div className={styles.taskContainer__right__tasksContainer}>
-            <p className={styles.taskContainer__right__tasksContainer__tittle}>
-              {t('completed')} - {completedTasks.length}
-            </p>
-            <div className={styles.taskContainer__right__tasksContainer__tasks}>
-              {completedTasks.map((task) => (
-                <Task
-                  key={task.taskId}
-                  task={task}
-                  primaryColor={listColorTheme[list.colorVariant]}
-                />
-              ))}
+        <div className={styles.taskContainer__right}>
+          <div className={styles.taskContainer__right__upperContainer}>
+            <div
+              className={styles.taskContainer__right__upperContainer__leftSide}
+            >
+              {cloneElement(listIconTheme[list.iconId], {
+                color: listColorTheme[list.colorVariant],
+                size: ICON_SIZE,
+              })}
+              <h3>{list.listName === 'Tasks' ? t('tasks') : list.listName}</h3>
+            </div>
+            <div
+              className={styles.taskContainer__right__upperContainer__rightSide}
+              ref={iconRef}
+            >
+              <BsThreeDots
+                size={ICON_SIZE}
+                onClick={(event: any) => handleContextMenu(event)}
+              />
             </div>
           </div>
-        )}
-      </div>
-      <ContextMenu
-        items={menuItems}
-        visible={contextMenuVisibility}
-        setVisible={setContextMenuVisibility}
-        position={contextMenuPosition}
-      />
 
-      <ListDetails
-        list={list}
-        isVisible={listDetailsVisibility}
-        onClose={() => setListDetailsVisibility(false)}
-        handleSubmitList={handleUpdateList}
-      />
-    </div>
+          <div className={styles.taskContainer__right__tasksContainer}>
+            <p className={styles.taskContainer__right__tasksContainer__tittle}>
+              {t('tasks')} - {inCompleteTasks.length}
+            </p>
+            <TasksList tasks={inCompleteTasks} list={list} />
+          </div>
+          {completedTasks.length > 0 && (
+            <div className={styles.taskContainer__right__tasksContainer}>
+              <p
+                className={styles.taskContainer__right__tasksContainer__tittle}
+              >
+                {t('completed')} - {completedTasks.length}
+              </p>
+              <TasksList tasks={completedTasks} list={list} />
+            </div>
+          )}
+        </div>
+        <ContextMenu
+          items={menuItems}
+          visible={contextMenuVisibility}
+          setVisible={setContextMenuVisibility}
+          position={contextMenuPosition}
+        />
+
+        <ListDetails
+          list={list}
+          isVisible={listDetailsVisibility}
+          onClose={() => setListDetailsVisibility(false)}
+          handleSubmitList={handleUpdateList}
+        />
+      </div>
+    </DndContext>
   );
 }

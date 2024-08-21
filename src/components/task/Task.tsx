@@ -14,6 +14,8 @@ import { updateTask } from '@/actions/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import TaskManager from '../list-manager/task-manager/TaskManager';
 import { BsThreeDots } from 'react-icons/bs';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TaskProps {
   task: ITask;
@@ -32,6 +34,13 @@ export default function Task({ task, primaryColor }: TaskProps) {
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task.taskId });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
 
   useEffect(() => {
     if (subtasksRef.current) {
@@ -71,7 +80,13 @@ export default function Task({ task, primaryColor }: TaskProps) {
 
   return (
     <>
-      <div className={styles.taskContainer}>
+      <div
+        className={styles.taskContainer}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+      >
         {subtasks.length > 0 && (
           <div
             className={styles.taskContainer__arrow}
