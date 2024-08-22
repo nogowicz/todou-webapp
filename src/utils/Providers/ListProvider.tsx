@@ -1,5 +1,10 @@
 'use client';
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  startTransition,
+} from 'react';
 import { IList } from '@/types/List';
 import { ITask } from '@/types/Task';
 import { useOptimistic } from 'react';
@@ -13,6 +18,7 @@ interface ListContextType {
   handleUpdateTask: (updatedTask: ITask) => void;
   handleUpdateSubtask: (updatedSubtask: ISubtask, currentTask: ITask) => void;
   handleDeleteTask: (taskId: number, listId: number) => void;
+  handleUpdateAllTaskSortIds: (listId: number, updatedTasks: ITask[]) => void;
 }
 
 const ListContext = createContext<ListContextType | undefined>(undefined);
@@ -22,6 +28,7 @@ export const ListProvider: React.FC<{
   initialLists: IList[];
 }> = ({ children, initialLists }) => {
   const [optimisticLists, updateOptimisticLists] = useOptimistic(initialLists);
+
   const handleNewList = (newList: IList) => {
     updateOptimisticLists((lists) => [...lists, newList]);
   };
@@ -109,6 +116,25 @@ export const ListProvider: React.FC<{
     });
   };
 
+  const handleUpdateAllTaskSortIds = (
+    listId: number,
+    updatedTasks: ITask[]
+  ) => {
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((list) => {
+          if (list.listId === listId) {
+            return {
+              ...list,
+              task: updatedTasks,
+            };
+          }
+          return list;
+        });
+      });
+    });
+  };
+
   const value = {
     optimisticLists,
     handleNewList,
@@ -117,6 +143,7 @@ export const ListProvider: React.FC<{
     handleUpdateTask,
     handleUpdateSubtask,
     handleDeleteTask,
+    handleUpdateAllTaskSortIds,
   };
 
   return <ListContext.Provider value={value}>{children}</ListContext.Provider>;

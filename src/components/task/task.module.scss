@@ -31,13 +31,6 @@
     align-items: center;
     padding: 10px 0 0 0;
 
-    svg {
-      &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-      }
-    }
-
     &__left {
       display: flex;
       flex-direction: row;
@@ -60,6 +53,13 @@
         text-decoration: line-through;
         text-decoration-thickness: 2px;
         opacity: 0.5;
+      }
+    }
+
+    &__rightIcon {
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
       }
     }
   }

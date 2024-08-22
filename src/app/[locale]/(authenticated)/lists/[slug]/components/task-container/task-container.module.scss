@@ -16,7 +16,6 @@
       flex-direction: column;
       gap: 20px;
       height: 100%;
-      overflow-y: auto;
       overflow-x: hidden;
     }
   }
@@ -24,8 +23,8 @@
   &__right {
     flex: 2;
     height: 100%;
-    overflow-y: auto;
     padding: 0 20px;
+    overflow-y: auto;
     overflow-x: hidden;
 
     &__upperContainer {

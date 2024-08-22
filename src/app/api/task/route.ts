@@ -36,6 +36,7 @@ export async function POST(request: Request) {
       listId,
       note,
       notificationTime,
+      sortId,
     } = requestData;
 
     if (!title) {
@@ -54,7 +55,8 @@ export async function POST(request: Request) {
       subtask,
       listId,
       note,
-      notificationTime
+      notificationTime,
+      sortId
     );
 
     return new Response(JSON.stringify(newTask), {

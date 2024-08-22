@@ -14,24 +14,27 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 interface ITasksList {
   tasks: ITask[];
   list: IList;
+  isDndEnabled: boolean;
 }
 
-export default function TasksList({ tasks, list }: ITasksList) {
-  const taskIdentifiers: UniqueIdentifier[] = tasks.map((task) => task.taskId);
+export default function TasksList({ tasks, list, isDndEnabled }: ITasksList) {
+  const taskIdentifiers: UniqueIdentifier[] = tasks.map((task) => task.sortId);
   return (
-    <div className={styles.container}>
-      <SortableContext
-        items={taskIdentifiers}
-        strategy={verticalListSortingStrategy}
-      >
+    <SortableContext
+      items={taskIdentifiers}
+      strategy={verticalListSortingStrategy}
+      disabled={!isDndEnabled}
+    >
+      <div className={styles.container}>
         {tasks.map((task, index) => (
           <Task
             key={index}
             task={task}
             primaryColor={listColorTheme[list.colorVariant]}
+            isDndEnabled={isDndEnabled}
           />
         ))}
-      </SortableContext>
-    </div>
+      </div>
+    </SortableContext>
   );
 }

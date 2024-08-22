@@ -82,6 +82,12 @@ export default function TaskManager({
       : (TaskUrgencyObject[0] as ITaskUrgency),
     deadline: editedTask?.deadline ?? null,
     note: editedTask?.note ?? '',
+    sortId:
+      editedTask?.sortId !== undefined
+        ? editedTask.sortId
+        : list.task.length
+        ? Math.max(...list.task.map((task) => task.sortId)) + 1
+        : 1,
   };
 
   useEffect(() => {
@@ -114,6 +120,7 @@ export default function TaskManager({
       taskId: -1,
       updatedAt: new Date(),
       notificationTime: null,
+      sortId: list.task.length + 1,
     };
 
     handleNewTask(newTask);
@@ -144,7 +151,8 @@ export default function TaskManager({
         updatedSubtasks,
         task.currentList.listId,
         task.note,
-        null
+        null,
+        task.sortId
       );
 
       setTask(initialTaskState);
@@ -223,6 +231,7 @@ export default function TaskManager({
         taskId: editedTask?.taskId,
         updatedAt: new Date(),
         notificationTime: null,
+        sortId: task.sortId,
       };
 
       handleUpdateTask(updatedTask);

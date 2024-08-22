@@ -68,6 +68,7 @@ model task {
   updatedAt        DateTime?        
   notificationTime DateTime?
   subtask          subtask[]
+  sortId           Int
   list             list             @relation(fields: [listId], references: [listId])
 
   @@index([listId])

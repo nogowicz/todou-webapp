@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './task.module.scss';
 import { ISubtask } from '@/types/Subtask';
 import { GoGitBranch } from 'react-icons/go';
-import { IoCalendarOutline } from 'react-icons/io5';
+import { IoCalendarOutline, IoReorderTwo } from 'react-icons/io5';
 import { useFormatter, useTranslations } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
@@ -20,11 +20,12 @@ import { CSS } from '@dnd-kit/utilities';
 interface TaskProps {
   task: ITask;
   primaryColor: string;
+  isDndEnabled: boolean;
 }
 
 const ICON_SIZE = 20;
 
-export default function Task({ task, primaryColor }: TaskProps) {
+export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const format = useFormatter();
   const t = useTranslations('ListPage');
   const { handleUpdateTask, optimisticLists } = useListContext();
@@ -35,7 +36,7 @@ export default function Task({ task, primaryColor }: TaskProps) {
   const subtasksRef = useRef<HTMLDivElement>(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.taskId });
+    useSortable({ id: task.sortId });
 
   const style = {
     transition,
@@ -135,13 +136,23 @@ export default function Task({ task, primaryColor }: TaskProps) {
             </p>
           </div>
 
-          <BsThreeDots
-            style={{
-              marginTop: subtasks.length > 0 ? '20px' : 0,
-            }}
-            onClick={() => setShowEditTaskModal(true)}
-            size={ICON_SIZE * 1.5}
-          />
+          {!isDndEnabled ? (
+            <BsThreeDots
+              style={{
+                marginTop: subtasks.length > 0 ? '20px' : 0,
+              }}
+              className={styles.taskContainer__main__rightIcon}
+              onClick={() => setShowEditTaskModal(true)}
+              size={ICON_SIZE * 1.5}
+            />
+          ) : (
+            <IoReorderTwo
+              style={{
+                marginTop: subtasks.length > 0 ? '20px' : 0,
+              }}
+              size={ICON_SIZE * 1.5}
+            />
+          )}
         </div>
         <div className={styles.taskContainer__details}>
           {subtasks.length > 0 && (

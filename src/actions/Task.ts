@@ -16,7 +16,8 @@ export async function createTaskRequest(
   subtask: ISubtask[],
   listId: number,
   note: string | null,
-  notificationTime: Date | null
+  notificationTime: Date | null,
+  sortId: number
 ) {
   try {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -35,6 +36,7 @@ export async function createTaskRequest(
         listId,
         note,
         notificationTime,
+        sortId,
       }),
     });
 
@@ -60,7 +62,8 @@ export async function createTask(
   subtask: ISubtask[],
   listId: number,
   note: string | null,
-  notificationTime: Date | null
+  notificationTime: Date | null,
+  sortId: number
 ) {
   await createTaskRequest(
     token,
@@ -71,7 +74,8 @@ export async function createTask(
     subtask,
     listId,
     note,
-    notificationTime
+    notificationTime,
+    sortId
   );
   revalidateTag('userLists');
 }
@@ -136,6 +140,26 @@ export async function deleteTaskRequest(token: string, taskId: number) {
     throw error;
   }
 }
+
+export const updateSortIdInDb = async (tasks: ITask[]) => {
+  try {
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const token = cookies().get('session')?.value ?? '';
+
+    await fetch(`${BASE_URL}/api/task/updateSortId`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ tasks }),
+    });
+  } catch (error) {
+    console.error('Failed to update sort IDs in the database:', error);
+  } finally {
+    revalidateTag('userLists');
+  }
+};
 
 export async function deleteTask(taskId: number) {
   await deleteTaskRequest(token, taskId);
