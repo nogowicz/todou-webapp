@@ -49,6 +49,7 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
     transition,
     opacity: isDragging ? 0.5 : 1,
     marginBottom: isDragging ? '10px' : 0,
+    touchAction: 'none',
   };
 
   useEffect(() => {
