@@ -56,7 +56,7 @@ interface ITaskContainer {
 
 const ICON_SIZE = 50;
 
-function TaskContainer({ slug }: ITaskContainer) {
+export default function TaskContainer({ slug }: ITaskContainer) {
   const { optimisticLists, handleUpdateList, handleUpdateAllTaskSortIds } =
     useListContext();
   const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
@@ -216,7 +216,6 @@ function TaskContainer({ slug }: ITaskContainer) {
 
       handleUpdateAllTaskSortIds(list.listId, reindexedTasks);
       updateSortIdInDb(reindexedTasks);
-      return updatedTasks;
     }
   };
 
@@ -298,5 +297,3 @@ function TaskContainer({ slug }: ITaskContainer) {
     </div>
   );
 }
-
-export default memo(TaskContainer);

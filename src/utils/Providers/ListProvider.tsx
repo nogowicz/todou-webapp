@@ -30,41 +30,49 @@ export const ListProvider: React.FC<{
   const [optimisticLists, updateOptimisticLists] = useOptimistic(initialLists);
 
   const handleNewList = (newList: IList) => {
-    updateOptimisticLists((lists) => [...lists, newList]);
+    startTransition(() => {
+      updateOptimisticLists((lists) => [...lists, newList]);
+    });
   };
 
   const handleUpdateList = (list: IList) => {
-    updateOptimisticLists((lists) => {
-      return lists.map((l) => (l.listId === list.listId ? list : l));
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((l) => (l.listId === list.listId ? list : l));
+      });
     });
   };
 
   const handleNewTask = (newTask: ITask) => {
-    updateOptimisticLists((lists) => {
-      return lists.map((list) => {
-        if (list.listId === newTask.listId) {
-          return {
-            ...list,
-            task: [...list.task, newTask],
-          };
-        }
-        return list;
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((list) => {
+          if (list.listId === newTask.listId) {
+            return {
+              ...list,
+              task: [...list.task, newTask],
+            };
+          }
+          return list;
+        });
       });
     });
   };
 
   const handleUpdateTask = (updatedTask: ITask) => {
-    updateOptimisticLists((lists) => {
-      return lists.map((list) => {
-        if (list.listId === updatedTask.listId) {
-          return {
-            ...list,
-            task: list.task.map((task) =>
-              task.taskId === updatedTask.taskId ? updatedTask : task
-            ),
-          };
-        }
-        return list;
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((list) => {
+          if (list.listId === updatedTask.listId) {
+            return {
+              ...list,
+              task: list.task.map((task) =>
+                task.taskId === updatedTask.taskId ? updatedTask : task
+              ),
+            };
+          }
+          return list;
+        });
       });
     });
   };
@@ -73,45 +81,49 @@ export const ListProvider: React.FC<{
     updatedSubtask: ISubtask,
     currentTask: ITask
   ) => {
-    updateOptimisticLists((lists) => {
-      return lists.map((list) => {
-        if (list.listId === currentTask.listId) {
-          const updatedTasks = list.task.map((task) => {
-            if (task.taskId === currentTask.taskId) {
-              const updatedSubtasks = task.subtask.map((subtask) =>
-                subtask.subtaskId === updatedSubtask.subtaskId
-                  ? updatedSubtask
-                  : subtask
-              );
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((list) => {
+          if (list.listId === currentTask.listId) {
+            const updatedTasks = list.task.map((task) => {
+              if (task.taskId === currentTask.taskId) {
+                const updatedSubtasks = task.subtask.map((subtask) =>
+                  subtask.subtaskId === updatedSubtask.subtaskId
+                    ? updatedSubtask
+                    : subtask
+                );
 
-              return {
-                ...task,
-                subtask: updatedSubtasks,
-              };
-            }
-            return task;
-          });
+                return {
+                  ...task,
+                  subtask: updatedSubtasks,
+                };
+              }
+              return task;
+            });
 
-          return {
-            ...list,
-            task: updatedTasks,
-          };
-        }
-        return list;
+            return {
+              ...list,
+              task: updatedTasks,
+            };
+          }
+          return list;
+        });
       });
     });
   };
 
   const handleDeleteTask = (taskId: number, listId: number) => {
-    updateOptimisticLists((lists) => {
-      return lists.map((list) => {
-        if (list.listId === listId) {
-          return {
-            ...list,
-            task: list.task.filter((task) => task.taskId !== taskId),
-          };
-        }
-        return list;
+    startTransition(() => {
+      updateOptimisticLists((lists) => {
+        return lists.map((list) => {
+          if (list.listId === listId) {
+            return {
+              ...list,
+              task: list.task.filter((task) => task.taskId !== taskId),
+            };
+          }
+          return list;
+        });
       });
     });
   };

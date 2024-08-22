@@ -5,10 +5,7 @@ import React from 'react';
 import styles from './tasks-list.module.scss';
 import { ITask } from '@/types/Task';
 import { IList } from '@/types/List';
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { UniqueIdentifier } from '@dnd-kit/core';
 
 interface ITasksList {
@@ -22,7 +19,7 @@ export default function TasksList({ tasks, list, isDndEnabled }: ITasksList) {
   return (
     <SortableContext
       items={taskIdentifiers}
-      strategy={verticalListSortingStrategy}
+      strategy={rectSortingStrategy}
       disabled={!isDndEnabled}
     >
       <div className={styles.container}>

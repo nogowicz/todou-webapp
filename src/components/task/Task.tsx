@@ -35,12 +35,20 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.sortId });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.sortId });
 
   const style = {
+    transform: CSS.Translate.toString(transform),
     transition,
-    transform: CSS.Transform.toString(transform),
+    opacity: isDragging ? 0.5 : 1,
+    marginBottom: isDragging ? '10px' : 0,
   };
 
   useEffect(() => {
@@ -49,6 +57,10 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
       setMaxHeight(isSubtasksCollapsed ? '0px' : `${scrollHeight}px`);
     }
   }, [isSubtasksCollapsed]);
+
+  useEffect(() => {
+    setIsCompleted(task.isCompleted);
+  }, [task]);
 
   const deadlineColor = (date: Date | null) => {
     const now = new Date();
