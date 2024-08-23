@@ -4,7 +4,7 @@
 .taskContainer {
   flex: 1;
   height: 70vh;
-  overflow-y: hidden;
+  overflow: hidden;
   display: flex;
 
   &__left {
@@ -16,7 +16,6 @@
       flex-direction: column;
       gap: 20px;
       height: 100%;
-      overflow-y: auto;
       overflow-x: hidden;
     }
   }
@@ -24,8 +23,8 @@
   &__right {
     flex: 2;
     height: 100%;
-    overflow-y: auto;
     padding: 0 20px;
+    overflow-y: auto;
     overflow-x: hidden;
 
     &__upperContainer {
@@ -52,18 +51,10 @@
     }
 
     &__tasksContainer {
-
-
       &__tittle {
         margin: 20px
       }
 
-      &__tasks {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-      }
     }
   }
 

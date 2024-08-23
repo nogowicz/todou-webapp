@@ -89,10 +89,17 @@
     "edit-list": "Edit List",
     "sort-list": "Sort List",
     "delete-completed-tasks": "Delete Completed Tasks",
-    "change-order": "Change Order",
+    "enable-order": "Enable Order",
+    "disable-order": "Disable Order",
     "archive-list": "Archive List",
     "unarchive-list": "Unarchive List",
     "invite-collaborators": "Invite Collaborators",
-    "delete-list": "Delete List"
+    "delete-list": "Delete List",
+    "sort-by-own": "Own",
+    "sort-by-alphabetical": "Alphabetical",
+    "sort-by-deadline": "Deadline",
+    "sort-by-creation": "Creation",
+    "sort-by-importance": "Importance",
+    "sort-by-urgency": "Urgency"
   }
 }

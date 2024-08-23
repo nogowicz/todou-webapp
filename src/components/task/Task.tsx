@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './task.module.scss';
 import { ISubtask } from '@/types/Subtask';
 import { GoGitBranch } from 'react-icons/go';
-import { IoCalendarOutline } from 'react-icons/io5';
+import { IoCalendarOutline, IoReorderTwo } from 'react-icons/io5';
 import { useFormatter, useTranslations } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
@@ -14,15 +14,18 @@ import { updateTask } from '@/actions/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import TaskManager from '../list-manager/task-manager/TaskManager';
 import { BsThreeDots } from 'react-icons/bs';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface TaskProps {
   task: ITask;
   primaryColor: string;
+  isDndEnabled: boolean;
 }
 
 const ICON_SIZE = 20;
 
-export default function Task({ task, primaryColor }: TaskProps) {
+export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const format = useFormatter();
   const t = useTranslations('ListPage');
   const { handleUpdateTask, optimisticLists } = useListContext();
@@ -32,6 +35,22 @@ export default function Task({ task, primaryColor }: TaskProps) {
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.sortId });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    marginBottom: isDragging ? '10px' : 0,
+    touchAction: 'none',
+  };
 
   useEffect(() => {
     if (subtasksRef.current) {
@@ -39,6 +58,10 @@ export default function Task({ task, primaryColor }: TaskProps) {
       setMaxHeight(isSubtasksCollapsed ? '0px' : `${scrollHeight}px`);
     }
   }, [isSubtasksCollapsed]);
+
+  useEffect(() => {
+    setIsCompleted(task.isCompleted);
+  }, [task]);
 
   const deadlineColor = (date: Date | null) => {
     const now = new Date();
@@ -71,7 +94,13 @@ export default function Task({ task, primaryColor }: TaskProps) {
 
   return (
     <>
-      <div className={styles.taskContainer}>
+      <div
+        className={styles.taskContainer}
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+      >
         {subtasks.length > 0 && (
           <div
             className={styles.taskContainer__arrow}
@@ -120,13 +149,23 @@ export default function Task({ task, primaryColor }: TaskProps) {
             </p>
           </div>
 
-          <BsThreeDots
-            style={{
-              marginTop: subtasks.length > 0 ? '20px' : 0,
-            }}
-            onClick={() => setShowEditTaskModal(true)}
-            size={ICON_SIZE * 1.5}
-          />
+          {!isDndEnabled ? (
+            <BsThreeDots
+              style={{
+                marginTop: subtasks.length > 0 ? '20px' : 0,
+              }}
+              className={styles.taskContainer__main__rightIcon}
+              onClick={() => setShowEditTaskModal(true)}
+              size={ICON_SIZE * 1.5}
+            />
+          ) : (
+            <IoReorderTwo
+              style={{
+                marginTop: subtasks.length > 0 ? '20px' : 0,
+              }}
+              size={ICON_SIZE * 1.5}
+            />
+          )}
         </div>
         <div className={styles.taskContainer__details}>
           {subtasks.length > 0 && (

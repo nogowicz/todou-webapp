@@ -1,5 +1,6 @@
 'use server';
 
+import { ESortingType } from '@/types/List';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -87,7 +88,8 @@ async function updateExistingList(
   selectedIcon?: number,
   selectedColor?: number,
   isArchived?: boolean,
-  isShared?: boolean
+  isShared?: boolean,
+  sortingType?: ESortingType
 ) {
   try {
     const response = await fetch(`${BASE_URL}/api/list`, {
@@ -103,6 +105,7 @@ async function updateExistingList(
         selectedColor,
         isArchived,
         isShared,
+        sortingType,
       }),
     });
 
@@ -124,7 +127,8 @@ export async function updateList(
   selectedIcon?: number,
   selectedColor?: number,
   isArchived?: boolean,
-  isShared?: boolean
+  isShared?: boolean,
+  sortingType?: ESortingType
 ) {
   const token = cookies().get('session')?.value ?? '';
   await updateExistingList(
@@ -134,7 +138,8 @@ export async function updateList(
     selectedIcon,
     selectedColor,
     isArchived,
-    isShared
+    isShared,
+    sortingType
   );
   revalidateLists();
 }

@@ -75,4 +75,5 @@ export interface ITask {
   updatedAt: Date;
   notificationTime: Date | null;
   subtask: ISubtask[];
+  sortId: number;
 }

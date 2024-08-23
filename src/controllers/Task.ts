@@ -14,7 +14,8 @@ export const createNewTaskInDb = async (
   subtask: ISubtask[],
   listId: number,
   note: string | null,
-  notificationTime: Date | null
+  notificationTime: Date | null,
+  sortId: number
 ) => {
   try {
     const session = await verifySession(token);
@@ -45,6 +46,7 @@ export const createNewTaskInDb = async (
         updatedAt: new Date(),
         assignedTo: Number(session.userId),
         addedBy: Number(session.userId),
+        sortId: sortId,
       },
     });
     return newTask;
@@ -104,6 +106,7 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
           task.notificationTime ?? existingTask.notificationTime,
         updatedAt: new Date(),
         assignedTo: task.assignedTo ?? existingTask.assignedTo,
+        sortId: task.sortId ?? existingTask.sortId,
       },
     });
     if (task.subtask) {
@@ -135,6 +138,23 @@ export const updateTaskInDb = async (token: string, task: ITask) => {
     return updatedTask;
   } catch (error) {
     console.error('Error updating task:', error);
+    throw error;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+export const updateTaskSortIdInDb = async (tasks: ITask[]) => {
+  try {
+    const updatePromises = tasks.map((task) =>
+      prisma.task.update({
+        where: { taskId: task.taskId },
+        data: { sortId: task.sortId },
+      })
+    );
+    await Promise.all(updatePromises);
+  } catch (error) {
+    console.error('Error updating task sort ID:', error);
     throw error;
   } finally {
     await prisma.$disconnect();

@@ -1,5 +1,15 @@
 import { ITask } from './Task';
 
+export enum ESortingType {
+  own = 'own',
+  alphabetical = 'alphabetical',
+  deadline = 'deadline',
+  creation = 'creation',
+  importance = 'importance',
+  urgency = 'urgency',
+}
+
+
 export interface IList {
   listId: number;
   listName: string;
@@ -12,4 +22,5 @@ export interface IList {
   colorVariant: number;
   iconId: number;
   task: ITask[];
+  sortingType: ESortingType;
 }

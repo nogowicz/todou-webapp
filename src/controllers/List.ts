@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { verifySession } from '../lib/session';
 import { cache } from 'react';
 import { revalidateTag } from 'next/cache';
+import { ESortingType } from '@/types/List';
 
 const prisma = new PrismaClient();
 
@@ -62,6 +63,7 @@ export const createNewList = async (
         isFavorite: false,
         isShared: false,
         createdBy: session.userId,
+        sortingType: 'own',
       },
     });
 
@@ -82,7 +84,8 @@ export const updateList = async (
   iconId?: number,
   colorVariant?: number,
   isArchived?: boolean,
-  isShared?: boolean
+  isShared?: boolean,
+  sortingType?: ESortingType
 ) => {
   try {
     const session = await verifySession(token);
@@ -113,6 +116,10 @@ export const updateList = async (
 
     if (isShared !== undefined) {
       dataToUpdate.isShared = isArchived;
+    }
+
+    if (sortingType !== undefined) {
+      dataToUpdate.sortingType = sortingType;
     }
 
     const updatedList = await prisma.list.update({

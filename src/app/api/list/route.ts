@@ -110,6 +110,7 @@ export async function PATCH(request: Request) {
       selectedColor,
       isArchived,
       isShared,
+      sortingType,
     } = requestData;
 
     const updatedList = await updateList(
@@ -119,7 +120,8 @@ export async function PATCH(request: Request) {
       selectedIcon,
       selectedColor,
       isArchived,
-      isShared
+      isShared,
+      sortingType
     );
 
     return new Response(JSON.stringify(updatedList), {
