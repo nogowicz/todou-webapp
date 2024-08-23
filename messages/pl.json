@@ -101,5 +101,11 @@
     "sort-by-creation": "Data Utworzenia",
     "sort-by-importance": "Ważność",
     "sort-by-urgency": "Pilność"
+  },
+  "Invitation": {
+    "invitation-code": "Kod Zaproszenia",
+    "copy-code": "Kopiuj Kod",
+    "copied": "Skopiowano!",
+    "expires-at": "Wygasa"
   }
 }

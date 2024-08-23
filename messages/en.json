@@ -101,5 +101,11 @@
     "sort-by-creation": "Creation",
     "sort-by-importance": "Importance",
     "sort-by-urgency": "Urgency"
+  },
+  "Invitation": {
+    "invitation-code": "Invitation Code",
+    "copy-code": "Copy Code",
+    "copied": "Copied!",
+    "expires-at": "Expires At"
   }
 }
