@@ -94,6 +94,12 @@
     "archive-list": "Archive List",
     "unarchive-list": "Unarchive List",
     "invite-collaborators": "Invite Collaborators",
-    "delete-list": "Delete List"
+    "delete-list": "Delete List",
+    "sort-by-own": "Own",
+    "sort-by-alphabetical": "Alphabetical",
+    "sort-by-deadline": "Deadline",
+    "sort-by-creation": "Creation",
+    "sort-by-importance": "Importance",
+    "sort-by-urgency": "Urgency"
   }
 }

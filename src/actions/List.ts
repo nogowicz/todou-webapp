@@ -1,5 +1,6 @@
 'use server';
 
+import { ESortingType } from '@/types/List';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -88,7 +89,7 @@ async function updateExistingList(
   selectedColor?: number,
   isArchived?: boolean,
   isShared?: boolean,
-  sortingType?: string
+  sortingType?: ESortingType
 ) {
   try {
     const response = await fetch(`${BASE_URL}/api/list`, {
@@ -127,7 +128,7 @@ export async function updateList(
   selectedColor?: number,
   isArchived?: boolean,
   isShared?: boolean,
-  sortingType?: string
+  sortingType?: ESortingType
 ) {
   const token = cookies().get('session')?.value ?? '';
   await updateExistingList(

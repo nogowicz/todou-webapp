@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { verifySession } from '../lib/session';
 import { cache } from 'react';
 import { revalidateTag } from 'next/cache';
+import { ESortingType } from '@/types/List';
 
 const prisma = new PrismaClient();
 
@@ -84,7 +85,7 @@ export const updateList = async (
   colorVariant?: number,
   isArchived?: boolean,
   isShared?: boolean,
-  sortingType?: string
+  sortingType?: ESortingType
 ) => {
   try {
     const session = await verifySession(token);

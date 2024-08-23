@@ -94,6 +94,12 @@
     "archive-list": "Zarchiwizuj Listę",
     "unarchive-list": "Odarchiwizuj Listę",
     "invite-collaborators": "Zaproś Użytkowników",
-    "delete-list": "Usuń Listę"
+    "delete-list": "Usuń Listę",
+    "sort-by-own": "Własne",
+    "sort-by-alphabetical": "Alfabetycznie",
+    "sort-by-deadline": "Data Ukończenia",
+    "sort-by-creation": "Data Utworzenia",
+    "sort-by-importance": "Ważność",
+    "sort-by-urgency": "Pilność"
   }
 }
