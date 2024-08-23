@@ -38,6 +38,7 @@ model list {
   task         task[]
   user         user[]
   userlist     userlist[]
+  sortingType  String       @default("own")
 }
 
 model subtask {

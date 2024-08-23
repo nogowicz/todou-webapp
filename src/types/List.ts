@@ -12,4 +12,5 @@ export interface IList {
   colorVariant: number;
   iconId: number;
   task: ITask[];
+  sortingType: 'own' | 'alphabetical' | 'deadline' | 'creation';
 }

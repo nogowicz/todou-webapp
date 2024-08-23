@@ -62,6 +62,7 @@ export const createNewList = async (
         isFavorite: false,
         isShared: false,
         createdBy: session.userId,
+        sortingType: 'own',
       },
     });
 
@@ -82,7 +83,8 @@ export const updateList = async (
   iconId?: number,
   colorVariant?: number,
   isArchived?: boolean,
-  isShared?: boolean
+  isShared?: boolean,
+  sortingType?: string
 ) => {
   try {
     const session = await verifySession(token);
@@ -113,6 +115,10 @@ export const updateList = async (
 
     if (isShared !== undefined) {
       dataToUpdate.isShared = isArchived;
+    }
+
+    if (sortingType !== undefined) {
+      dataToUpdate.sortingType = sortingType;
     }
 
     const updatedList = await prisma.list.update({
