@@ -104,6 +104,8 @@
   },
   "Invitation": {
     "invitation-code": "Invitation Code",
+    "insert-invitation": "Insert Invitation",
+    "submit": "Submit",
     "copy-code": "Copy Code",
     "copied": "Copied!",
     "expires-at": "Expires At"

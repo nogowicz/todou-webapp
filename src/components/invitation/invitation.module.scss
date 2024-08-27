@@ -75,6 +75,53 @@
             color: $green;
           }
         }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        &__inputContainer {
+          position: relative;
+
+
+          &__input {
+            font-size: 40px;
+            text-align: center;
+            letter-spacing: 20px;
+            background-color: var(--tertiary);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 400px;
+            border: 2px solid transparent;
+            margin-bottom: 20px;
+
+            &:focus {
+              outline: none !important;
+              border: 2px solid var(--primary);
+            }
+
+            &--error {
+              border: 2px solid $red;
+            }
+          }
+
+          &__error {
+            margin: 0;
+            color: $red;
+            font-size: 14px;
+            position: absolute;
+            bottom: -5px;
+            left: 10px;
+          }
+        }
+
+        &__submitButton {
+          max-width: 200px;
+        }
       }
     }
   }

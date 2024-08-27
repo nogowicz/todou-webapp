@@ -50,25 +50,6 @@ export default function TaskManager({
       ? TaskUrgencyObject[0]
       : TaskUrgencyObject[1];
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (isVisible) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isVisible, onClose]);
-
   const initialTaskState = {
     title: editedTask?.title ?? '',
     subtask: '',
@@ -90,17 +71,49 @@ export default function TaskManager({
         : 1,
   };
 
-  useEffect(() => {
-    const index = Number(currentPath.split('/').pop());
-    const list = lists.find((list) => list.listId === index) || lists[0];
-
-    setTask((prevTask) => ({
-      ...prevTask,
-      currentList: list,
-    }));
-  }, [currentPath, lists]);
-
   const [task, setTask] = useState(initialTaskState);
+
+  useEffect(() => {
+    setTask({
+      title: editedTask?.title ?? '',
+      subtask: '',
+      subtasks: editedTask?.subtask ?? [],
+      currentList: list,
+      importance: editedTask
+        ? (editedTaskImportance as ITaskImportance)
+        : (TaskImportanceObject[0] as ITaskImportance),
+      urgency: editedTask
+        ? (editedTaskUrgency as ITaskUrgency)
+        : (TaskUrgencyObject[0] as ITaskUrgency),
+      deadline: editedTask?.deadline ?? null,
+      note: editedTask?.note ?? '',
+      sortId:
+        editedTask?.sortId !== undefined
+          ? editedTask.sortId
+          : list.task.length
+          ? Math.max(...list.task.map((task) => task.sortId)) + 1
+          : 1,
+    });
+  }, [editedTask, editedTaskImportance, editedTaskUrgency, list]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible, onClose]);
 
   const subtaskInputRef = useRef<HTMLInputElement>(null);
 

@@ -9,7 +9,6 @@ export enum ESortingType {
   urgency = 'urgency',
 }
 
-
 export interface IList {
   listId: number;
   listName: string;
@@ -18,6 +17,7 @@ export interface IList {
   createdAt: Date;
   updatedAt: Date;
   isFavorite: boolean;
+  isShared: boolean;
   isArchived: boolean;
   colorVariant: number;
   iconId: number;

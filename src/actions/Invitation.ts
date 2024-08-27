@@ -37,3 +37,34 @@ export async function createInvitation(listId: number) {
   const invitation = await createInvitationInDb(token, listId);
   return invitation;
 }
+
+export async function verifyInvitationInDb(token: string, code: string) {
+  try {
+    const response = await fetch(`${BASE_URL}/api/invitation`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to verify invitation:', error);
+    throw error;
+  }
+}
+
+export async function verifyInvitation(code: string) {
+  const token = cookies().get('session')?.value ?? '';
+  const invitation = await verifyInvitationInDb(token, code);
+  return invitation;
+}

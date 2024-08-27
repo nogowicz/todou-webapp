@@ -104,6 +104,8 @@
   },
   "Invitation": {
     "invitation-code": "Kod Zaproszenia",
+    "insert-invitation": "Wprowadź Kod Zaproszenia",
+    "submit": "Zatwierdź",
     "copy-code": "Kopiuj Kod",
     "copied": "Skopiowano!",
     "expires-at": "Wygasa"
