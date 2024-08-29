@@ -105,6 +105,7 @@
   "Invitation": {
     "invitation-code": "Invitation Code",
     "insert-invitation": "Insert Invitation",
+    "insert-invitation-code": "Insert Invitation Code",
     "submit": "Submit",
     "copy-code": "Copy Code",
     "copied": "Copied!",

@@ -4,5 +4,6 @@
     "userlist"
   ],
   "WillLuke.nextjs.addTypesOnSave": true,
-  "WillLuke.nextjs.hasPrompted": true
+  "WillLuke.nextjs.hasPrompted": true,
+  "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font"
 }

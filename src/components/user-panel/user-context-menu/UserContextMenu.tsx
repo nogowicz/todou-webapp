@@ -11,12 +11,14 @@ import { IUser } from '@/types/User';
 import ContextMenu, { IItems } from '@/components/context-menu/ContextMenu';
 import { TbPlaylistAdd } from 'react-icons/tb';
 import Invitation from '@/components/invitation/Invitation';
+import { useTranslations } from 'next-intl';
 
 interface IUserContextMenuProps {
   user: IUser;
 }
 
 export default function UserContextMenu({ user }: IUserContextMenuProps) {
+  const t = useTranslations('Invitation');
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -30,7 +32,7 @@ export default function UserContextMenu({ user }: IUserContextMenuProps) {
 
     if (iconRef.current) {
       const rect = iconRef.current.getBoundingClientRect();
-      const x = rect.left - 50;
+      const x = rect.right - 350;
       const y = rect.top + 80;
 
       setContextMenuPosition({ x, y });
@@ -40,7 +42,7 @@ export default function UserContextMenu({ user }: IUserContextMenuProps) {
 
   const contextMenuItems: IItems[] = [
     {
-      label: 'Insert Invitation Code',
+      label: t('insert-invitation-code'),
       icon: <TbPlaylistAdd />,
       onClick: () => setIsInvitationVisible(true),
       isActive: true,
