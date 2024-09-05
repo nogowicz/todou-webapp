@@ -53,7 +53,6 @@ export default function ListItem({ list, listStyle }: IListItem) {
           {inCompleteTasks.length}
         </div>
         {cloneElement(listIconTheme[list.iconId], {
-          size: listStyle === 'grid' ? 130 : 40,
           color: `${listColorTheme[list.colorVariant]}50`,
         })}
         <p>{list.listName === 'Tasks' ? t('tasks') : list.listName}</p>
