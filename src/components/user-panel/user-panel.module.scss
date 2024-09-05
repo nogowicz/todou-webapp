@@ -66,47 +66,6 @@
     gap: 20px;
     margin: 0 0 0 10px;
 
-    &__user {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 20px;
-      font-weight: 600;
-
-      &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-      }
-
-      img {
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-      }
-
-      @include breakpoint.media('<=SMdesktop') {
-        p {
-          font-size: $p-font-size-small;
-        }
-      }
-
-      @include breakpoint.media('<=tablet') {
-        gap: 10px;
-
-
-        img {
-          width: 32px;
-          height: 32px;
-        }
-
-        svg {
-          width: 18px;
-          height: 18px;
-        }
-      }
-
-    }
-
   }
 
 }

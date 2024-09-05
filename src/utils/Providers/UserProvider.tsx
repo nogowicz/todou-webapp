@@ -76,9 +76,9 @@ export default function UserProvider({ children }: IUserProvider) {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
-export const useUser = (): UserContextType => {
+export const useUser = () => {
   const context = useContext(UserContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;

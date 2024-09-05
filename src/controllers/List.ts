@@ -18,7 +18,10 @@ export const fetchUsersLists = cache(async (token: string) => {
 
     const usersLists = await prisma.list.findMany({
       where: {
-        createdBy: session?.userId,
+        OR: [
+          { createdBy: session.userId },
+          { userlist: { some: { userId: session.userId } } },
+        ],
       },
       include: {
         task: {

@@ -58,6 +58,7 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { updateSortIdInDb } from '@/actions/Task';
+import Invitation from '@/components/invitation/Invitation';
 
 interface ITaskContainer {
   slug: string;
@@ -84,6 +85,8 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [inCompleteTasks, setInCompleteTasks] = useState<ITask[]>([]);
   const [completedTasks, setCompletedTasks] = useState<ITask[]>([]);
+  const [isInvitationModalVisible, setIsInvitationModalVisible] =
+    useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -229,7 +232,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     {
       label: t('invite-collaborators'),
       icon: <GoPeople />,
-      onClick: () => console.log('Invite Collaborators clicked'),
+      onClick: () => setIsInvitationModalVisible(true),
       isActive: list.listId !== user?.idDefaultList,
     },
     {
@@ -472,6 +475,11 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         isVisible={listDetailsVisibility}
         onClose={() => setListDetailsVisibility(false)}
         handleSubmitList={handleUpdateList}
+      />
+      <Invitation
+        isVisible={isInvitationModalVisible}
+        setIsVisible={setIsInvitationModalVisible}
+        listId={list.listId}
       />
     </div>
   );

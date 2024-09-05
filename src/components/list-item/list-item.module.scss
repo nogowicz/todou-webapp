@@ -19,7 +19,7 @@
       height: 100%;
     }
 
-    svg {
+    >svg {
       position: absolute;
       z-index: -1;
     }
@@ -44,12 +44,16 @@
       border-radius: 0 6px 0 6px;
       padding: 5px 15px;
       font-size: 20px;
+      gap: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     @include breakpoint.media('<=desktop') {
       height: 150px;
 
-      svg {
+      >svg {
         width: 80px;
         height: 80px;
       }
@@ -63,7 +67,7 @@
       height: 150px;
       min-width: 150px;
 
-      svg {
+      >svg {
         width: 50px;
         height: 50px;
       }
@@ -73,7 +77,7 @@
       min-width: 100px;
       height: 100px;
 
-      svg {
+      >svg {
         width: 50px;
         height: 50px;
       }
@@ -115,11 +119,15 @@
 
     &__taskAmount {
       position: absolute;
+      display: flex;
       top: 0;
       right: 0;
       border-radius: 0 6px 0 6px;
       padding: 2px 10px;
       font-size: 18px;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
     }
 
 
@@ -130,7 +138,7 @@
         margin: 0;
       }
 
-      svg {
+      >svg {
         width: 32px;
         height: 32px;
       }

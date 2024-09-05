@@ -14,8 +14,10 @@ export default async function middleware(req: NextRequest) {
     `/${isValidLocale}/search`,
   ];
   const loginRoute = `/${isValidLocale}/welcome`;
+  const homeRoute = `/${isValidLocale}`;
   const currentPath = req.nextUrl.pathname;
   const cookie = cookies().get('session')?.value;
+
   const isProtected = protectedRoutes.some((route) => {
     const routeSegments = route.split('/').filter(Boolean);
     const pathSegments = currentPath.split('/').filter(Boolean);
@@ -28,45 +30,39 @@ export default async function middleware(req: NextRequest) {
     );
   });
 
-  console.log('Current path:', currentPath);
-  console.log('Locale:', isValidLocale);
-
   if (isProtected) {
-    console.log('Checking session for protected route');
     if (!cookie) {
-      console.log(`Session invalid. Redirecting to ${loginRoute}`);
       return NextResponse.redirect(
         new URL(loginRoute, req.nextUrl.origin).toString()
       );
     }
 
-    const verification = await verifySession(cookie);
-    console.log(verification);
-    if (!verification.isAuth) {
-      console.log(`Session invalid. Redirecting to ${loginRoute}`);
-      return NextResponse.redirect(
-        new URL(loginRoute, req.nextUrl.origin).toString()
-      );
-    }
-
-    console.log('Session valid. Proceeding to protected route');
-  } else if (currentPath === loginRoute) {
-    console.log('Checking session for login route');
-
-    if (cookie) {
+    try {
       const verification = await verifySession(cookie);
-
-      if (verification.isAuth) {
-        console.log('Session valid. Redirecting to main page');
+      if (!verification.isAuth) {
         return NextResponse.redirect(
           new URL(loginRoute, req.nextUrl.origin).toString()
         );
       }
+    } catch (error) {
+      console.error('Error verifying session:', error);
+      return NextResponse.redirect(
+        new URL(loginRoute, req.nextUrl.origin).toString()
+      );
     }
-
-    console.log('No session or session invalid. Proceeding to login route');
-  } else {
-    console.log('Non-protected route, proceeding');
+  } else if (currentPath === loginRoute) {
+    if (cookie) {
+      try {
+        const verification = await verifySession(cookie);
+        if (verification.isAuth) {
+          return NextResponse.redirect(
+            new URL(homeRoute, req.nextUrl.origin).toString()
+          );
+        }
+      } catch (error) {
+        console.error('Error verifying session:', error);
+      }
+    }
   }
 
   const handleI18nRouting = createMiddleware({

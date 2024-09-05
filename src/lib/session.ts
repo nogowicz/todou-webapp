@@ -1,7 +1,7 @@
 'use server';
 import 'server-only';
 
-import { JWTPayload, jwtVerify, SignJWT } from 'jose';
+import { jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { PrismaClient } from '@prisma/client';
 import { redirect } from 'next/navigation';
@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 const key = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export type SessionPayload = {
-  userId: string | number;
+  userId: number | string;
   expiresAt: Date;
 };
 
@@ -77,20 +77,17 @@ export async function createSession(token: string) {
 export async function verifySession(token: string) {
   try {
     if (!token) {
-      console.log('Invalid token');
       return { isAuth: false, error: 'Invalid token' };
     }
 
     const session = await decrypt(token);
 
     if (!session || !session.userId) {
-      console.log('No valid session found');
       return { isAuth: false, error: 'No valid session found' };
     }
 
     return { isAuth: true, userId: Number(session.userId) };
   } catch (error) {
-    console.error('Error verifying session:', error);
     return { isAuth: false, error: 'Error verifying session' };
   }
 }

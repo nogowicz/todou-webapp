@@ -10,6 +10,7 @@ import styles from './list-item.module.scss';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ITask } from '@/types/Task';
+import { GoPeople } from 'react-icons/go';
 interface IListItem {
   list: IList;
   listStyle: 'list' | 'grid';
@@ -48,6 +49,7 @@ export default function ListItem({ list, listStyle }: IListItem) {
             backgroundColor: `${listColorTheme[list.colorVariant]}`,
           }}
         >
+          {list.isShared && <GoPeople />}
           {inCompleteTasks.length}
         </div>
         {cloneElement(listIconTheme[list.iconId], {
