@@ -125,11 +125,13 @@ export default function TaskContainer({ slug }: ITaskContainer) {
       let sortedTasks;
       switch (list.sortingType) {
         case ESortingType.alphabetical:
+          setIsDndEnabled(false);
           sortedTasks = list.task.sort((a, b) =>
             a.title.localeCompare(b.title)
           );
           break;
         case ESortingType.deadline:
+          setIsDndEnabled(false);
           sortedTasks = list.task.sort((a, b) => {
             if (a.deadline === null) return 1;
             if (b.deadline === null) return -1;
@@ -139,18 +141,21 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           });
           break;
         case ESortingType.creation:
+          setIsDndEnabled(false);
           sortedTasks = list.task.sort(
             (a, b) =>
               new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           );
           break;
         case ESortingType.importance:
+          setIsDndEnabled(false);
           sortedTasks = list.task.sort((a, b) => {
             if (a.importance === b.importance) return 0;
             return a.importance === TaskImportance.Important ? -1 : 1;
           });
           break;
         case ESortingType.urgency:
+          setIsDndEnabled(false);
           sortedTasks = list.task.sort((a, b) => {
             if (a.urgency === b.urgency) return 0;
             return a.urgency === TaskUrgency.Urgent ? -1 : 1;
@@ -161,7 +166,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           sortedTasks = list.task.sort((a, b) => a.sortId - b.sortId);
           break;
       }
-      setIsDndEnabled(false);
+
       setTasks(sortedTasks);
     }
   }, [list]);
@@ -426,6 +431,13 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   };
 
   const onDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
     const reindexedTasks = tasks.map((task, index) => ({
       ...task,
       sortId: index + 1,

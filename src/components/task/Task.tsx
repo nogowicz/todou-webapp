@@ -53,6 +53,7 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    marginBottom: '1rem',
   };
 
   useEffect(() => {
