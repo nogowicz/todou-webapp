@@ -149,7 +149,7 @@ export const updateTaskSortIdInDb = async (tasks: ITask[]) => {
     const updatePromises = tasks.map((task) =>
       prisma.task.update({
         where: { taskId: task.taskId },
-        data: { sortId: task.sortId },
+        data: { sortId: task.sortId, isCompleted: task.isCompleted },
       })
     );
     await Promise.all(updatePromises);

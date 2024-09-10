@@ -136,6 +136,7 @@ export const ListProvider: React.FC<{
       updateOptimisticLists((lists) => {
         return lists.map((list) => {
           if (list.listId === listId) {
+            console.log(updatedTasks);
             return {
               ...list,
               task: updatedTasks,

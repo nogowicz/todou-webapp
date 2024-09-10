@@ -16,6 +16,7 @@ import TaskManager from '../list-manager/task-manager/TaskManager';
 import { BsThreeDots } from 'react-icons/bs';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { listColorTheme } from '../list-item/ListStyles';
 
 interface TaskProps {
   task: ITask;
@@ -35,21 +36,23 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const [maxHeight, setMaxHeight] = React.useState('0px');
   const subtasksRef = useRef<HTMLDivElement>(null);
   const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+
   const {
+    setNodeRef,
     attributes,
     listeners,
-    setNodeRef,
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: task.sortId });
+  } = useSortable({
+    id: task.taskId,
+    data: { type: 'Task', task },
+    disabled: !isDndEnabled,
+  });
 
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
-    marginBottom: isDragging ? '10px' : 0,
-    touchAction: 'none',
   };
 
   useEffect(() => {
@@ -92,14 +95,27 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const subtasks: ISubtask[] = task.subtask;
   const completedSubtasks = subtasks.filter((subtask) => subtask.isCompleted);
 
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={{
+          ...style,
+          borderColor: primaryColor,
+        }}
+        className={styles['taskContainer--isDragging']}
+      />
+    );
+  }
+
   return (
     <>
       <div
-        className={styles.taskContainer}
         ref={setNodeRef}
         style={style}
         {...attributes}
         {...listeners}
+        className={styles.taskContainer}
       >
         {subtasks.length > 0 && (
           <div

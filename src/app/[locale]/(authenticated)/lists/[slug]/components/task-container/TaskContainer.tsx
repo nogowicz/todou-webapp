@@ -7,6 +7,7 @@ import React, {
   cloneElement,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -48,17 +49,21 @@ import {
 import { useUser } from '@/utils/Providers/UserProvider';
 
 import TasksList from './tasks-list/TasksList';
+import Invitation from '@/components/invitation/Invitation';
 import {
-  closestCorners,
   DndContext,
   DragEndEvent,
+  DragOverEvent,
+  DragOverlay,
+  DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+import { createPortal } from 'react-dom';
+import Task from '@/components/task/Task';
 import { arrayMove } from '@dnd-kit/sortable';
 import { updateSortIdInDb } from '@/actions/Task';
-import Invitation from '@/components/invitation/Invitation';
 
 interface ITaskContainer {
   slug: string;
@@ -88,17 +93,15 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   const [isInvitationModalVisible, setIsInvitationModalVisible] =
     useState(false);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
-  );
-
   const optimisticListUnArchived = optimisticLists.filter(
     (list: IList) => !list.isArchived
   );
+  const [activeTask, setActiveTask] = useState<ITask | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleContextMenu = useCallback((event: MouseEvent) => {
     event.preventDefault();
@@ -158,11 +161,23 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           sortedTasks = list.task.sort((a, b) => a.sortId - b.sortId);
           break;
       }
+      setIsDndEnabled(false);
       setTasks(sortedTasks);
-      setInCompleteTasks(sortedTasks.filter((task) => !task.isCompleted));
-      setCompletedTasks(sortedTasks.filter((task) => task.isCompleted));
     }
   }, [list]);
+
+  useEffect(() => {
+    setInCompleteTasks(tasks.filter((task) => !task.isCompleted));
+    setCompletedTasks(tasks.filter((task) => task.isCompleted));
+  }, [tasks]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   if (!list) {
     return notFound();
@@ -367,31 +382,57 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     },
   ];
 
-  const getTaskPos = (sortId: number) =>
-    tasks.findIndex((task) => task.sortId === sortId);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = getTaskPos(Number(active.id));
-    const newIndex = getTaskPos(Number(over.id));
-
-    if (oldIndex !== -1 && newIndex !== -1) {
-      const updatedTasks = arrayMove(tasks, oldIndex, newIndex);
-      console.log(updatedTasks);
-      const reindexedTasks = updatedTasks.map((task, index) => ({
-        ...task,
-        sortId: index + 1,
-      }));
-
-      setTasks(reindexedTasks);
-      setInCompleteTasks(reindexedTasks.filter((task) => !task.isCompleted));
-      setCompletedTasks(reindexedTasks.filter((task) => task.isCompleted));
-
-      handleUpdateAllTaskSortIds(list.listId, reindexedTasks);
-      updateSortIdInDb(reindexedTasks);
+  const onDragStart = (event: DragStartEvent) => {
+    if (event.active.data.current?.type === 'Task') {
+      setActiveTask(event.active.data.current.task);
+      return;
     }
+  };
+
+  const onDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
+
+    const isActiveTask = active.data.current?.type === 'Task';
+    const isOverTask = over.data.current?.type === 'Task';
+
+    if (!isActiveTask) return;
+
+    if (isActiveTask && isOverTask) {
+      setTasks((tasks) => {
+        const tasksCopy = [...tasks];
+        const activeIndex = tasksCopy.findIndex(
+          (task) => task.taskId === activeId
+        );
+        const overIndex = tasksCopy.findIndex((task) => task.taskId === overId);
+
+        if (activeIndex === -1 || overIndex === -1) return tasksCopy;
+
+        tasksCopy[activeIndex] = {
+          ...tasksCopy[activeIndex],
+          isCompleted: tasksCopy[overIndex].isCompleted,
+        };
+
+        const updatedTasks = arrayMove(tasksCopy, activeIndex, overIndex);
+
+        return updatedTasks;
+      });
+    }
+  };
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const reindexedTasks = tasks.map((task, index) => ({
+      ...task,
+      sortId: index + 1,
+    }));
+
+    handleUpdateAllTaskSortIds(list.listId, reindexedTasks);
+    updateSortIdInDb(reindexedTasks);
   };
 
   return (
@@ -425,9 +466,9 @@ export default function TaskContainer({ slug }: ITaskContainer) {
           </div>
         </div>
         <DndContext
-          collisionDetection={closestCorners}
-          onDragEnd={handleDragEnd}
-          autoScroll={false}
+          onDragStart={onDragStart}
+          onDragOver={onDragOver}
+          onDragEnd={onDragEnd}
           sensors={sensors}
         >
           <div className={styles.taskContainer__right__tasksContainer}>
@@ -454,6 +495,19 @@ export default function TaskContainer({ slug }: ITaskContainer) {
               />
             </div>
           )}
+          {isMounted &&
+            createPortal(
+              <DragOverlay>
+                {activeTask && (
+                  <Task
+                    task={activeTask}
+                    primaryColor={listColorTheme[list.colorVariant]}
+                    isDndEnabled={isDndEnabled}
+                  />
+                )}
+              </DragOverlay>,
+              document.body
+            )}
         </DndContext>
       </div>
       <ContextMenu

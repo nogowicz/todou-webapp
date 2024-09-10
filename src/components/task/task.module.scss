@@ -11,6 +11,14 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  min-height: 60px;
+  border: 2px solid transparent;
+
+  &--isDragging {
+    @extend .taskContainer;
+    opacity: 0.5;
+
+  }
 
   &__arrow {
     position: absolute;

@@ -1,12 +1,11 @@
 import { listColorTheme } from '@/components/list-item/ListStyles';
 import Task from '@/components/task/Task';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styles from './tasks-list.module.scss';
 import { ITask } from '@/types/Task';
 import { IList } from '@/types/List';
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
-import { UniqueIdentifier } from '@dnd-kit/core';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
 
 interface ITasksList {
   tasks: ITask[];
@@ -15,14 +14,11 @@ interface ITasksList {
 }
 
 export default function TasksList({ tasks, list, isDndEnabled }: ITasksList) {
-  const taskIdentifiers: UniqueIdentifier[] = tasks.map((task) => task.sortId);
+  let tasksId = useMemo(() => tasks.map((task) => task.taskId), [tasks]);
+
   return (
-    <SortableContext
-      items={taskIdentifiers}
-      strategy={rectSortingStrategy}
-      disabled={!isDndEnabled}
-    >
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <SortableContext items={tasksId}>
         {tasks.map((task, index) => (
           <Task
             key={index}
@@ -31,7 +27,7 @@ export default function TasksList({ tasks, list, isDndEnabled }: ITasksList) {
             isDndEnabled={isDndEnabled}
           />
         ))}
-      </div>
-    </SortableContext>
+      </SortableContext>
+    </div>
   );
 }
