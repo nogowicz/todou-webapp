@@ -1,0 +1,95 @@
+@use '../../styles/breakpoints' as breakpoint;
+@use '../../styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  &__content {
+    background-color: var(--secondary);
+    padding: 40px;
+    border-radius: 10px;
+    min-width: 240px;
+    margin: 0 10px;
+    max-height: 85vh;
+    min-width: 600px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &__upperContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      &__placeholder {
+        width: 32px;
+      }
+
+      svg {
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
+    }
+
+
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+    margin: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-transparent);
+  }
+
+
+
+
+  @include breakpoint.media('<=tablet') {
+    &__content {
+      min-width: 440px;
+    }
+  }
+
+  @include breakpoint.media('<=LGphone') {
+    &__content {
+      padding: 20px;
+      min-width: 100px;
+
+      &__upperContainer {
+        &__placeholder {
+          width: 28px;
+        }
+
+        p {
+          font-size: $p-font-size-small;
+        }
+
+        >svg {
+          width: 28px;
+        }
+      }
+    }
+  }
+}

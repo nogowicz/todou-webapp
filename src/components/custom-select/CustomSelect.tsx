@@ -79,10 +79,13 @@ export default function CustomSelect<T>({
           ...base,
           display: 'flex',
           alignItems: 'center',
-          gap: 20,
+          gap: isMobile ? 10 : 20,
           color: 'var(--text)',
           fontSize: isMobile ? 14 : 18,
           padding: '5px 0',
+          '>svg': {
+            width: isMobile ? 24 : '',
+          },
         }),
         indicatorSeparator: (base) => ({
           ...base,

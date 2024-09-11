@@ -7,7 +7,6 @@ import React, {
   cloneElement,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -39,6 +38,7 @@ import {
   RiDeleteBin6Line,
   RiInboxArchiveLine,
   RiInboxUnarchiveLine,
+  RiListSettingsLine,
 } from 'react-icons/ri';
 import ListDetails from '@/components/list-manager/list-details/ListDetails';
 import {
@@ -78,6 +78,7 @@ export default function TaskContainer({ slug }: ITaskContainer) {
   const [sortingTypeMenuVisibility, setSortingTypeMenuVisibility] =
     useState(false);
   const [listDetailsVisibility, setListDetailsVisibility] = useState(false);
+  const [listManagerVisibility, setListManagerVisibility] = useState(false);
   const [isDndEnabled, setIsDndEnabled] = useState(false);
   const { user } = useUser();
   const iconRef = useRef<HTMLDivElement>(null);
@@ -193,6 +194,12 @@ export default function TaskContainer({ slug }: ITaskContainer) {
       label: t('edit-list'),
       icon: <AiOutlineEdit />,
       onClick: () => setListDetailsVisibility(true),
+      isActive: list.listId !== user?.idDefaultList,
+    },
+    {
+      label: t('manage-list'),
+      icon: <RiListSettingsLine />,
+      onClick: () => setListManagerVisibility(true),
       isActive: list.listId !== user?.idDefaultList,
     },
     {

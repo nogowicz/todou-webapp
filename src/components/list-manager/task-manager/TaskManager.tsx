@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
 import CustomInput from '@/components/custom-input/CustomInput';
 import CustomButton from '@/components/custom-button/CustomButton';
 import { createTask, deleteTask, updateTask } from '@/actions/Task';
@@ -19,6 +18,7 @@ import { usePathname } from 'next/navigation';
 import { ISubtask } from '@/types/Subtask';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import { listColorTheme } from '@/components/list-item/ListStyles';
+import Modal from '@/components/modal/Modal';
 
 interface IAddNewTask {
   isVisible: boolean;
@@ -40,7 +40,6 @@ export default function TaskManager({
     useListContext();
   const index = Number(currentPath.split('/').pop());
   const list: IList = lists.find((list) => list.listId === index) || lists[0];
-  const modalRef = useRef<HTMLDivElement>(null);
   const editedTaskImportance =
     editedTask?.importance === 'Not important'
       ? TaskImportanceObject[0]
@@ -95,25 +94,6 @@ export default function TaskManager({
           : 1,
     });
   }, [editedTask, editedTaskImportance, editedTaskUrgency, list]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (isVisible) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isVisible, onClose]);
 
   const subtaskInputRef = useRef<HTMLInputElement>(null);
 
@@ -261,104 +241,92 @@ export default function TaskManager({
     }
   };
 
-  if (isVisible) {
-    return (
-      <div className={styles.overlay}>
-        <div className={styles.overlay__addNewTask} ref={modalRef}>
-          <div className={styles.overlay__addNewTask__upperContainer}>
-            <div
-              className={
-                styles.overlay__addNewTask__upperContainer__placeholder
-              }
+  return (
+    <Modal
+      isVisible={isVisible}
+      onClose={onClose}
+      title={editedTask ? t('edit-task') : t('add-new-task')}
+    >
+      <div className={styles.taskManager}>
+        <CustomInput
+          placeholder={t('input-placeholder-task')}
+          value={task.title}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTask({ ...task, title: e.target.value })
+          }
+        />
+        <TaskDetails
+          t={t}
+          lists={lists}
+          currentList={task.currentList}
+          setCurrentList={(list: IList) =>
+            setTask({ ...task, currentList: list })
+          }
+          importance={task.importance}
+          setImportance={(importance: ITaskImportance) =>
+            setTask({ ...task, importance })
+          }
+          urgency={task.urgency}
+          setUrgency={(urgency: ITaskUrgency) => setTask({ ...task, urgency })}
+          date={task.deadline}
+          setDate={(deadline: Date | null) => setTask({ ...task, deadline })}
+        />
+        <div>
+          <div className={styles.taskManager__subtaskInput}>
+            <FaPlus
+              size={24}
+              onClick={() => {
+                addNewSubtask(task.subtask);
+                subtaskInputRef.current?.focus();
+              }}
             />
-            <p>{editedTask ? t('edit-task') : t('add-new-task')}</p>
-            <IoClose onClick={onClose} size={40} />
-          </div>
-          <CustomInput
-            placeholder={t('input-placeholder-task')}
-            value={task.title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setTask({ ...task, title: e.target.value })
-            }
-          />
-          <TaskDetails
-            t={t}
-            lists={lists}
-            currentList={task.currentList}
-            setCurrentList={(list: IList) =>
-              setTask({ ...task, currentList: list })
-            }
-            importance={task.importance}
-            setImportance={(importance: ITaskImportance) =>
-              setTask({ ...task, importance })
-            }
-            urgency={task.urgency}
-            setUrgency={(urgency: ITaskUrgency) =>
-              setTask({ ...task, urgency })
-            }
-            date={task.deadline}
-            setDate={(deadline: Date | null) => setTask({ ...task, deadline })}
-          />
-          <div>
-            <div className={styles.overlay__addNewTask__subtaskInput}>
-              <FaPlus
-                size={24}
-                onClick={() => {
+            <input
+              title="subtask"
+              ref={subtaskInputRef}
+              placeholder={t('input-placeholder-subtask')}
+              value={task.subtask}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTask({ ...task, subtask: e.target.value })
+              }
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
                   addNewSubtask(task.subtask);
                   subtaskInputRef.current?.focus();
-                }}
-              />
-              <input
-                title="subtask"
-                ref={subtaskInputRef}
-                placeholder={t('input-placeholder-subtask')}
-                value={task.subtask}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTask({ ...task, subtask: e.target.value })
                 }
-                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.key === 'Enter') {
-                    addNewSubtask(task.subtask);
-                    subtaskInputRef.current?.focus();
-                  }
-                }}
-              />
-            </div>
-            <div className={styles.overlay__addNewTask__subtasksContainer}>
-              {task.subtasks.map((currentSubtask, index) => (
-                <Subtask
-                  key={index}
-                  index={index}
-                  subtask={currentSubtask}
-                  updateSubtask={updateSubtask}
-                  removeSubtask={removeSubtask}
-                  primaryColor={listColorTheme[list.colorVariant]}
-                />
-              ))}
-            </div>
+              }}
+            />
           </div>
-          <div className={styles.overlay__addNewTask__buttonsContainer}>
-            {editedTask && (
-              <CustomButton
-                onClick={handleDeleteCurrentTask}
-                className={
-                  styles.overlay__addNewTask__buttonsContainer__deleteButton
-                }
-              >
-                {t('delete-task')}
-              </CustomButton>
-            )}
-            <CustomButton
-              disabled={!task.title}
-              onClick={editedTask ? handleUpdateCurrentTask : handleAddNewTask}
-            >
-              {editedTask ? t('update-task') : t('add-new-task')}
-            </CustomButton>
+          <div className={styles.taskManager__subtasksContainer}>
+            {task.subtasks.map((currentSubtask, index) => (
+              <Subtask
+                key={index}
+                index={index}
+                subtask={currentSubtask}
+                updateSubtask={updateSubtask}
+                removeSubtask={removeSubtask}
+                primaryColor={listColorTheme[list.colorVariant]}
+              />
+            ))}
           </div>
         </div>
+        <div className={styles.taskManager__buttonsContainer}>
+          {editedTask && (
+            <CustomButton
+              onClick={handleDeleteCurrentTask}
+              className={styles.taskManager__buttonsContainer__deleteButton}
+            >
+              {t('delete-task')}
+            </CustomButton>
+          )}
+          <CustomButton
+            disabled={!task.title}
+            onClick={editedTask ? handleUpdateCurrentTask : handleAddNewTask}
+            className={styles.taskManager__buttonsContainer__submitButton}
+          >
+            {editedTask ? t('update-task') : t('add-new-task')}
+          </CustomButton>
+        </div>
       </div>
-    );
-  }
-
-  return null;
+    </Modal>
+  );
 }

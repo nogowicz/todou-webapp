@@ -1,7 +1,10 @@
+@use '../../styles/breakpoints' as breakpoint;
+@use '../../styles/variables' as *;
+
 .labelCheckbox {
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin: 0;
 
   input[type="checkbox"] {
     position: relative;
@@ -67,4 +70,6 @@
       transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   }
+
+
 }

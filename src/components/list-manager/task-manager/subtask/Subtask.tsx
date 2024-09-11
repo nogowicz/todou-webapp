@@ -25,7 +25,7 @@ const Subtask = ({
 }: SubtaskProps) => {
   const subtaskInputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className={styles.overlay__addNewTask__subtasksContainer__subtask}>
+    <div className={styles.taskManager__subtasksContainer__subtask}>
       {' '}
       <Checkbox
         isCompleted={subtask.isCompleted}

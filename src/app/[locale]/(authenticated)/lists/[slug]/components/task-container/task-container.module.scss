@@ -75,6 +75,21 @@
   }
 
   @include breakpoint.media('<=LGtablet') {
+    height: 75vh;
+
+    &__left {
+      display: none;
+    }
+
+    &__right {
+      padding: 0 10px;
+    }
+
+  }
+
+  @include breakpoint.media('<=tablet') {
+    height: calc(70vh);
+
     &__left {
       display: none;
     }
@@ -86,7 +101,7 @@
   }
 
   @include breakpoint.media('<=LGphone') {
-    height: calc(70vh - 60px);
+    height: calc(70vh - 40px);
 
     &__right {
       &__upperContainer {

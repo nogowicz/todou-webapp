@@ -16,7 +16,7 @@ import {
   UrgencyOption,
   UrgencySingleValue,
 } from '../helpers';
-import styles from '../task-manager.module.scss';
+import styles from './task-details.module.scss';
 
 interface TaskDetailsProps {
   t: Function;
@@ -31,7 +31,7 @@ interface TaskDetailsProps {
   setDate: (date: Date) => void;
 }
 
-const TaskDetails = ({
+export default function TaskDetails({
   t,
   lists,
   currentList,
@@ -42,7 +42,7 @@ const TaskDetails = ({
   setUrgency,
   date,
   setDate,
-}: TaskDetailsProps) => {
+}: TaskDetailsProps) {
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   const handleDatePickerClick = () => {
@@ -52,8 +52,8 @@ const TaskDetails = ({
   };
 
   return (
-    <div className={styles.overlay__addNewTask__taskDetails}>
-      <div className={styles.overlay__addNewTask__taskDetails__option}>
+    <div className={styles.taskDetails}>
+      <div className={styles.taskDetails__option}>
         <p>{t('list')}</p>
         <CustomSelect<IList>
           data={lists}
@@ -63,7 +63,7 @@ const TaskDetails = ({
           setSelectedData={setCurrentList}
         />
       </div>
-      <div className={styles.overlay__addNewTask__taskDetails__option}>
+      <div className={styles.taskDetails__option}>
         <p>{t('importance')}</p>
         <CustomSelect<ITaskImportance>
           data={TaskImportanceObject}
@@ -73,7 +73,7 @@ const TaskDetails = ({
           setSelectedData={setImportance}
         />
       </div>
-      <div className={styles.overlay__addNewTask__taskDetails__option}>
+      <div className={styles.taskDetails__option}>
         <p>{t('urgency')}</p>
         <CustomSelect<ITaskUrgency>
           data={TaskUrgencyObject}
@@ -83,12 +83,10 @@ const TaskDetails = ({
           setSelectedData={setUrgency}
         />
       </div>
-      <div className={styles.overlay__addNewTask__taskDetails__option}>
+      <div className={styles.taskDetails__option}>
         <p>{t('deadline')}</p>
         <div
-          className={
-            styles.overlay__addNewTask__taskDetails__option__datePicker
-          }
+          className={styles.taskDetails__option__datePicker}
           onClick={handleDatePickerClick}
         >
           <IoCalendarOutline size={32} />
@@ -106,6 +104,4 @@ const TaskDetails = ({
       </div>
     </div>
   );
-};
-
-export default TaskDetails;
+}

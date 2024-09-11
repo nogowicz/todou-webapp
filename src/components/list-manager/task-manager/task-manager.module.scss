@@ -1,116 +1,57 @@
 @use '../../../styles/breakpoints' as breakpoint;
 @use '../../../styles/variables' as *;
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+.taskManager {
 
-  &__addNewTask {
-    background-color: var(--secondary);
-    min-width: 800px;
-    padding: 40px;
-    border-radius: 10px;
-    max-height: 85vh;
-    overflow-y: auto;
-    min-width: 600px;
 
-    &__upperContainer {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+  &__subtaskInput {
+    display: flex;
+    align-items: center;
+    margin: 20px 20px;
 
-      &__placeholder {
-        width: 32px;
-      }
+    svg {
+      color: var(--hint);
 
-      svg {
-        &:hover {
-          cursor: pointer;
-          opacity: 0.7;
-        }
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
       }
     }
 
-    &__taskDetails {
-      background-color: var(--tertiary);
+    input {
+      background-color: var(--secondary);
+      border: none;
       border-radius: 10px;
-      padding: 10px 20px;
+      font-size: 18px;
+      padding: 20px;
+      width: 80%;
 
-      &__option {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
+      color: var(--text);
 
-        &__datePicker {
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          color: var(--text);
-          padding: 5px 10px;
-          background-color: var(--background);
-          cursor: pointer;
-          min-width: 180px;
+      &::placeholder {
+        color: var(--hint);
+      }
 
-          &:hover {
-            opacity: 0.7;
-          }
-
-          input {
-            background-color: var(--background);
-            border: none;
-            font-size: 20px;
-            border-radius: 10px;
-            padding: 5px 0px;
-            pointer-events: none;
-            font-family: var(--font-family);
-
-          }
-
-          input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-            -webkit-appearance: none;
-          }
-
-          input[type="date"]::-moz-focus-inner {
-            border: 0;
-          }
-
-          input[type="date"]::-ms-clear {
-            display: none;
-          }
-
-          input[type="date"]::-ms-expand {
-            display: none;
-          }
-        }
+      &:focus {
+        outline: none;
+        border: none;
       }
     }
+  }
 
-    &__subtaskInput {
+  &__subtasksContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px;
+    width: 100%;
+
+    &__subtask {
       display: flex;
       align-items: center;
-      margin: 20px 20px;
+      width: 100%;
 
-      svg {
-        color: var(--hint);
-
-        &:hover {
-          cursor: pointer;
-          opacity: 0.7;
-        }
-      }
 
       input {
         background-color: var(--secondary);
@@ -118,7 +59,7 @@
         border-radius: 10px;
         font-size: 18px;
         padding: 20px;
-        width: 80%;
+        width: 60%;
 
         color: var(--text);
 
@@ -131,133 +72,35 @@
           border: none;
         }
       }
-    }
 
-    &__subtasksContainer {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin: 20px 20px;
-      width: 100%;
-
-      &__subtask {
-        display: flex;
-        align-items: center;
-        width: 100%;
-
-
-        input {
-          background-color: var(--secondary);
-          border: none;
-          border-radius: 10px;
-          font-size: 18px;
-          padding: 20px;
-          width: 80%;
-
-          color: var(--text);
-
-          &::placeholder {
-            color: var(--hint);
-          }
-
-          &:focus {
-            outline: none;
-            border: none;
-          }
-        }
-
-        svg {
-          &:hover {
-            cursor: pointer;
-            opacity: 0.7;
-          }
+      svg {
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
         }
       }
     }
-
-    &__buttonsContainer {
-      display: flex;
-      flex-direction: row;
-      gap: 20px;
-
-      &__deleteButton {
-        background-color: var(--red-transparent);
-        color: var(--red);
-      }
-    }
   }
 
+  &__buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 
-  ::-webkit-scrollbar-track {
-    background: var(--background);
-    margin: 20px
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--tertiary);
-
-  }
-
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-transparent);
-  }
-
-  @include breakpoint.media('<=tablet') {
-    &__addNewTask {
-      min-width: 440px;
+    &__deleteButton {
+      background-color: var(--red-transparent);
+      color: var(--red);
     }
   }
 
   @include breakpoint.media('<=LGphone') {
-    &__addNewTask {
-      min-width: 260px;
-
-      &__upperContainer {
-        p {
-          font-size: $p-font-size-small;
-        }
-
-        svg {
-          width: 32px;
-          height: 32px;
-        }
-
-        &__placeholder {
-          width: 32px;
-        }
+    &__buttonsContainer {
+      &__deleteButton {
+        font-size: $p-font-size-small;
       }
 
-      &__taskDetails {
-        p {
-          font-size: $p-font-size-x-small;
-        }
-
-        &__option {
-          &__datePicker {
-            min-width: 100px;
-
-            svg {
-              width: 28px;
-            }
-
-            input {
-              font-size: 14px;
-            }
-          }
-        }
-      }
-
-      &__subtasksContainer {
-        &__subtask {
-          input {
-            font-size: 14px;
-          }
-        }
+      &__submitButton {
+        font-size: $p-font-size-small;
       }
     }
   }
