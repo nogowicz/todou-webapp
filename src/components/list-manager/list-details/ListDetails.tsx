@@ -8,7 +8,7 @@ import {
   listIconTheme,
 } from '@/components/list-item/ListStyles';
 import CustomButton from '@/components/custom-button/CustomButton';
-import { IList } from '@/types/List';
+import { ESortingType, IList } from '@/types/List';
 import { useUser } from '@/utils/Providers/UserProvider';
 import { useTranslations } from 'next-intl';
 import { createList, updateList } from '@/actions/List';
@@ -73,6 +73,8 @@ export default function ListDetails({
           isFavorite: false,
           updatedAt: new Date(),
           listId: -1,
+          isShared: false,
+          sortingType: ESortingType.own,
         };
         handleSubmitList(newList);
         onClose();

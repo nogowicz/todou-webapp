@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './subtask.module.scss';
 import { ISubtask } from '@/types/Subtask';
-import Checkbox from '../checkbox/Checkbox';
 import { updateSubtask } from '@/actions/Subtask';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import { ITask } from '@/types/Task';
+import LabelCheckbox from '../label-checkbox/LabelCheckbox';
 
 interface SubtaskProps {
   task: ITask;
@@ -15,9 +15,23 @@ interface SubtaskProps {
 
 export default function Subtask({ task, subtask, primaryColor }: SubtaskProps) {
   const { handleUpdateSubtask } = useListContext();
+  const [isCompleted, setIsCompleted] = useState(subtask.isCompleted);
+
+  useEffect(() => {
+    setIsCompleted(subtask.isCompleted);
+  }, [subtask]);
+
+  const updateCheckBox = () => {
+    setIsCompleted((prev) => !prev);
+  };
+
   return (
     <div className={styles.subtaskContainer}>
-      <Checkbox
+      <LabelCheckbox
+        title={subtask.title}
+        isCompleted={isCompleted}
+        updateCheckBox={updateCheckBox}
+        primaryColor={primaryColor}
         onClick={async (e) => {
           e.stopPropagation();
           const updatedCompletedSubtask = {
@@ -29,16 +43,7 @@ export default function Subtask({ task, subtask, primaryColor }: SubtaskProps) {
           handleUpdateSubtask(updatedCompletedSubtask, task);
           await updateSubtask(updatedCompletedSubtask);
         }}
-        isCompleted={subtask.isCompleted}
-        primaryColor={primaryColor}
       />
-      <p
-        className={
-          subtask.isCompleted ? styles['subtaskContainer--completed'] : ''
-        }
-      >
-        {subtask.title}
-      </p>
     </div>
   );
 }

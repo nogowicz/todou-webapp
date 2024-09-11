@@ -11,6 +11,12 @@
           "text-decoration-thickness"
         ]
       }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "label": "off"
+      }
     ]
   }
 }

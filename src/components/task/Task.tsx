@@ -9,14 +9,13 @@ import { IoCalendarOutline, IoReorderTwo } from 'react-icons/io5';
 import { useFormatter, useTranslations } from 'next-intl';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Subtask from '../subtask/Subtask';
-import Checkbox from '../checkbox/Checkbox';
 import { updateTask } from '@/actions/Task';
 import { useListContext } from '@/utils/Providers/ListProvider';
 import TaskManager from '../list-manager/task-manager/TaskManager';
 import { BsThreeDots } from 'react-icons/bs';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { listColorTheme } from '../list-item/ListStyles';
+import LabelCheckbox from '../label-checkbox/LabelCheckbox';
 
 interface TaskProps {
   task: ITask;
@@ -96,6 +95,10 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
   const subtasks: ISubtask[] = task.subtask;
   const completedSubtasks = subtasks.filter((subtask) => subtask.isCompleted);
 
+  const updateCheckBox = () => {
+    setIsCompleted((prev) => !prev);
+  };
+
   if (isDragging) {
     return (
       <div
@@ -139,12 +142,12 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
         )}
         <div className={styles.taskContainer__main}>
           <div className={styles.taskContainer__main__left}>
-            <Checkbox
-              isCompleted={isCompleted}
+            <LabelCheckbox
+              title={task.title}
               primaryColor={primaryColor}
-              onClick={async (e) => {
-                e.stopPropagation();
-                setIsCompleted((prev) => !prev);
+              isCompleted={isCompleted}
+              updateCheckBox={updateCheckBox}
+              onClick={async () => {
                 const updatedCompletedTask = {
                   ...task,
                   updatedAt: new Date(),
@@ -155,15 +158,6 @@ export default function Task({ task, primaryColor, isDndEnabled }: TaskProps) {
                 await updateTask(updatedCompletedTask);
               }}
             />
-            <p
-              className={
-                isCompleted
-                  ? styles['taskContainer__main__left--completed']
-                  : ''
-              }
-            >
-              {task.title}
-            </p>
           </div>
 
           {!isDndEnabled ? (

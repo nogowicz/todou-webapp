@@ -25,7 +25,6 @@ export async function updateSubtaskRequest(token: string, subtask: ISubtask) {
     }
 
     const data = await response.json();
-    console.log('DATA:', data);
     return data;
   } catch (error) {
     if (error instanceof Error) {
