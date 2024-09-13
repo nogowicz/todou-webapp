@@ -1,150 +1,89 @@
 @use '../../styles/breakpoints' as breakpoint;
 @use '../../styles/variables' as *;
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+
+.invitation {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  height: 200px;
 
-  &__invitation {
-    background-color: var(--secondary);
-    border-radius: 10px;
-    padding: 20px;
-    width: 500px;
-    height: 300px;
+  &__invitationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 
+    &__code {
+      font-size: 40px;
+      letter-spacing: 20px;
+      background-color: var(--tertiary);
+      color: var(--primary);
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 10px;
+    }
 
-    &__upperContainer {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
+    &__expiresAt {
+      font-size: 14px;
+    }
 
-      &__placeholder {
-        width: 32px;
-      }
+    &__copyButton {
+      max-width: 200px;
 
-      svg {
-        &:hover {
-          cursor: pointer;
-          opacity: 0.7;
-        }
+      &--copied {
+        background-color: $green-transparent;
+        color: $green;
       }
     }
 
-    &__lowerContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 200px;
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
 
-      &__invitationContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
+    &__inputContainer {
+      position: relative;
 
-        &__code {
-          font-size: 40px;
-          letter-spacing: 20px;
-          background-color: var(--tertiary);
-          color: var(--primary);
-          font-weight: bold;
-          padding: 10px;
-          border-radius: 10px;
+
+      &__input {
+        font-size: 40px;
+        text-align: center;
+        letter-spacing: 20px;
+        background-color: var(--tertiary);
+        color: var(--primary);
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 400px;
+        border: 2px solid transparent;
+        margin-bottom: 20px;
+
+        &:focus {
+          outline: none !important;
+          border: 2px solid var(--primary);
         }
 
-        &__expiresAt {
-          font-size: 14px;
+        &--error {
+          border: 2px solid $red;
         }
+      }
 
-        &__copyButton {
-          max-width: 200px;
-
-          &--copied {
-            background-color: $green-transparent;
-            color: $green;
-          }
-        }
-
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-
-        &__inputContainer {
-          position: relative;
-
-
-          &__input {
-            font-size: 40px;
-            text-align: center;
-            letter-spacing: 20px;
-            background-color: var(--tertiary);
-            color: var(--primary);
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 400px;
-            border: 2px solid transparent;
-            margin-bottom: 20px;
-
-            &:focus {
-              outline: none !important;
-              border: 2px solid var(--primary);
-            }
-
-            &--error {
-              border: 2px solid $red;
-            }
-          }
-
-          &__error {
-            margin: 0;
-            color: $red;
-            font-size: 14px;
-            position: absolute;
-            bottom: -5px;
-            left: 10px;
-          }
-        }
-
-        &__submitButton {
-          max-width: 200px;
-        }
+      &__error {
+        margin: 0;
+        color: $red;
+        font-size: 14px;
+        position: absolute;
+        bottom: -5px;
+        left: 10px;
       }
     }
-  }
 
-
-  @include breakpoint.media('<=LGphone') {
-    &__invitation {
-      min-width: 260px;
-
-      &__upperContainer {
-        p {
-          font-size: $p-font-size-small;
-        }
-
-        svg {
-          width: 32px;
-          height: 32px;
-        }
-
-        &__placeholder {
-          width: 32px;
-        }
-      }
+    &__submitButton {
+      max-width: 200px;
     }
   }
 }

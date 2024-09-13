@@ -29,7 +29,6 @@ async function getData(token: string) {
 
 export default async function getUser() {
   const token = cookies().get('session')?.value ?? '';
-  console.log('token', token);
   const data = await getData(token);
   return data;
 }

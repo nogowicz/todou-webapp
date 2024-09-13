@@ -64,6 +64,8 @@ import { createPortal } from 'react-dom';
 import Task from '@/components/task/Task';
 import { arrayMove } from '@dnd-kit/sortable';
 import { updateSortIdInDb } from '@/actions/Task';
+import ListManager from '@/components/list-manager/ListManager';
+import ListSettings from '@/components/list-settings/ListSettings';
 
 interface ITaskContainer {
   slug: string;
@@ -394,6 +396,14 @@ export default function TaskContainer({ slug }: ITaskContainer) {
     },
   ];
 
+  const onCloseInvitationModal = () => {
+    setIsInvitationModalVisible(false);
+  };
+
+  const onCloseListSettingsModal = () => {
+    setListManagerVisibility(false);
+  };
+
   const onDragStart = (event: DragStartEvent) => {
     if (event.active.data.current?.type === 'Task') {
       setActiveTask(event.active.data.current.task);
@@ -549,9 +559,16 @@ export default function TaskContainer({ slug }: ITaskContainer) {
         onClose={() => setListDetailsVisibility(false)}
         handleSubmitList={handleUpdateList}
       />
+
+      <ListSettings
+        list={list}
+        isVisible={listManagerVisibility}
+        onClose={onCloseListSettingsModal}
+      />
+
       <Invitation
         isVisible={isInvitationModalVisible}
-        setIsVisible={setIsInvitationModalVisible}
+        onCloseInvitationModal={onCloseInvitationModal}
         listId={list.listId}
       />
     </div>

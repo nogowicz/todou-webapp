@@ -4,6 +4,9 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['assets.manutd.com'],
+  },
   async headers() {
     return [
       {

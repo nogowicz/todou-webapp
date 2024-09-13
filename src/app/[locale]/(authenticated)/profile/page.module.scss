@@ -1,0 +1,122 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/breakpoints' as breakpoint;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &__container {
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
+    padding: 20px 40px;
+    display: flex;
+    gap: 30px;
+    flex-direction: column;
+
+    &__upperContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      >h3 {
+        font-size: $h3-font-size-medium;
+        margin: 0;
+      }
+
+      >a {
+        color: var(--hint);
+      }
+
+      &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid var(--secondary);
+        padding: 5px 10px;
+        border-radius: 10px;
+
+
+        &:hover {
+          cursor: pointer;
+          opacity: 0.7;
+        }
+      }
+    }
+
+
+    &__personalData {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      padding: 0 0 20px 0;
+
+      >img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      &__name {
+        font-weight: bold;
+        font-size: $p-font-size-x-large;
+      }
+
+      &__email {
+        color: var(--hint);
+        font-size: $p-font-size-small;
+      }
+    }
+  }
+
+  @include breakpoint.media('<=tablet') {
+    &__container {
+
+      &__upperContainer {
+        >h3 {
+          font-size: $h3-font-size-x-small;
+        }
+      }
+
+      &__personalData {
+        >img {
+          width: 75px;
+          height: 75px;
+        }
+
+        &__name {
+          font-size: $p-font-size-small;
+        }
+
+        &__email {
+          font-size: $p-font-size-xl-small;
+        }
+      }
+    }
+  }
+
+  @include breakpoint.media('<=phone') {
+    &__container {
+      padding: 20px;
+
+      &__upperContainer {
+        >h3 {
+          font-size: $h3-font-size-xx-small;
+        }
+      }
+
+      &__personalData {
+        >img {
+          width: 50px;
+          height: 50px;
+        }
+
+      }
+    }
+  }
+}

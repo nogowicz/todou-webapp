@@ -54,7 +54,6 @@
     "create-new-list": "Utwórz Nową Listę",
     "save-changes": "Zapisz Zmiany",
     "edit-list": "Edytuj Listę",
-    "manage-list": "Zarządzaj Listą",
     "add-new-task": "Dodaj Nowe Zadanie",
     "delete-task": "Usuń Zadanie",
     "edit-task": "Edytuj Zadanie",
@@ -88,6 +87,7 @@
     "tasks": "Zadania",
     "completed": "Ukończone",
     "edit-list": "Edytuj Listę",
+    "manage-list": "Zarządzaj Listą",
     "sort-list": "Sortuj Listę",
     "delete-completed-tasks": "Usuń Ukończone Zadania",
     "enable-order": "Włącz Sortowanie",
@@ -111,5 +111,20 @@
     "copy-code": "Kopiuj Kod",
     "copied": "Skopiowano!",
     "expires-at": "Wygasa"
+  },
+  "UserContextMenu": {
+    "insert-invitation-code": "Wprowadź Kod Zaproszenia",
+    "profile": "Profil"
+  },
+  "Profile": {
+    "personal-data": "Dane Osobowe",
+    "edit": "Edytuj",
+    "save": "Zapisz",
+    "password": "Hasło",
+    "edit-presonal-data": "Edytuj Dane Osobowe",
+    "first-name": "Imię",
+    "last-name": "Nazwisko",
+    "email": "Email",
+    "confirm-password": "Potwierdź hasło"
   }
 }

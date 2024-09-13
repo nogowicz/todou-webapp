@@ -4,7 +4,7 @@ export interface IUser {
   lastName: string;
   email: string;
   password: string;
-  photo: Buffer | null;
+  photoURL: string | null;
   idDefaultList: number | null;
   createdAt: Date;
   updatedAt: Date;
