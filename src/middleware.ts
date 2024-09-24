@@ -12,6 +12,8 @@ export default async function middleware(req: NextRequest) {
     `/${isValidLocale}/lists/:id`,
     `/${isValidLocale}/matrix`,
     `/${isValidLocale}/search`,
+    `/${isValidLocale}/profile`,
+    `/${isValidLocale}/profile/edit/personal-data`,
   ];
   const loginRoute = `/${isValidLocale}/welcome`;
   const currentPath = req.nextUrl.pathname;

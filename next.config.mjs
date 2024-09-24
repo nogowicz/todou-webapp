@@ -6,6 +6,12 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   images: {
     domains: ['assets.manutd.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
   },
   async headers() {
     return [
